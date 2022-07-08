@@ -1,4 +1,4 @@
-![PICTURE](https://github.com/binghaohuang1/binghaohuang1.github.io/blob/main/IMG/huangbh.jpg)
+![PICTURE](https://github.com/binghaohuang1/binghaohuang1.github.io/blob/main/huangbh.jpg)
 ## Welcome to Binghao Huang's page
 I am a second-year Master student majoring in Mechanical Engineering at University of California, San Diego (CA, US) advised by Professor Xiaolong Wang. My interested research areas include Robotics, Dexterous manipulation, Reinforcement Learning, Control, Motion Planning, Building robotic simulation environment.
 
