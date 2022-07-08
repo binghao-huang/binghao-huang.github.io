@@ -1,432 +1,395 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yuzhe Qin</title>
+  <!-- Bulma Version-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="js/menuspy.js"></script>
 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<title>Yuheng Zhi (植禹衡) - UCSD/Robotics/Vision</title>
-	<link rel="icon" href="img/ucsd-seal.svg">
-
-	<!-- Bootstrap core CSS -->
-	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Custom fonts for this template -->
-	<link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
-	<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="css/resume.css" rel="stylesheet">
-
+  <!--  css-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="css/css.css" rel="stylesheet">
+  <link href="css/svg.css" rel="stylesheet" type="text/css">
 </head>
 
-<body id="page-top">
+<body>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-2">
+        <div class="sticky">
+          <figure class="image is-128x128">
+<!--             <img class="is-rounded" src="file/qyz_circle.png"> -->
+          </figure>
+          <div class="content">
+            <h3>Yuzhe Qin</h3>
+            <h6>Robot Learning</h6>
+            <h6>UC San Diego</h6>
+          </div>
+          <div class="details">
+            <h3>EMAIL</h3>
+            <p><a href="mailto:y1qin@ucsd.edu">y1qin<br>[at]ucsd[dot]edu</a></p>
+          </div>
+          <div class="social">
+            <a href="https://github.com/yzqin" target="_blank">
+              <i class="fab fa-github-square svg-inline--fa fa-w-16 fa-2x"></i>
+            </a>
+            <a href="https://scholar.google.com/citations?user=3KF3AIMAAAAJ&hl=en" target="_blank">
+              <i class="ai ai-google-scholar-square svg-inline--fa fa-w-16 fa-2x"></i>
+            </a>
+            <a href="https://twitter.com/QinYuzhe" target="_blank">
+              <i class="fab fa-twitter-square svg-inline--fa fa-w-16 fa-2x"></i>
+            </a>
+          </div>
+          <div id="sidebar" class="menu sticky is-hidden-mobile">
+            <p class="menu-label"><b>Quick Links</b></p>
+            <ul class="menu-list">
+              <li><a href="#bio">Bio</a></li>
+              <li><a href="#research" class="is-active">Publication</a></li>
+              <li><a href="#work">Work Experience</a></li>
+              <li><a href="#professional">Professional Activities</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 id="bio">
+            Bio
+          </h3>
+          <p>
+            I am a second-year Ph.D. student at UC San Diego,
+            coadvised by Prof. <a href="https://xiaolonw.github.io/" target="_blank"
+                                  style="text-decoration: underline;">Xiaolong Wang</a>
+            and Prof. <a href="https://cseweb.ucsd.edu/~haosu/" target="_blank"
+                         style="text-decoration: underline;">Hao Su</a>. Prior to joining UCSD, I received
+            my bachelor degree from Shanghai Jiao Tong University.
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-		<a class="navbar-brand js-scroll-trigger" href="#page-top">
-			<span class="d-block d-lg-none">Yuheng Zhi (植禹衡)</span>
-			<span class="d-none d-lg-block">
-				<img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/yuhengzhi.jpg" alt="">
-			</span>
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#biography">Biography</a>
-				</li>
-				<!--<li class="nav-item">
-			<a class="nav-link js-scroll-trigger" href="#education">Education</a>
-			</li>-->
+            <br/><br/>
+            My research interests lie in building robot that can learn from interacting with the world. In
+            particular, I am interested in robotics manipulation, task-oriented 3D perception,
+            imitation learning from human demonstrations, and building robotic simulation environment.
 
+          </p>
 
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#publications">Publications</a>
-				</li>
+          <!--Research-->
+          <h3 id="research">Publications</h3>
+          <br/>
+<!--           <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/dexteleop.gif" alt="file missing" style="margin-top: 10%">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>From One Hand to Multiple Hands: Imitation Learning for Dexterous Manipulation from Single-Camera
+                    Teleoperation</b><br>
+                  <strong>Yuzhe Qin</strong>, Hao Su*, Xiaolong Wang*<br>
+                  <em>IEEE Robotics and Automation Letters <strong>(RA-L)</strong> 2022</em><br>
+                  <em>International Conference on Intelligent Robots and Systems <strong>(IROS)</strong> 2022</em><br>
+                  <a href="https://yzqin.github.io/dex-teleop-imitation/" target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/abs/2204.12490" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=JoRypQJB6mc" target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#projects">Projects</a>
-				</li>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/dexmv.gif" alt="file missing" style="margin-top: 10%">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>DexMV: Imitation Learning for Dexterous Manipulation from Human Videos</b><br>
+                  <strong>Yuzhe Qin*</strong>, Yueh-Hua Wu*, Shaowei Liu*, Hanwen Jiang*, Ruihan Yang,
+                  Yang Fu, Xiaolong Wang<br>
+                  <em>European Conference on Computer Vision <strong>(ECCV)</strong> 2022</em><br>
+                  <a href="https://yzqin.github.io/dexmv/" target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/abs/2108.05877" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=BPLIHMIeivE" target="_blank">[<u>video1</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=XV4MpY5PPj0" target="_blank">[<u>video2</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#experiences">Experiences</a>
-				</li>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/kuafu_sim_to_real.jpeg" alt="file missing" style="margin-top: 10%">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>Close the Visual Domain Gap by Physics-Grounded Active Stereovision Depth Sensor Simulation</b><br>
+                  Xiaoshuai Zhang*, Rui Chen*, Fanbo Xiang, <strong>Yuzhe Qin</strong>, Jiayuan Gu, Zhan Ling, Minghua
+                  Liu,
+                  Peiyu Zeng, Songfang Han, Zhiao Huang, Tongzhou Mu, Jing Xu, Hao Su<br>
+                  <em>ArXiv 2022</em><br>
+                  <a href="https://arxiv.org/abs/2201.11924" target="_blank">[<u>paper</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
-				</li>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/mmdr.gif" alt="file missing" style="margin-top: 0%">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>Vision-Guided Quadrupedal Locomotion in the Wild with Multi-Modal Delay Randomization</b><br>
+                  Chieko Sarah Imai*, Minghao Zhang*, Yuchen Zhang*, Marcin Kierebiński, <br/>
+                  Ruihan Yang, <strong>Yuzhe Qin</strong>, Xiaolong Wang<br>
+                  <em>International Conference on Intelligent Robots and Systems <strong>(IROS)</strong> 2022</em><br>
+                  <a href="https://mehooz.github.io/mmdr-wild/" target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/abs/2109.14549" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/Mehooz/vision4leg" target="_blank">[<u>code</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=k9VsI5AkJFw&feature=youtu.be" target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
-				</li>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/o2oafford.png" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>O2O-Afford: Annotation-Free Large-Scale Object-Object Affordance Learning</b><br>
+                  Kaichun Mo, <strong>Yuzhe Qin</strong>, Fanbo Xiang, Hao Su and Leonidas J.
+                  Guibas<br>
+                  <em>Conference of Robot Learning <strong>(CoRL)</strong> 2021</em><br>
+                  <a href="https://cs.stanford.edu/~kaichun/o2oafford/"
+                     target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/abs/2106.15087" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/daerduoCarey/o2oafford" target="_blank">[<u>code</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=cbDSalrMhlo" target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-				<li class="nav-item">
-					<a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/ocrtoc.gif" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>OCRTOC: A Cloud-Based Competition and Benchmark for Robotic
+                    Grasping and Manipulation</b><br>
+                  Ziyuan Liu, Wei Liu, <strong>Yuzhe Qin</strong>, Fanbo Xiang, Songyan Xin, Maximo A
+                  Roa, <br/>Berk Calli, Hao Su, Yu Sun, Ping Tan<br>
+                  <em>IEEE Robotics and Automation Letters <strong>(RA-L)</strong> 2021</em><br>
+                  <a href="http://www.ocrtoc.org/" target="_blank">[<u>website</u>]</a>
+                  <a href="https://arxiv.org/pdf/2104.11446.pdf" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/OCRTOC/OCRTOC_software_package"
+                     target="_blank">[<u>code</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=9dlWUbPF2Cc" target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-	<div class="container-fluid p-0">
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/captra.gif" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point
+                    Clouds</b><br>
+                  Yijia Weng*, He Wang*, Qiang Zhou, <strong>Yuzhe Qin</strong>, Yueqi Duan, Qingnan
+                  Fan, <br/>Baoquan Chen, Hao Su, Leonidas J. Guibas<br>
+                  <em>International Conference on Computer Vision <strong>(ICCV)</strong> 2021 <em
+                      style="color:red;">(Oral)</em></em><br>
+                  <a href="https://yijiaweng.github.io/CAPTRA/" target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/abs/2104.03437" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/halfsummer11/CAPTRA"
+                     target="_blank">[<u>code</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=JFPcOHCH2O0&feature=youtu.be"
+                     target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-		<section class="resume-section p-3 p-lg-5 d-column" id="biography" style="padding-bottom: 0 !important">
-			<div class="my-auto" style="max-width: 900px">
-				<!--</div> style="float: left; width: 50%;padding-right: 5%"-->
-				<h1 class="mb-0">Yuheng
-					<span class="text-primary">Zhi</span>
-				</h1>
-				<div class="subheading mb-5">
-					<br>Pronunciation: Yu-Heng Chih
-					<br>My Chinese name: 植禹衡 (植: Zhi, 禹衡: Yuheng)<br>
-					<a href="mailto:yzhi@ucsd.edu">yzhi@ucsd.edu</a><br>
-					<a href="https://drive.google.com/open?id=1DNmrdles6cLGRYUS6DOmFjYxp2UfqgLq">Curriculum vitae</a>
-				</div>
-				<p class="lead mb-5" style="margin-bottom: 0 !important">I am a third-year PhD student majoring in
-					Electrical and Computer Engineering at <b>University of California, San Diego</b> (CA, US) advised
-					by <a href="https://yip.eng.ucsd.edu/">Professor Michael Yip</a>.
-					My interested research areas include <b>Robotics, Neural Combinatorial Optimization, Collision
-						Detection, Computer Vision, and Motion Planning.</b>
-					Before I joined my PhD program, my undergraduate research in Shanghai Jiao Tong University was
-					advised by <a href="https://scholar.google.com/citations?user=eUbmKwYAAAAJ&hl=zh-CN&oi=ao">Professor
-						Bingbing
-						Ni</a>.
-			</div>
-		</section>
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column">
-			<div class="my-auto" style="max-width: 900px">
-				<!--style="float: right; width: 50%; padding-left: 5%">-->
-				<!--<h2 class="mb-5">Education</h2>-->
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">University of California, San Diego</h3>
-						<div class="subheading mb-3">PhD Student</div>
-						<div><b>Electrical and Computer Engineering</b></div>
-						<div> Intelligent Systems, Robotics and Control</div>
-					</div>
-					<div class="resume-date text-md-right">
-						<span class="text-primary">CA, United States</span><br>
-						<span class="text-primary">Jan 2020 - Present</span>
-					</div>
-				</div>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/sapien.gif" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>SAPIEN: A SimulAted Part-based Interactive ENvironment</b><br>
+                  Fanbo Xiang,
+                  <strong>Yuzhe Qin</strong>,
+                  Kaichun Mo, Yikuan Xia, Hao Zhu, Fangchen Liu, Minghua Liu, <br/>Hanxiao Jiang,
+                  Yifu Yuan, He Wang, Li Yi, Angel X.Chang, Leonidas J. Guibas and Hao Su <br/>
+                  <em>Conference on Computer Vision and Pattern Recognition <strong>(CVPR)</strong> 2020 <em
+                      style="color:red;">(Oral)</em></em><br>
+                  <a href="https://sapien.ucsd.edu/" target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/pdf/2003.08515.pdf" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/haosulab/SAPIEN-Release"
+                     target="_blank">[<u>code</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=UKE75u51XN4" target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Shanghai Jiao Tong University</h3>
-						<div class="subheading mb-3">Undergraduate Student</div>
-						<div><b>Computer Science</b> - Artificial Intelligence Track</div>
-					</div>
-					<div class="resume-date text-md-right">
-						<span class="text-primary">Shanghai, China</span><br>
-						<span class="text-primary">September 2015 - June 2019</span>
-					</div>
-				</div>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/s4g.gif" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>S4G: Amodal Single-view Single-Shot SE(3) Grasp Detection in
+                    Cluttered Scenes</b><br>
+                  <strong>Yuzhe Qin*</strong>,
+                  Rui Chen*, Hao Zhu, Meng Song, Jing Xu, Hao Su<br>
+                  <em>Conference of Robot Learning <strong>(CoRL)</strong> 2019</em><br>
+                  <a href="https://sites.google.com/view/s4ggrapsing" target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/pdf/1910.14218.pdf" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/yzqin/s4g-release" target="_blank">[<u>code</u>]</a>
+                  <a href="https://www.youtube.com/watch?v=Xlq4nw2AGcY" target="_blank">[<u>video</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article>
 
-			</div>
-		</section>
+          <article class="columns">
+            <div class="column is-3">
+              <figure class="image">
+                <img src="img/composing_rl.gif" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b>Composing Task-Agnostic Policies with Deep Reinforcement Learning</b><br>
+                  Ahmed Qureshi, Jacob Johnson, <strong>Yuzhe Qin</strong>,
+                  Taylor Henderson, Byron Boots, Michael Yip<br>
+                  <em>International Conference of Learning Representation <strong>(ICLR)</strong> 2020</em><br>
+                  <a href="https://sites.google.com/view/compositional-rl"
+                     target="_blank">[<u>project</u>]</a>
+                  <a href="https://arxiv.org/pdf/1905.10681.pdf" target="_blank">[<u>paper</u>]</a>
+                  <a href="https://github.com/ahq1993/compositional_reinforcement_learning"
+                     target="_blank">[<u>code</u>]</a>
+                </p>
+              </div>
+            </div>
+          </article> -->
 
-		<!-- <hr class="m-0">
-	<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="publications">
-		<div class="my-auto" style="max-width: 900px">
-			<h2 class="mb-5">Publications</h2>
+          <!--Work-->
+          <h3 id="work">Work Experience</h3>
+          <br>
+<!--           <article class="columns">
+            <div class="column is-2">
+              <figure class="image">
+                <img src="img/googleX.png" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b><a href="https://everydayrobots.com/">AI Resident, Google X, Everyday Robot Project</a></b><br>
+                  05/15/2020 - 09/24/2020 <br/><br/>
+                  Mentor: <a href="https://itsdanielho.com/" target="_blank"
+                             style="text-decoration: underline;">Daniel Ho</a> and <a
+                    href="https://www.yunfei-bai.com/" target="_blank"
+                    style="text-decoration: underline;">Yunfei Bai</a>
+                </p>
+              </div>
+            </div>
+          </article> -->
+<!-- 
+          <article class="columns">
+            <div class="column is-2">
+              <figure class="image">
+                <img src="img/nvidia.png" alt="file missing">
+              </figure>
+            </div>
+            <div class="column">
+              <div class="content">
+                <p>
+                  <b><a href="https://www.nvidia.com/en-us/research/robotics/">Research Intern, NVIDIA, Seattle Robotics
+                    Lab</a></b><br>
+                  06/12/2022 - Now <br/><br/>
+                  Mentor:
+                  <a href="http://wyang.me" target="_blank"
+                     style="text-decoration: underline;">Wei Yang</a>,
+                  <a href="https://research.nvidia.com/person/yu-wei-chao" target="_blank"
+                     style="text-decoration: underline;">Yu-Wei Chao</a>,
+                  and <a href="https://homes.cs.washington.edu/~fox/" target="_blank"
+                         style="text-decoration: underline;">Dieter Fox</a>
+                </p>
+              </div>
+            </div>
+          </article> -->
 
-			<h3 class="mb-0">Published</h3>
-			<p><b>Yuheng Zhi</b>*, Huawei Wei*, Bingbing Ni*. <em>Structure Guided Photorealistic Style Transfer</em> <b>(ACMMM 2018 Oral)</b> (* equal contribution). <a href=https://dl.acm.org/citation.cfm?id=3240637>[Published Version]</a></p>
-			<p>Florian Richter, Yifei Zhang, <b>Yuheng Zhi</b>, Ryan Orosco, Michael Yip. <em>Augmented Reality Predictive Displays to Help Mitigate the Effects of Delayed Telesurgery</em> (Accepted to <b>ICRA 2019</b>). <a href=https://arxiv.org/abs/1809.08627>[manuscript on arXiv]</a></p>
-
-		</div>
-
-	</section> -->
-
-		<hr class="m-0">
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="publications">
-			<div class="my-auto" style="max-width: 900px;">
-				<h2 class="mb-5">Publications</h2>
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<!-- style="margin-bottom: 0 !important" -->
-					<div class="resume-content mr-auto" valign="middle">
-						<h3 class="mb-0">DiffCo: Auto-Differentiable Proxy Collision Detection with Multi-class Labels for Safety-Aware Trajectory Optimization</h3>
-						<div><u>Yuheng Zhi</u>, Nikhil Das, Michael Yip</div>
-						<div>Conditionally Accepted to <b>T-RO 2022 </b><a
-								href=https://arxiv.org/abs/2102.07413>[arXiv]</a>
-							<a href=https://github.com/ucsdarclab/diffco>[code]</a>
-						</div>
-
-					</div>
-
-					<div class="resume-date text-md-right">
-						<div class="project-image">
-							<img src="img/diffco.png" class="img-thumbnail" style="width: 100%">
-						</div>
-						<!-- <span class="text-primary">San Diego, US</span><br>
-						<span class="text-primary">July 2018 - Jan 2019</span> -->
-					</div>
-				</div>
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Data-driven Actuator Selection for Artificial Muscle-Powered Robots</h3>
-						<div>Taylor West Henderson, <u>Yuheng Zhi</u>, Angela Liu, Michael Yip</div>
-						<div><b>ICRA 2020 </b><a href=https://arxiv.org/abs/2104.07168>[arXiv]</a>
-						<a href=http://robotmuscletoolkit.herokuapp.com/research>[site]</a></div>
-					</div>
-					<div class="resume-date text-md-right">
-						<div class="project-image">
-							<img src="img/actuator.png" class="img-thumbnail" style="width: 100%">
-						</div>
-						<!-- <span class="text-primary">San Diego, US</span><br>
-						<span class="text-primary">July 2018 - Jan 2019</span> -->
-					</div>
-				</div>
-				<!-- <div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						To accelerate the development of artificial muscle applications, we propose a data driven
-						approach for robot muscle actuator selection using Support Vector Machines (SVM). This
-						first-of-its-kind method gives users gives users insight into which actuators fit their specific
-						needs and actuation performance criteria, making it possible for researchers and engineer with
-						little to no prior knowledge of artificial muscles to focus on application design. It also
-						provides a platform to benchmark existing, new, or yet-to-be-discovered artificial muscle
-						technologies. We test our method on unseen existing robot muscle designs to prove its usability
-						on real-world applications. We provide an open-access, web-searchable interface for easy access
-						to our models that will additionally allow for continuous contribution of new actuator data from
-						groups around the world to enhance and expand these models.
-					</div>
-
-					
-				</div> -->
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Augmented Reality Predictive Displays to Help Mitigate the Effects of Delayed Telesurgery</h3>
-						<div>Florian Richter, Yifei Zhang, <u>Yuheng Zhi</u>, Ryan Orosco, Michael Yip.</div>
-						<div><b>ICRA 2019 </b><a href=https://arxiv.org/abs/1809.08627>[arXiv]</a></div>
-
-					</div>
-					<div class="resume-date text-md-right">
-						<div class="project-image">
-							<img src="img/RA-L.jpg" class="img-thumbnail" style="width: 100%">
-						</div>
-					</div>
-				</div>
-				<!-- <div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						Time delay is a major problem in remote teleop surgery. There can be a delay around 1 second
-						between the real scene and the surgeon's view. This delay can bring inaccuracy to surgeons'
-						motion. To eliminate the negative effect of this delay, we propose to use make an AR predictive
-						display for the end-effectors. We render "fake" tools at the position where the actual tools
-						should go to according to the surgeon's motion. To get pixel-level accuracy for the predictive
-						display, we propose to use EKF to track the base of the tools w.r.t the camera. <br><b>My
-							job:</b> I improved the tracking algorithm for realtime hand-eye transform whose accuracy is
-						crucial for AR display, conducted a successful user study involving 30+ participants in total
-						(10 available in the final report), and measured the accuracy of the tracking algorithm with
-						OptiTrack&reg.
-					</div>
-				</div> -->
-
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5" style="margin-bottom: 0 !important">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Structure Guided Photorealistic Style Transfer</h3>
-						<div><u>Yuheng Zhi*</u>, Huawei Wei*, Bingbing Ni* (*equal contribution)</div>
-						<div><b>ACMMM 2018 Oral </b><a
-								href=https://dl.acm.org/citation.cfm?id=3240637>[paper]</a></div>
-
-					</div>
-					<div class="resume-date text-md-right">
-						<div class="project-image">
-							<img src="img/mm2018.png" class="img-thumbnail" style="width: 100%">
-						</div>
-					</div>
-				</div>
-				<!-- <div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						We propose a non-parametric, non-iterative style transfer pipeline especially for photorealistic
-						image pairs having similar structures. With simple annotations of structure and semantics,
-						either given by other algorithms or by human, our method is able to generate photorealitic,
-						semantic-coherent and robust results in less than 20 seconds, while previous photorealistic
-						methods take minutes or yield unpredictable artifacts. <br><b>My job:</b> I designed the
-						pipeline/algorithm, conducted experiments and wrote part of the paper.
-					</div>
-					
-				</div> -->
-
-			</div>
-		</section>
-
-		<hr class="m-0">
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="projects">
-			<div class="my-auto" style="max-width: 900px;">
-				<h2 class="mb-5">Current Projects</h2>
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5" style="margin-bottom: 0 !important">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Neural Combinatorial Optimization on Graphs</h3>
-						<div class="subheading mb-3">ARCLab, UCSD</div>
-
-					</div>
-					<div class="resume-date text-md-right">
-						<!-- <span class="text-primary">San Diego, US</span><br> -->
-						<!-- <span class="text-primary">Sept 2021 - Present</span> -->
-					</div>
-				</div>
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						Traveling Salesman Problem (TSP) is a popular example of NP-hard combinatorial optimization
-						problems that require exponential computational time to solve to optimality. Many classical
-						algorithms based on human-designed heuristics have been proposed to compute near-optimal
-						solutions to TSP and its variants within an acceptable time constraint. In this project, we
-						attempt to surpass the classical algorithms by combining the recent progress in neural modeling
-						of sequence, graphs, and Deep Reinforcement Learning, to automatically learn to solve these
-						problems end-to-end.
-					</div>
-				</div>
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5" style="margin-bottom: 0 !important">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Neural Motion Planning with Guided Collision Avoidance</h3>
-						<div class="subheading mb-3">ARCLab, UCSD</div>
-
-					</div>
-					<!-- <div class="resume-date text-md-right">
-						<span class="text-primary">San Diego, US</span><br>
-					</div> -->
-				</div>
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						Motion Planning Networks are not guaranteed to output valid states, so they rely on a
-						ground-truth collision checker to filter out invalid states, which can be computationally
-						expensive. Furthermore, they can only feed-forward the neural network again when a sampled state
-						is invalid. We seek to accelerate neural planning with an ML-based fast differentiable collision
-						detector.
-					</div>
-				</div>
-
-
-
-			</div>
-		</section>
-
-		<hr class="m-0">
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="experiences">
-			<div class="my-auto" style="max-width: 900px;">
-				<h2 class="mb-5">Industrial Experiences</h2>
-				<div class="resume-item d-flex flex-column flex-md-row mb-5" style="margin-bottom: 0 !important">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Research Intern</h3>
-						<div class="subheading mb-3">TuSimple, Inc</div>
-
-					</div>
-					<div class="resume-date text-md-right">
-						<span class="text-primary">Beijing, China</span><br>
-						<span class="text-primary">Oct 2019 - Dec 2019</span>
-					</div>
-				</div>
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						Point Cloud Analysis.
-					</div>
-
-					<div class="project-image">
-						<img src="img/tusimple-en.png" class="img-thumbnail" style="width: 30%; float: right">
-					</div>
-				</div>
-
-				<div class="resume-item d-flex flex-column flex-md-row mb-5" style="margin-bottom: 0 !important">
-					<div class="resume-content mr-auto">
-						<h3 class="mb-0">Research Intern</h3>
-						<div class="subheading mb-3">Intelligent Video Group, Sensetime Limited</div>
-
-					</div>
-					<div class="resume-date text-md-right">
-						<span class="text-primary">Beijing, China</span><br>
-						<span class="text-primary">Feb 2019 - Sept 2019</span>
-					</div>
-				</div>
-				<div class="resume-item d-flex flex-column flex-md-row mb-5">
-					<div class="project-description">
-						Video Recognition/Action Recognition.
-					</div>
-
-					<div class="project-image">
-						<img src="img/sensetime_logo.png" class="img-thumbnail" style="width: 30%; float: right">
-					</div>
-				</div>
-
-			</div>
-		</section>
-
-		<hr class="m-0">
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
-			<div class="my-auto" style="max-width: 900px">
-				<h2 class="mb-5">Skills</h2>
-
-				<h3 class="mb-0">Programming Languages</h3>
-				<p class="lead mb5">Python, C++, Matlab, JavaScript</p>
-
-				<h3 class="mb-0">Packages &amp; Tools</h3>
-				<p class="lead mb5">PyTorch, FCL, OMPL, ROS, MXNet, TensorFlow, ROS, Matlab, Numpy, OpenCV</p>
-
-			</div>
-		</section>
-
-		<hr class="m-0">
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
-			<div class="my-auto">
-				<h2 class="mb-5">Awards &amp; Certifications</h2>
-				<ul class="fa-ul mb-0">
-					<li>
-						<i class="fa-li fa fa-trophy text-warning"></i>
-						ECE PhD Fellowship
-					</li>
-					<li>
-						<i class="fa-li fa fa-trophy text-warning"></i>
-						SJTU-HUAWEI Scholarship (5%)
-					</li>
-					<li>
-						<i class="fa-li fa fa-trophy text-warning"></i>
-					</li>
-					<li>
-						<i class="fa-li fa fa-trophy text-warning"></i>
-						SJTU Excellence Scholarship B (10%)
-					</li>
-					<li>
-				</ul>
-			</div>
-		</section>
-
-		<hr class="m-0">
-
-		<section class="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
-			<div class="my-auto">
-				<h2 class="mb-5">Interests</h2>
-				<p><b>Cooking.</b> Chinese food, Steak, Pasta and unexpected interesting combination. Signature: Spicy
-					Stir-fried Pork Ribs with Mushrooms.</p>
-			</div>
-		</section>
-
-	</div>
-
-	<!-- Bootstrap core JavaScript -->
-	<script src="vendor/jquery/jquery.min.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Plugin JavaScript -->
-	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Custom scripts for this template -->
-	<script src="js/resume.js"></script>
-
-	<script type="text/javascript" src="https://rf.revolvermaps.com/0/0/9.js?i=5zyzny4x756&amp;t=Stats"
-		async="async"></script>
-
+          <h3 id="professional">Professional Activities</h3>
+          <ul>
+            <li>Tutorial Organizer: <a href="https://ai-workshops.github.io/building-and-working-in-environments-for-embodied-ai-cvpr-2022/" target="_blank">
+              Building and Working in Environments for Embodied AI</a> @CVPR 2022;
+            </li>
+            <li>Challenge Organizer: <a href="http://www.ocrtoc.org" target="_blank">Open Cloud Robot Table
+              Organization Challenge (OCRTOC)</a> @IROS 2020, @ICRA 2021;
+            </li>
+            <li>Conference Reviewer: AAAI 2020; CVPR 2021, 2022; ICRA 2021, 2022; ICCV 2021; IROS 2021, 2022; <br>
+              ECCV 2022; CoRL 2022; SIGGRAPH 2022</li>
+            <li>Journal Reviewer: Robotics and Automation Letters (RA-L);</li>
+            <li>Workshop Reviewer: Simulation Technology for Embodied AI (SEAI2021);</li>
+          </ul>
+        </div>
+        <br>
+        <p style="text-align:left;font-size:small;">
+          Credit: web source from <a href="http://hansf.me">Dr. Songfang Han</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+    var elm = document.querySelector('#sidebar');
+    var ms = new MenuSpy(elm, {
+        activeClass: 'is-active'
+    });
+</script>
 </body>
-
 </html>
