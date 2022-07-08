@@ -1,3 +1,4 @@
+![PICTURE](https://github.com/binghaohuang1/binghaohuang1.github.io/blob/main/IMG/huangbh.jpg)
 ## Welcome to Binghao Huang's page
 
 You can use the [editor on GitHub](https://github.com/binghaohuang1/binghaohuang1.github.io/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
