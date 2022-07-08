@@ -1,9 +1,8 @@
 ![PICTURE](https://github.com/binghaohuang1/binghaohuang1.github.io/blob/main/IMG/huangbh.jpg)
 ## Welcome to Binghao Huang's page
+I am a second-year Master student majoring in Mechanical Engineering at University of California, San Diego (CA, US) advised by Professor Xiaolong Wang. My interested research areas include Robotics, Dexterous manipulation, Reinforcement Learning, Control, Motion Planning, Building robotic simulation environment.
 
-You can use the [editor on GitHub](https://github.com/binghaohuang1/binghaohuang1.github.io/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Markdown
 
