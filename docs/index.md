@@ -5,12 +5,18 @@ I am a second-year Master student majoring in Mechanical Engineering at Universi
 My interested research areas include Robotics, Dexterous manipulation, Reinforcement Learning, Control, Motion Planning, Building robotic simulation environment.
 
 
-### Markdown
+### RESEARCH & WORKING EXPERIENCES 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Research Assistant, Xiaolong Wang’s Group, UC San Diego                             Sep2021- now 
 
-```markdown
-Syntax highlighted code block
+•	Manipulation of a Robot arm with Dexterous Hand based on ROS, building the arm-hand system with hardware design, control, and trajectory optimization. 
+
+•	Dexterous manipulation policy via RL with Point Cloud input: (1) the first policy learning-based framework that achieves such generalization results with dexterous hands. (2) Applied RL algorism in the real robot system to overcome Sim2Real gap. 
+
+•	Continuous human-like robot grasping motion for Dexterous manipulation: (1) Perform sampling with Continuous Grasping Function(CGF) to generate different grasping plans in the simulator. (2) Transfer the sampling of grasping to the real robot. 
+
+•	Working on tactile sensor ‘digit’ to reduce the Sim2Real gap in Dexterous manipulation 
+
 
 # Header 1
 ## Header 2
