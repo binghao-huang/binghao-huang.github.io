@@ -2,7 +2,7 @@
 ![PICTURE](IMG/huangbh.jpg)
 
 I am a second-year Master student majoring in Mechanical Engineering at University of California, San Diego (CA, US) advised by Professor Xiaolong Wang. 
-My interested research areas include Robotics, Dexterous manipulation, Reinforcement Learning, Control, Motion Planning, Building robotic simulation environment.
+My interested research areas include **Robotics, Dexterous manipulation, Reinforcement Learning, Control, Motion Planning, Building robotic simulation environment**.
 
 
 ## RESEARCH & WORKING EXPERIENCES 
@@ -37,9 +37,21 @@ Aug2020-Aug2021
 
 **Technical Skills in CS**: C++, Python, Reinforcement Learning, Computer Vision, ROS, SLAM 
 
-Other Skills and Interests: 5 years of Teaching experience, Office, Video production, Graphic design, Reading, Model Making, Drawing 
+**Other Skills and Interests**: 5 years of Teaching experience, Office, Video production, Graphic design, Reading, Model Making, Drawing 
 
-**Activities**: [Content Creator in Robotics](https://space.bilibili.com/1560961) with 64000+ fans and 4+ million views.
+**Activities**: Content Creator in Robotics([link](https://space.bilibili.com/1560961)) with 64000+ fans and 4+ million views.
 ![My video channel in Robotics](/IMG/6.jpg)
 
+
+## OTHER ACTIVITIES                                                                   
+
+### NEXTEV Formula Student Electric China (FSEC), Participant                       
+
+Oct 2016 – Sep 2017 
+
+•	In charge of the steering system design part in the team, completed engineering drawing, commissioned factory processing, and finally assembled with other departments into a formula car 
+
+•	Selected a reasonable steering trapezoidal layout through Matlab optimization; corrected and manufactured the corresponding steering assembly, pressing device, adjust tie rod with Adams 
+
+•	Applied for a patent: a college student formula steering system and its manufacturing and installation method, application number: 2017105998790.1 
 
