@@ -14,7 +14,7 @@ Sep2021- now
 •	Manipulation of a Robot arm with Dexterous Hand based on ROS, building the arm-hand system with **hardware design, control, and trajectory optimization**. 
 
 •	**Dexterous manipulation RL policy with Point Cloud input** and applied it to the real robot system to overcome **Sim2Real gap**. 
-![real robot grasping](/IMG/3.jpg)
+![real robot grasping RL with point cloud input](/IMG/3.jpg)
 
 •	Working on tactile sensor ‘digit’ to reduce the Sim2Real gap in Dexterous manipulation 
  
@@ -39,6 +39,7 @@ Aug2020-Aug2021
 
 Other Skills and Interests: 5 years of Teaching experience, Office, Video production, Graphic design, Reading, Model Making, Drawing 
 
-**Activities**: [Content Creator in Robotics](https://space.bilibili.com/1560961) with 64000+ fans
+**Activities**: [Content Creator in Robotics](https://space.bilibili.com/1560961) with 64000+ fans and 4+ million views.
+![My video channel in Robotics](/IMG/6.jpg)
 
 
