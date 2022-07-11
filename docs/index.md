@@ -14,7 +14,7 @@ Sep2021- now
 •	Manipulation of a Robot arm with Dexterous Hand based on ROS, building the arm-hand system with **hardware design, control, and trajectory optimization**. 
 
 •	**Dexterous manipulation RL policy with Point Cloud input** and applied it to the real robot system to overcome **Sim2Real gap**. 
-![real robot grasping RL with point cloud input](/IMG/3.jpg)
+![real robot grasping RL with point cloud input](/IMG/7.jpg)
 
 •	Working on tactile sensor ‘digit’ to reduce the Sim2Real gap in Dexterous manipulation 
  
