@@ -17,7 +17,7 @@ Sep2021- now
 ![real robot grasping RL with point cloud input](/IMG/1_1.png)
 
 •	Continuous human-like robot grasping motion for Dexterous manipulation: (1) Perform sampling with **Continuous Grasping Function(CGF)** to generate different grasping plans in the simulator. (2) Transfer the sampling of grasping to the **real robot**.  [arxiv](https://arxiv.org/abs/2207.05053)
-
+![Continuous human-like robot grasping motion for Dexterous manipulation](/IMG/3.png)
  
 •	Working on tactile sensor ‘**digit**’ to reduce the **Sim2Real gap** in Dexterous manipulation and providing more information for robot to interaction with the environment. 
  ![real robot grasping RL with tactile sensor](/IMG/2.png)
