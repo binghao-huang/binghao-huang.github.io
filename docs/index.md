@@ -4,6 +4,13 @@
 I am a second-year Master student majoring in Mechanical Engineering at University of California, San Diego (CA, US) advised by Professor Xiaolong Wang. 
 My interested research areas include **Robotics, Dexterous manipulation, Reinforcement Learning, Control, Motion Planning, Building robotic simulation environment**.
 
+## PUBLICATION 
+Generalizable Point Cloud Policy Learning for Sim-to-Real Dexterous Manipulation. Conference on Robot Learning (**CoRL**), 2022.
+Yuzhe Qin*, **Binghao Huang***, Zhao-Heng Yin, Hao Su, Xiaolong Wang.
+
+
+Learning Continuous Grasping Function with a Dexterous Hand from Human Demonstrations
+Jianglong Ye*, Jiashun Wang*, **Binghao Huang**, Yuzhe Qin, Xiaolong Wang.[arxiv](https://arxiv.org/abs/2207.05053) [website](https://jianglongye.com/cgf/)
 
 ## RESEARCH & WORKING EXPERIENCES 
 
@@ -14,11 +21,6 @@ Sep2021- now
 •	Manipulation of a Robot arm with Dexterous Hand based on ROS, building the arm-hand system with **hardware design, control theory, and trajectory optimization**. 
 
 •	**Dexterous manipulation RL policy with Point Cloud input** and applied it to the real robot system. Using Xarm with Allegro-Hand robot system to grasp multiple objects with point cloud RL policy and overcome **sim2real gap**.
-![real robot grasping RL with point cloud input](/IMG/1_1.png)
-
-•	Continuous human-like robot grasping motion for Dexterous manipulation: (1) Perform sampling with **Continuous Grasping Function(CGF)** to generate different grasping plans in the simulator. (2) Transfer the sampling of grasping to the **real robot** [arxiv](https://arxiv.org/abs/2207.05053).
-
-![Continuous human-like robot grasping motion for Dexterous manipulation](/IMG/3.png)
  
 •	Working on tactile sensor ‘**digit**’ to reduce the **Sim2Real gap** in Dexterous manipulation and providing more information for robot to interaction with the environment. 
  ![real robot grasping RL with tactile sensor](/IMG/2.png)
