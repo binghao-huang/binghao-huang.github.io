@@ -6,11 +6,11 @@ My interested research areas include **Robotics, Dexterous manipulation, Reinfor
 
 ## PUBLICATION 
 Generalizable Point Cloud Policy Learning for Sim-to-Real Dexterous Manipulation. Conference on Robot Learning (**CoRL**), 2022.
-Yuzhe Qin*, **Binghao Huang***, Zhao-Heng Yin, Hao Su, Xiaolong Wang.
+Yuzhe Qin', **Binghao Huang'**, Zhao-Heng Yin, Hao Su, Xiaolong Wang.
 
 
 Learning Continuous Grasping Function with a Dexterous Hand from Human Demonstrations
-Jianglong Ye*, Jiashun Wang*, **Binghao Huang**, Yuzhe Qin, Xiaolong Wang.[arxiv](https://arxiv.org/abs/2207.05053) [website](https://jianglongye.com/cgf/)
+Jianglong Ye', Jiashun Wang', **Binghao Huang**, Yuzhe Qin, Xiaolong Wang.[arxiv](https://arxiv.org/abs/2207.05053) [website](https://jianglongye.com/cgf/)
 
 ## RESEARCH & WORKING EXPERIENCES 
 
