@@ -1,0 +1,128 @@
+<!--DOCTYPE-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PMVSNet</title>
+    <link rel="SHORTCUT ICON" href="favicon.ico"/>
+    <link href='css/test.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<div class="pageTitle">
+    Point-based Multi-view Stereo Network
+    <br>
+    <br>
+    <span class = "Authors">
+        <p style="margin-bottom: 0px; padding-bottom: 0px">
+            <a href="https://scholar.google.com/citations?user=azTXasgAAAAJ&hl=en" target="_blank">Rui Chen</a><sup>1,3*</sup> &nbsp; &nbsp;
+            <a href="http://hansf.me/" target="_blank">Songfang Han</a><sup>2,3*</sup> &nbsp; &nbsp;
+            <a href="https://scholar.google.com/citations?user=36TApxgAAAAJ&hl=en" target="_blank">Jing Xu</a><sup>1</sup> &nbsp; &nbsp;
+            <a href="https://cseweb.ucsd.edu/~haosu/" target="_blank">Hao Su</a><sup>3</sup> &nbsp; &nbsp;
+        </p>
+        <i>(*: indicates joint first authors)</i><br>
+        <p>
+            <sup>1</sup>Tsinghua University &nbsp; &nbsp;<sup>2</sup>The Hong Kong University of Science and Technology &nbsp; &nbsp;<br>
+            <sup>3</sup>University of California, San Diego &nbsp; &nbsp;
+        </p>
+        Accepted by <a href="http://iccv2019.thecvf.com/" target="_blank"><i>ICCV 2019.</i></a>(Oral)
+  </span>
+</div>
+<br>
+<div class = "material">
+    <a href="https://arxiv.org/pdf/1908.04422.pdf" target="_blank">[ArXiv Preprint]</a>
+    <a href="https://github.com/callmeray/PointMVSNet" target="_blank">[Code (Github)]</a>
+    <!--<a href="#" target="_blank">[BibTex]</a>-->
+    <!--<a href="#" target="_blank">[Material]</a>-->
+    <a href="https://www.youtube.com/watch?v=eSBFOD5rDsU" target="_blank">[Video]</a>
+    <br>
+</div>
+
+<p class = "abstractText">
+    <b style="color: green; background-color: #ffff42">NEW</b> [Aug, 2019] Paper gets accepted. Code and Data is released.
+</p>
+
+
+<div class = "abstractTitle">
+    Abstract
+</div>
+
+<p class = "abstractText">
+    We introduce Point-MVSNet, a novel point-based deep framework for multi-view stereo (MVS). Distinct from existing
+    cost volume approaches, our method directly processes the target scene as point clouds. More specifically, our method
+    predicts the depth in a coarse-to-fine manner. We first generate a coarse depth map, convert it into a point cloud and
+    refine the point cloud iteratively by estimating the residual between the depth of the current iteration and that of
+    the ground truth. Our network leverages 3D geometry priors and 2D texture information jointly and effectively by
+    fusing them into a feature-augmented point cloud, and processes the point cloud to estimate the 3D flow for each point.
+    This point-based architecture allows higher accuracy, more computational efficiency and more flexibility than
+    cost-volume-based counterparts.  Experimental results show that our approach achieves a significant improvement in
+    reconstruction quality compared with state-of-the-art methods on the DTU and the Tanks and Temples dataset.
+</p>
+
+<img class = "bannerImage" src="images/teaser.png", width="800"><br>
+<table width="800" align="center"><tr><td><p class = "figureTitleText">
+    Figure 1. Point-MVSNet performs multi-view stereo reconstruction in a coarse-to-fine fashion, learning to predict the 3D flow
+    of each point to the groundtruth surface based on geometry priors and 2D image appearance cues dynamically fetched
+    from multi-view images and regress accurate and dense point clouds iteratively.
+</p></td></tr></table>
+
+
+<div class="abstractTitle">
+    Point-MVSNet architecture
+</div>
+<img class = "bannerImage" src="images/network.png", width="800"><br>
+<table width="800" align="center"><tr><td><p class = "figureTitleText">
+    Figure 2. <b>Network Architecture. </b>
+    Overview of Point-MVSNet architecture.  A coarse depth map is first predicted with low GPU memory and computation
+    cost and then unprojected to a point cloud along with hypothesized points. For each point, the feature is fetched
+    from the multi-view image feature pyramid dynamically. The <i>PointFlow</i> module uses the feature augmented
+    point cloud for depth residual prediction, and the depth map is refined iteratively.
+</p></td></tr></table>
+
+<div class="abstractTitle">
+    Quality results
+</div>
+<img class = "bannerImage" src="images/scan9.png", width="800">
+<table width="650" align="center" style="table-layout: fixed;">
+    <tr>
+        <td align="center">MVSNet</td>
+        <td align="center">Ours</td>
+        <td align="center">Ground truth</td>
+    </tr>
+</table>
+<br>
+<table width="800" align="center"><tr><td><p class = "figureTitleText">
+    Figure 3. Qualitative results of scan9 of DTU dataset. Top: Whole point cloud. Bottom: Visualization of normals in
+    zoomed local area. Our Point-MVSNet generates detailed point cloud with more high-frequency component than MVSNet.
+    For fair comparison, the depth maps predicted by MVSNet are interpolated to the same resolution as our method.
+</p></td></tr></table>
+
+<img class="bannerImage" src="images/iterations.png", width="800">
+<table width="650" align="center" style="table-layout: fixed;">
+    <tr>
+        <td align="center">Initial</td>
+        <td align="center">Iter1</td>
+        <td align="center">Iter2</td>
+        <td align="center">Iter3</td>
+    </tr>
+</table>
+<br>
+<table width="800" align="center"><tr><td>
+    <p class="figureTitleText">
+        Figure 4. Qualitative results at different flow iterations. Top: Whole point cloud. Bottom: Zoomed local area.
+        The generated point cloud becomes denser after each iteration, and more geometry details can be captured.
+    </p>
+</td></tr></table>
+
+<div class = "abstractTitle">
+    Acknowledgements
+</div>
+<p class = "abstractText">
+    We gratefully acknowledge the support of an NSF grant IIS-1764078, gifts from Qualcomm, Adobe and support from DMAI corporations.
+</p>
+
+
+
+</p></td></tr></table>
+</body>
+</html>
