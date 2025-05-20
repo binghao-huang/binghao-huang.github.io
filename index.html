@@ -16,6 +16,22 @@
   <script defer src="font-awesome-5.9.0/js/brands.min.js"></script>
   <script defer src="font-awesome-5.9.0/js/fontawesome.min.js"></script>
   <script src="js/menuspy.js"></script>
+	<script type="text/javascript">
+		function toggle_vis(id) {
+	    // var e = document.getElementById(id);
+	    var e = document.getElementsByClassName(id);
+			var showText = document.getElementById("showText");
+			for (var i = 0; i < e.length; i++) {
+		    	if (e[i].style.display == "none") {
+		        	e[i].style.display = "inline";
+	    			showText.innerHTML = "[Show less]";
+		    	} else {
+		    		e[i].style.display = "none";
+		    		showText.innerHTML = "[Show more]";
+		    	}
+		    }
+	    }
+	</script>
 </head>
 
 <body>
@@ -136,6 +152,11 @@
 
 
             <h3 id="professional service">News</h3>
+            • [2025/05] Started my 2nd time internship at <a href="https://research.nvidia.com/labs/srl/" target="_blank"><b>
+              NVIDIA Seattle Robotics Lab</b></a> <br />
+            • [2025/04] Invited Talk at <a href="https://robotics.umd.edu/" target="_blank"><b>
+              UMD Multisensory Machine Intelligence Lab</b> .</a> <br />
+            • [2025/02] Invited Talk at Samsung Research America <br />
             • [2025/02] Invited Talk at <a href="https://cs.nyu.edu/~fouhey/NYCVision2025/"><b>NYC Computer Vision Day 2025</b></a>. <br />
             • [2024/12] In just <b>a month</b>, our tactile sensor has been <b>reproduced</b> and adopted worldwide by both academia and industry: <a href="https://x.com/binghao_huang/status/1869492411908677877" target="_blank"><b>[Twitter Link]</b></a>  <br />
             • [2024/11] Released our Corl 2024 paper <a href="https://binghao-huang.github.io/3D-ViTac/" target="_blank"><b>3D-ViTac</b></a> and <a href="https://docs.google.com/document/d/1XGyn-iV_wzRmcMIsyS3kwcrjxbnvblZAyigwbzDsX-E/edit?tab=t.0#heading=h.ny8zu0pq9mxy" target="_blank"><b>Tactile Hardware Guide</b></a>. <br />
@@ -154,17 +175,22 @@
             • [2023/07] I am co-organizing the Workshop on <a
               href="https://learn-dex-hand.github.io/rss2023/"><b>Learning Dexterous Manipulation</b></a></a> in RSS
             2023. <br />
-            • [2023/05] Invited Talk at <a href="https://ai.facebook.com/research/"><b>Facebook AI
-                Research(FAIR)</b></a><br />
-            • [2023/03] My new journey will be a CS Ph.D. at <a href="https://illinois.edu/"><b>UIUC</b></a> starting
-            from 2023 Fall, working with <a href="https://yunzhuli.github.io/"><b>Prof. Yunzhu Li</b></a>. <br />
-            • [2023/03] Two Papers are accepted by RSS 2023. <br />
-            • [2023/03] One Paper is accepted by RA-L 2023. <br />
-            • [2023/03] Awarded the degree of Master of Science in <a href="https://mae.ucsd.edu/"><b>Mechanical and
-                Aerospace Engineering</b></a> at <a href="https://ucsd.edu/"><b>University of California, San Diego
-                (UCSD)</b></a>. <br />
-            • [2023/08] One paper is accepted by CoRL 2022. <br />
-
+            <div class="talks" style="display:none">
+              • [2023/05] Invited Talk at <a href="https://ai.facebook.com/research/"><b>Facebook AI
+                  Research(FAIR)</b></a><br />
+              • [2023/03] My new journey will be a CS Ph.D. at <a href="https://illinois.edu/"><b>UIUC</b></a> starting
+              from 2023 Fall, working with <a href="https://yunzhuli.github.io/"><b>Prof. Yunzhu Li</b></a>. <br />
+              • [2023/03] Two Papers are accepted by RSS 2023. <br />
+              • [2023/03] One Paper is accepted by RA-L 2023. <br />
+              • [2023/03] Awarded the degree of Master of Science in <a href="https://mae.ucsd.edu/"><b>Mechanical and
+                  Aerospace Engineering</b></a> at <a href="https://ucsd.edu/"><b>University of California, San Diego
+                  (UCSD)</b></a>. <br />
+              • [2023/08] One paper is accepted by CoRL 2022. <br />
+            </div>
+            
+            <li style="font-size: 16px">
+              <a href="javascript:toggle_vis('talks')" id="showText">[Show more]</a>
+            </li>
 
             <h3 id="publication">Featured Publications</h3>
             (* indicates equal contribution)<br />
