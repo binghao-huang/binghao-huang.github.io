@@ -14,7 +14,7 @@
   --shadow: 0 8px 24px rgba(30, 41, 59, 0.08);
   --radius: 12px;
   --radius-lg: 16px;
-  --max-width: 1080px;
+  --max-width: 1280px;
 }
 
 body {
@@ -86,8 +86,8 @@ article.columns {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem !important;
+  padding: 0.65rem 0.8rem;
+  margin-bottom: 0.65rem !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -96,9 +96,13 @@ article.columns:hover {
   box-shadow: var(--shadow);
 }
 
+article.columns .column {
+  padding: 0.4rem;
+}
+
 article.columns .content p {
-  margin-bottom: 0.5rem;
-  line-height: 1.7;
+  margin-bottom: 0.1rem;
+  line-height: 1.35;
 }
 
 /* Video and Image Styling */
