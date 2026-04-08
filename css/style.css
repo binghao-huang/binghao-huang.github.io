@@ -1,14 +1,47 @@
+/* Modern Visual Enhancements for Binghao Huang's Homepage */
+
+:root {
+  --bg-primary: #f8fafc;
+  --surface: #ffffff;
+  --surface-soft: #fbfcfe;
+  --text-primary: #1e293b;
+  --text-muted: #64748b;
+  --text-accent: #0f172a;
+  --line: rgba(30, 41, 59, 0.08);
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --shadow-soft: 0 4px 12px rgba(30, 41, 59, 0.06);
+  --shadow: 0 8px 24px rgba(30, 41, 59, 0.08);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --max-width: 1080px;
+}
+
 body {
-    font-family: 'Open Sans';
-    scroll-behavior: smooth
+    font-family: 'Inter', 'Open Sans', 'Noto Sans', sans-serif;
+    scroll-behavior: smooth;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.section {
+  background: var(--bg-primary);
+  padding: 4rem 1.5rem;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .details h3{
-    font-weight:600;
-    font-size:1em;
-    color:#000;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-accent);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
 }
-
 
 .sticky {
     position: sticky;
@@ -16,20 +49,222 @@ body {
 }
 
 .social{
-    /*float: left;*/
-    padding-bottom: 2em;
-    padding-top: 1em;
-    font-size: 1em;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    font-size: 1rem;
+}
+
+.social a,
+.social a:link,
+.social a:visited {
+  color: #1e3a8a;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social a:hover,
+.social a:focus {
+  color: #172554;
+  transform: translateY(-2px);
+  opacity: 0.8;
 }
 
 .sidebar{
-    /*float: left;*/
-    padding-bottom: 2em;
-    padding-top: 1em;
-    font-size: 1em;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    font-size: 1rem;
 }
 
-a:link { color: rgb(0, 0, 100);text-decoration: none; }
-a:hover { color: rgb(200, 0, 0) }
-a:active { color: rgb(255, 0, 102) }
-a:visited{color: rgb(0, 0, 100)}
+/* Enhanced Link Styling */
+a:link { color: var(--blue); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: var(--blue-dark); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:active { color: #dc2626; }
+a:visited { color: var(--blue); }
+
+/* Modern Card Styling */
+article.columns {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+article.columns:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+article.columns .content p {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+/* Video and Image Styling */
+video, img {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+video:hover, img:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+/* Enhanced Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-accent);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1rem;
+}
+
+p {
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+/* Button Enhancements */
+.button {
+  border-radius: 999px;
+  font-weight: 500;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+/* News Section Styling */
+.row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.col-md-4 {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease;
+}
+
+.col-md-4:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Professional Service Section */
+article.columns .column.is-2 picture img {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+/* Interests Section */
+.columns.is-centered .column {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s ease;
+}
+
+.columns.is-centered .column:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Sidebar Menu Enhancement */
+.menu-list a {
+  color: #1e3a8a !important;
+  border-radius: var(--radius);
+  transition: background 0.2s ease, transform 0.2s ease;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.menu-list a:hover {
+  color: #475569 !important;
+  background: #f1f5f9;
+  transform: translateX(4px);
+}
+
+#sidebar .menu-list a.is-active,
+#sidebar .menu-list a.is-active:hover,
+#sidebar .menu-list a.is-active:focus {
+  background: #eef2f7 !important;
+  color: #475569 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 1rem;
+  }
+
+  article.columns {
+    padding: 1rem;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+}
+
+/* Subtle Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+article.columns {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Enhanced Figure Styling */
+figure.image img {
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Content Spacing */
+.content {
+  line-height: 1.7;
+}
+
+.content h3, .content h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.content p {
+  margin-bottom: 1rem;
+}
+
+/* Footer Enhancement */
+#footer {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
