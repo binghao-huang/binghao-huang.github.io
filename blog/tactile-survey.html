@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tactile Sensing in Robot Manipulation (2020–2026): A Multi-Source Survey</title>
+<meta name="description" content="A multi-source survey of tactile sensing for robotic manipulation across hardware, simulation, perception, policy learning, and foundation models.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<style>
+:root {
+  --bg: #fdfcf8;
+  --bg-elevated: #fff;
+  --text: #1a1a1a;
+  --text-muted: #666;
+  --text-subtle: #999;
+  --border: #e8e4d8;
+  --accent: #7F77DD;
+  --accent-2: #D85A30;
+  --teal: #1D9E75;
+  --green: #3B6D11;
+  --amber: #BA7517;
+  --pink: #D4537E;
+  --purple: #7F77DD;
+  --coral: #D85A30;
+  --blue: #378ADD;
+  --gray: #888780;
+  --code-bg: #f4f1e8;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.06), 0 16px 32px rgba(0,0,0,0.05);
+  --serif: 'Crimson Pro', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f10;
+  --bg-elevated: #18181b;
+  --text: #ededed;
+  --text-muted: #a8a8a8;
+  --text-subtle: #6e6e6e;
+  --border: #28282c;
+  --code-bg: #1e1e22;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.5), 0 16px 32px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---- Top nav ---- */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(253, 252, 248, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
+[data-theme="dark"] .topnav {
+  background: rgba(15, 15, 16, 0.85);
+}
+
+.topnav-left {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.topnav-left a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.topnav-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.theme-toggle, .topnav-right a {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.theme-toggle:hover, .topnav-right a:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+/* ---- Layout ---- */
+.layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 200px;
+  gap: 48px;
+  padding: 48px 32px;
+}
+
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .toc, .meta-side { display: none; }
+}
+
+/* ---- TOC ---- */
+.toc {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  font-family: var(--sans);
+  font-size: 13px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.toc h4 {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.toc ol {
+  list-style: none;
+  counter-reset: section;
+}
+
+.toc li {
+  counter-increment: section;
+  margin-bottom: 6px;
+  position: relative;
+  padding-left: 24px;
+}
+
+.toc li::before {
+  content: counter(section);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+  font-weight: 500;
+}
+
+.toc a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  display: block;
+  line-height: 1.4;
+  padding: 2px 0;
+}
+
+.toc a:hover, .toc a.active {
+  color: var(--accent);
+}
+
+/* ---- Article ---- */
+article {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title-block {
+  margin-bottom: 56px;
+  animation: fadeInUp 0.8s ease 0.1s both;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: 22px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.meta {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-subtle);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+
+.meta span strong {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 64px;
+  margin-bottom: 16px;
+  position: relative;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+h2::before {
+  content: counter(s2) ".";
+  counter-increment: s2;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--accent);
+  margin-right: 12px;
+  font-weight: 500;
+}
+
+article { counter-reset: s2; }
+
+h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 36px;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+h4 {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 18px;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+p + p { text-indent: 0; }
+
+article a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+article a:hover {
+  border-bottom-color: var(--accent);
+}
+
+strong { font-weight: 600; }
+em { font-style: italic; }
+
+ul, ol {
+  margin-bottom: 20px;
+  padding-left: 24px;
+}
+
+ul li, ol li {
+  margin-bottom: 8px;
+}
+
+code {
+  font-family: var(--mono);
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* ---- Pull quote / callout ---- */
+.callout {
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  margin: 24px 0;
+  background: var(--bg-elevated);
+  border-radius: 0 8px 8px 0;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.callout strong {
+  font-style: normal;
+  color: var(--text);
+}
+
+/* ---- Figure container ---- */
+figure {
+  margin: 36px 0;
+  padding: 24px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+figure.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced-motion preference, and ensure figures are visible if JS is disabled */
+@media (prefers-reduced-motion: reduce) {
+  figure, .table-wrap, .title-block {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .anim-node { opacity: 1 !important; animation: none !important; }
+  .anim-arrow { opacity: 0.7 !important; stroke-dashoffset: 0 !important; animation: none !important; }
+}
+
+figure.full-width {
+  margin-left: -32px;
+  margin-right: -32px;
+}
+
+figcaption {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 16px;
+  line-height: 1.5;
+  text-align: center;
+  padding: 0 12px;
+}
+
+figcaption .fig-num {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 360px;
+}
+
+.chart-container.tall {
+  height: 460px;
+}
+
+/* ---- Tables ---- */
+.table-wrap {
+  margin: 32px 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.table-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+th {
+  background: var(--code-bg);
+  font-weight: 600;
+  color: var(--text);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr:hover td {
+  background: var(--code-bg);
+}
+
+/* ---- SVG diagram styles ---- */
+.diagram {
+  width: 100%;
+  height: auto;
+  font-family: var(--sans);
+}
+
+.diagram .node-bg-blue { fill: #E6F1FB; stroke: #0C447C; }
+.diagram .node-bg-teal { fill: #E1F5EE; stroke: #085041; }
+.diagram .node-bg-purple { fill: #EEEDFE; stroke: #3C3489; }
+.diagram .node-bg-coral { fill: #FAECE7; stroke: #712B13; }
+.diagram .node-bg-amber { fill: #FAEEDA; stroke: #633806; }
+.diagram .node-bg-green { fill: #EAF3DE; stroke: #27500A; }
+.diagram .node-bg-pink { fill: #FBEAF0; stroke: #72243E; }
+.diagram .node-bg-gray { fill: #F1EFE8; stroke: #2C2C2A; }
+
+[data-theme="dark"] .diagram .node-bg-blue { fill: rgba(55,138,221,0.15); stroke: #5BA8E8; }
+[data-theme="dark"] .diagram .node-bg-teal { fill: rgba(29,158,117,0.15); stroke: #4ECCA0; }
+[data-theme="dark"] .diagram .node-bg-purple { fill: rgba(127,119,221,0.15); stroke: #A39EF0; }
+[data-theme="dark"] .diagram .node-bg-coral { fill: rgba(216,90,48,0.15); stroke: #F08560; }
+[data-theme="dark"] .diagram .node-bg-amber { fill: rgba(186,117,23,0.15); stroke: #DEA052; }
+[data-theme="dark"] .diagram .node-bg-green { fill: rgba(59,109,17,0.18); stroke: #7DAB44; }
+[data-theme="dark"] .diagram .node-bg-pink { fill: rgba(212,83,126,0.18); stroke: #E883A8; }
+[data-theme="dark"] .diagram .node-bg-gray { fill: rgba(136,135,128,0.15); stroke: #B8B8B0; }
+
+.diagram .node-title {
+  font-weight: 600;
+  font-size: 13px;
+  fill: var(--text);
+}
+
+.diagram .node-sub {
+  font-size: 11px;
+  fill: var(--text-muted);
+}
+
+.diagram .arrow {
+  stroke: var(--text-subtle);
+  fill: none;
+  stroke-width: 1.4;
+}
+
+[data-theme="dark"] .diagram text { fill: var(--text); }
+[data-theme="dark"] .diagram .node-sub { fill: var(--text-muted); }
+
+/* ---- Animation entrance for SVG nodes ---- */
+.diagram .anim-node {
+  opacity: 0;
+  animation: nodeFadeIn 0.5s ease forwards;
+}
+
+@keyframes nodeFadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.diagram .anim-arrow {
+  opacity: 0;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+figure.visible .diagram .anim-arrow {
+  animation: arrowDraw 0.8s ease forwards;
+}
+
+@keyframes arrowDraw {
+  to { opacity: 0.7; stroke-dashoffset: 0; }
+}
+
+figure.visible .diagram .anim-node {
+  animation-play-state: running;
+}
+
+/* ---- Side meta ---- */
+.meta-side {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text-subtle);
+}
+
+.meta-side h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.meta-side .progress-bar {
+  width: 4px;
+  height: 200px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 16px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.meta-side .progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--coral) 100%);
+  transition: height 0.1s linear;
+  height: 0%;
+}
+
+/* ---- Diagnostic checklist styling ---- */
+.checklist {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 28px 0;
+  font-family: var(--sans);
+  font-size: 15px;
+  box-shadow: var(--shadow);
+}
+
+.checklist h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.checklist ol {
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: q;
+}
+
+.checklist li {
+  counter-increment: q;
+  position: relative;
+  padding-left: 36px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border);
+  line-height: 1.5;
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.checklist li::before {
+  content: counter(q);
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Forecast confidence sections ---- */
+.confidence {
+  margin: 24px 0;
+  padding: 18px 22px;
+  border-radius: 10px;
+  border-left: 3px solid;
+}
+
+.confidence.high { border-color: var(--teal); background: rgba(29,158,117,0.06); }
+.confidence.medium { border-color: var(--amber); background: rgba(186,117,23,0.06); }
+.confidence.contested { border-color: var(--coral); background: rgba(216,90,48,0.06); }
+
+[data-theme="dark"] .confidence.high { background: rgba(29,158,117,0.12); }
+[data-theme="dark"] .confidence.medium { background: rgba(186,117,23,0.12); }
+[data-theme="dark"] .confidence.contested { background: rgba(216,90,48,0.12); }
+
+.confidence h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.confidence ul {
+  margin-bottom: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+/* ---- Footnote refs ---- */
+.ref {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+  vertical-align: super;
+  line-height: 1;
+  margin-left: 1px;
+  text-decoration: none;
+  border: none !important;
+}
+
+.ref::before { content: "["; }
+.ref::after { content: "]"; }
+
+/* ---- References list ---- */
+.references-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 16px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+  counter-reset: refnum;
+}
+
+.references-list li {
+  margin-bottom: 12px;
+  padding: 10px 14px 10px 56px;
+  position: relative;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  scroll-margin-top: 90px;
+  color: var(--text-muted);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.references-list li:target {
+  background: rgba(127,119,221,0.10);
+  outline: 2px solid var(--accent);
+}
+
+.references-list li em {
+  color: var(--text);
+  font-style: italic;
+}
+
+.references-list .ref-num {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+  min-width: 36px;
+}
+
+[data-theme="dark"] .references-list li:target {
+  background: rgba(127,119,221,0.18);
+}
+
+/* ---- Footer ---- */
+footer {
+  max-width: 720px;
+  margin: 80px auto 40px;
+  padding: 32px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  body { font-size: 17px; }
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  h3 { font-size: 19px; }
+  .layout { padding: 24px 16px; }
+  figure { padding: 16px; margin-left: -8px; margin-right: -8px; }
+  .topnav { padding: 12px 16px; font-size: 13px; }
+  .meta { flex-direction: column; gap: 4px; }
+}
+</style>
+
+<noscript><style>
+/* Without JS, show all figures and the title block immediately */
+figure, .table-wrap, .title-block {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+.anim-node { opacity: 1 !important; animation: none !important; }
+.anim-arrow { opacity: 0.7 !important; stroke-dashoffset: 0 !important; animation: none !important; }
+.toc, .meta-side { display: none; }
+</style></noscript>
+</head>
+<body data-theme="light">
+
+<nav class="topnav">
+  <div class="topnav-left">
+    <a href="https://binghao-huang.github.io/">← Binghao Huang</a>
+  </div>
+  <div class="topnav-right">
+    <a href="#references">References</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+  </div>
+</nav>
+
+<div class="layout">
+
+<!-- ============ TOC ============ -->
+<aside class="toc" id="toc">
+<h4>Contents</h4>
+<ol>
+  <li><a href="#intro">Introduction</a></li>
+  <li><a href="#taxonomy">Taxonomy</a></li>
+  <li><a href="#hardware">Hardware: the sensor zoo</a></li>
+  <li><a href="#sim2real">Simulation &amp; sim-to-real</a></li>
+  <li><a href="#policy">Policy learning: a critical view</a></li>
+  <li><a href="#foundation">Foundation models for touch</a></li>
+  <li><a href="#applications">Application landscape</a></li>
+  <li><a href="#labs">Research labs &amp; lineages</a></li>
+  <li><a href="#keypapers">Key papers</a></li>
+  <li><a href="#challenges">Open challenges</a></li>
+  <li><a href="#disagreement">Where the field disagrees</a></li>
+  <li><a href="#forecast">Forecast</a></li>
+  <li><a href="#diagnostic">Diagnostic checklist</a></li>
+  <li><a href="#methodology">Methodological notes</a></li>
+  <li><a href="#references">References</a></li>
+</ol>
+</aside>
+
+<!-- ============ ARTICLE ============ -->
+<article>
+
+<div class="title-block">
+<h1>Tactile Sensing in Robot Manipulation (2020–2026)</h1>
+<p class="subtitle">A multi-source survey across hardware, simulation, perception, policy learning, and foundation models</p>
+<div class="meta">
+  <span><strong>Reading time</strong> · ~25 min</span>
+  <span><strong>Sources</strong> · 64 references</span>
+  <span><strong>Last updated</strong> · May 2026</span>
+</div>
+</div>
+
+<p>This survey reviews five years of progress in tactile sensing for robotic manipulation, organized across hardware, simulation, perception, policy learning, and foundation models. We draw on roughly fourteen independent review papers from eight research traditions, using cross-source corroboration where reviewers converge and flagging disagreement where they don't. We supplement these with primary research papers from 2020 through early 2026, including major hardware milestones (DIGIT, Digit 360, AnySkin, FlexiTac, 3D-ViTac), simulators (Tacchi family, DiffTactile, TacIPC, Taccel), tactile foundation models (T3, Sparsh family, UniTouch, TVL, Octopi, AnyTouch), and emerging touch-augmented vision-language-action models.</p>
+
+<div class="callout">A consistent finding across reviews is that <strong>tactile sensing is clearly important</strong> for contact-rich manipulation, yet remains <strong>rarely deployed industrially</strong>. We adopt this tension as the survey's organizing lens.</div>
+
+<!-- ============ 1. INTRODUCTION ============ -->
+<h2 id="intro">Introduction</h2>
+
+<p>For decades, vision-only manipulation dominated, but the field has hit a wall on contact-rich tasks: insertion, in-hand reorientation, deformable object handling, occluded grasping, and force-modulated tasks. Vision cannot see what the gripper itself occludes, and it cannot directly measure forces. As the ManiSkill-ViTac 2025 challenge organizers framed it, performance in contact-rich scenarios remains far from satisfactory because most works rely on vision alone and lack the ability to detect contact status for decision making.<a class="ref" href="#ref1">1</a></p>
+
+<p>The framings used by the most-cited reviews converge on the same central question. Li, Kroemer, Su, Veiga, Kaboli and Ritter, in their 2020 IEEE T-RO review, frame tactile sensing as a hierarchy: raw signals → contact-level information → object-level information → action-level information.<a class="ref" href="#ref2">2</a> Luo, Bimbo, Dahiya and Liu organize the field around three object properties — shape, surface material, and object pose — and emphasize the role of tactile in combination with other modalities.<a class="ref" href="#ref3">3</a> Both reviews — written years apart, in different research traditions — agree on the practical motivation: tactile is the modality that closes the gap between knowing where an object is and knowing what is happening at the contact.</p>
+
+<p>A persistent tension runs through every honest review. The 2026 IJRR survey on imitation learning for contact-rich tasks puts it bluntly: despite efforts, tactile sensors remain a technology mostly confined to research applications with rare industrial use-cases.<a class="ref" href="#ref4">4</a></p>
+
+<h3>Why now</h3>
+
+<p>Two structural drivers explain the recent acceleration. The industrial humanoid wave (Tesla Optimus, Figure, 1X, Unitree, Apptronik, Sanctuary) needs touch because human-form factories and homes were built around tactile interaction. Independently, the LLM/VLM/VLA boom created a natural appetite for adding a tactile modality to foundation models, the same way audio and depth were added in the 2022–2024 multimodal wave.</p>
+
+<figure id="fig1">
+<div class="chart-container">
+<canvas id="chart-pubgrowth"></canvas>
+</div>
+<figcaption><span class="fig-num">Figure 1.</span> Estimated annual and cumulative publications mentioning "tactile" and "robot manipulation." Numbers are indicative; the shape is consistent across bibliometric sections of multiple reviews.</figcaption>
+</figure>
+
+<p>The numbers are indicative — keyword choices vary across bibliometric reviews — but the shape is consistent. Lepora notes that 15 reviews on tactile robotics were published in 2024 alone.<a class="ref" href="#ref5">5</a> A separate analysis of dexterous-manipulation publications through January 2025 identified eight distinct research categories and noted that haptic and tactile interfaces are <em>under</em>-represented relative to their importance.<a class="ref" href="#ref7">7</a></p>
+
+<h3>The information hierarchy</h3>
+
+<p>The clearest conceptual scaffold for this survey comes from the Li-Kroemer hierarchy, which we adopt as a recurring lens.</p>
+
+<figure id="fig2">
+<svg class="diagram" viewBox="0 0 680 460" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <g class="anim-node" style="animation-delay: 0s;">
+    <rect class="node-bg-coral" x="120" y="40" width="440" height="64" rx="8" stroke-width="0.5"/>
+    <text class="node-title" x="340" y="64" text-anchor="middle">Action level</text>
+    <text class="node-sub" x="340" y="86" text-anchor="middle">Grasp planning, exploration, regrasping, slip recovery</text>
+  </g>
+  <g class="anim-node" style="animation-delay: 0.1s;">
+    <rect class="node-bg-purple" x="120" y="124" width="440" height="64" rx="8" stroke-width="0.5"/>
+    <text class="node-title" x="340" y="148" text-anchor="middle">Object level</text>
+    <text class="node-sub" x="340" y="170" text-anchor="middle">Shape, material, pose, in-hand state, friction</text>
+  </g>
+  <g class="anim-node" style="animation-delay: 0.2s;">
+    <rect class="node-bg-teal" x="120" y="208" width="440" height="64" rx="8" stroke-width="0.5"/>
+    <text class="node-title" x="340" y="232" text-anchor="middle">Contact level</text>
+    <text class="node-sub" x="340" y="254" text-anchor="middle">Contact location, force vector, slip, normal/shear</text>
+  </g>
+  <g class="anim-node" style="animation-delay: 0.3s;">
+    <rect class="node-bg-gray" x="120" y="292" width="440" height="64" rx="8" stroke-width="0.5"/>
+    <text class="node-title" x="340" y="316" text-anchor="middle">Raw signal</text>
+    <text class="node-sub" x="340" y="338" text-anchor="middle">Pressure array, gel image, magnetometer, voltage</text>
+  </g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.4s;" x1="340" y1="292" x2="340" y2="272" marker-end="url(#arrow1)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.5s;" x1="340" y1="208" x2="340" y2="188" marker-end="url(#arrow1)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.6s;" x1="340" y1="124" x2="340" y2="104" marker-end="url(#arrow1)"/>
+  <text class="node-sub" x="80" y="324" text-anchor="middle">Sensors</text>
+  <text class="node-sub" x="80" y="240" text-anchor="middle">Perception</text>
+  <text class="node-sub" x="80" y="156" text-anchor="middle">Models</text>
+  <text class="node-sub" x="80" y="72" text-anchor="middle">Policies</text>
+  <text class="node-sub" x="600" y="324" text-anchor="middle">DIGIT, AnySkin</text>
+  <text class="node-sub" x="600" y="240" text-anchor="middle">Slip nets</text>
+  <text class="node-sub" x="600" y="156" text-anchor="middle">Tac2Pose</text>
+  <text class="node-sub" x="600" y="72" text-anchor="middle">FARM, CGP</text>
+  <text class="node-sub" x="340" y="396" text-anchor="middle">Each level builds on the one below — but not every system explicitly models all four.</text>
+  <text class="node-sub" x="340" y="416" text-anchor="middle">A common critique: end-to-end policies skip the middle levels and lose interpretability.</text>
+</svg>
+<figcaption><span class="fig-num">Figure 2.</span> Tactile information hierarchy adapted from Li, Kroemer <em>et al.</em>, 2020.</figcaption>
+</figure>
+
+<p>The hierarchy is useful diagnostically: when a paper claims "tactile foundation model," ask which level it operates at. T3 and Sparsh sit between raw and contact. Octopi and UniTouch reach the object level. VLA-Touch and Tactile-VLA bridge all four.</p>
+
+<!-- ============ 2. TAXONOMY ============ -->
+<h2 id="taxonomy">Taxonomy of the field</h2>
+
+<p>Five research pillars emerge across reviews. The pillars feed each other: a useful new sensor needs a simulator, a perception model, and a learnable policy to matter, plus an application to ground it.</p>
+
+<figure id="fig3" class="full-width">
+<svg class="diagram" viewBox="0 0 680 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <g class="anim-node" style="animation-delay: 0s;">
+    <rect class="node-bg-gray" x="240" y="20" width="200" height="50" rx="8" stroke-width="0.5"/>
+    <text class="node-title" x="340" y="42" text-anchor="middle">Tactile manipulation</text>
+    <text class="node-sub" x="340" y="60" text-anchor="middle">Five active research pillars</text>
+  </g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.1s;" x1="340" y1="70" x2="340" y2="90"/>
+  <g class="anim-node" style="animation-delay: 0.15s;"><rect class="node-bg-blue" x="20" y="100" width="125" height="56" rx="8" stroke-width="0.5"/><text class="node-title" x="82" y="120" text-anchor="middle">1. Hardware</text><text class="node-sub" x="82" y="140" text-anchor="middle">Sensors and skins</text></g>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-teal" x="160" y="100" width="125" height="56" rx="8" stroke-width="0.5"/><text class="node-title" x="222" y="120" text-anchor="middle">2. Simulation</text><text class="node-sub" x="222" y="140" text-anchor="middle">Sim-to-real bridge</text></g>
+  <g class="anim-node" style="animation-delay: 0.25s;"><rect class="node-bg-purple" x="300" y="100" width="125" height="56" rx="8" stroke-width="0.5"/><text class="node-title" x="362" y="120" text-anchor="middle">3. Perception</text><text class="node-sub" x="362" y="140" text-anchor="middle">Contact, slip, pose</text></g>
+  <g class="anim-node" style="animation-delay: 0.3s;"><rect class="node-bg-coral" x="440" y="100" width="125" height="56" rx="8" stroke-width="0.5"/><text class="node-title" x="502" y="120" text-anchor="middle">4. Policy learning</text><text class="node-sub" x="502" y="140" text-anchor="middle">RL, IL, diffusion</text></g>
+  <g class="anim-node" style="animation-delay: 0.35s;"><rect class="node-bg-pink" x="580" y="100" width="80" height="56" rx="8" stroke-width="0.5"/><text class="node-title" x="620" y="120" text-anchor="middle">5. Foundation</text><text class="node-sub" x="620" y="140" text-anchor="middle">VLA, TLM</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.4s;"><rect class="node-bg-blue" x="20" y="186" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="82" y="204" text-anchor="middle" dominant-baseline="central">Vision-based (GelSight)</text></g>
+  <g class="anim-node" style="animation-delay: 0.42s;"><rect class="node-bg-blue" x="20" y="232" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="82" y="250" text-anchor="middle" dominant-baseline="central">Magnetic (AnySkin)</text></g>
+  <g class="anim-node" style="animation-delay: 0.44s;"><rect class="node-bg-blue" x="20" y="278" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="82" y="296" text-anchor="middle" dominant-baseline="central">Flexible (FlexiTac)</text></g>
+  <g class="anim-node" style="animation-delay: 0.46s;"><rect class="node-bg-blue" x="20" y="324" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="82" y="342" text-anchor="middle" dominant-baseline="central">Capacitive e-skin</text></g>
+  <g class="anim-node" style="animation-delay: 0.48s;"><rect class="node-bg-blue" x="20" y="370" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="82" y="388" text-anchor="middle" dominant-baseline="central">Multi-modal (Digit 360)</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.5s;"><rect class="node-bg-teal" x="160" y="186" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="222" y="204" text-anchor="middle" dominant-baseline="central">FEM (DiffTactile)</text></g>
+  <g class="anim-node" style="animation-delay: 0.52s;"><rect class="node-bg-teal" x="160" y="232" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="222" y="250" text-anchor="middle" dominant-baseline="central">MPM (Tacchi)</text></g>
+  <g class="anim-node" style="animation-delay: 0.54s;"><rect class="node-bg-teal" x="160" y="278" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="222" y="296" text-anchor="middle" dominant-baseline="central">GPU sim (Taccel)</text></g>
+  <g class="anim-node" style="animation-delay: 0.56s;"><rect class="node-bg-teal" x="160" y="324" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="222" y="342" text-anchor="middle" dominant-baseline="central">IPC (TacIPC)</text></g>
+  <g class="anim-node" style="animation-delay: 0.58s;"><rect class="node-bg-teal" x="160" y="370" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="222" y="388" text-anchor="middle" dominant-baseline="central">Image-based (Taxim)</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.6s;"><rect class="node-bg-purple" x="300" y="186" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="362" y="204" text-anchor="middle" dominant-baseline="central">Slip / incipient slip</text></g>
+  <g class="anim-node" style="animation-delay: 0.62s;"><rect class="node-bg-purple" x="300" y="232" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="362" y="250" text-anchor="middle" dominant-baseline="central">Force/shear field</text></g>
+  <g class="anim-node" style="animation-delay: 0.64s;"><rect class="node-bg-purple" x="300" y="278" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="362" y="296" text-anchor="middle" dominant-baseline="central">Object pose (Tac2Pose)</text></g>
+  <g class="anim-node" style="animation-delay: 0.66s;"><rect class="node-bg-purple" x="300" y="324" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="362" y="342" text-anchor="middle" dominant-baseline="central">Material / texture</text></g>
+  <g class="anim-node" style="animation-delay: 0.68s;"><rect class="node-bg-purple" x="300" y="370" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="362" y="388" text-anchor="middle" dominant-baseline="central">Shape from touch</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.7s;"><rect class="node-bg-coral" x="440" y="186" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="502" y="204" text-anchor="middle" dominant-baseline="central">Sim-to-real RL</text></g>
+  <g class="anim-node" style="animation-delay: 0.72s;"><rect class="node-bg-coral" x="440" y="232" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="502" y="250" text-anchor="middle" dominant-baseline="central">Imitation / BC</text></g>
+  <g class="anim-node" style="animation-delay: 0.74s;"><rect class="node-bg-coral" x="440" y="278" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="502" y="296" text-anchor="middle" dominant-baseline="central">Diffusion policy</text></g>
+  <g class="anim-node" style="animation-delay: 0.76s;"><rect class="node-bg-coral" x="440" y="324" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="502" y="342" text-anchor="middle" dominant-baseline="central">Force-aware control</text></g>
+  <g class="anim-node" style="animation-delay: 0.78s;"><rect class="node-bg-coral" x="440" y="370" width="125" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="502" y="388" text-anchor="middle" dominant-baseline="central">Contact grounding</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.8s;"><rect class="node-bg-pink" x="580" y="186" width="80" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="620" y="204" text-anchor="middle" dominant-baseline="central">T3, Sparsh</text></g>
+  <g class="anim-node" style="animation-delay: 0.82s;"><rect class="node-bg-pink" x="580" y="232" width="80" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="620" y="250" text-anchor="middle" dominant-baseline="central">UniTouch / TVL</text></g>
+  <g class="anim-node" style="animation-delay: 0.84s;"><rect class="node-bg-pink" x="580" y="278" width="80" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="620" y="296" text-anchor="middle" dominant-baseline="central">Octopi (TLM)</text></g>
+  <g class="anim-node" style="animation-delay: 0.86s;"><rect class="node-bg-pink" x="580" y="324" width="80" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="620" y="342" text-anchor="middle" dominant-baseline="central">VLA-Touch</text></g>
+  <g class="anim-node" style="animation-delay: 0.88s;"><rect class="node-bg-pink" x="580" y="370" width="80" height="36" rx="6" stroke-width="0.5"/><text class="node-sub" x="620" y="388" text-anchor="middle" dominant-baseline="central">Tactile-VLA</text></g>
+
+  <line class="arrow anim-arrow" style="animation-delay: 0.9s;" x1="340" y1="90" x2="82" y2="100"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.92s;" x1="340" y1="90" x2="222" y2="100"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.94s;" x1="340" y1="90" x2="362" y2="100"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.96s;" x1="340" y1="90" x2="502" y2="100"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.98s;" x1="340" y1="90" x2="620" y2="100"/>
+
+  <g class="anim-node" style="animation-delay: 1.0s;">
+    <rect class="node-bg-amber" x="20" y="440" width="640" height="50" rx="8" stroke-width="0.5"/>
+    <text class="node-title" x="340" y="460" text-anchor="middle">Application drivers</text>
+    <text class="node-sub" x="340" y="478" text-anchor="middle">Humanoids · dexterous in-hand · warehouse · surgery · prosthetics · cable / cloth / food</text>
+  </g>
+  <text class="node-sub" x="340" y="520" text-anchor="middle">Each pillar feeds the others — a useful new sensor needs a simulator, a perception model, and a learnable policy to matter.</text>
+</svg>
+<figcaption><span class="fig-num">Figure 3.</span> Five-pillar taxonomy of tactile manipulation research, with example methods under each pillar and the shared application drivers.</figcaption>
+</figure>
+
+<!-- ============ 3. HARDWARE ============ -->
+<h2 id="hardware">Hardware: the sensor zoo</h2>
+
+<p>There is genuine disagreement across reviews about how to slice the sensor space. Three independent reviews give three different vision-based-tactile-sensor (VBTS) taxonomies. Shimonomura's 2019 review classifies camera-based tactile sensors into three types based on contact-module hardware.<a class="ref" href="#ref8">8</a> Shah <em>et al.</em>'s 2021 JINT review proposes three design paradigms — waveguide-type, marker displacement-based, and reflective membrane designs.<a class="ref" href="#ref9">9</a> Lepora's 2025 classification argues both prior taxonomies overlook designs that combine these principles.<a class="ref" href="#ref10">10</a> Materials-science reviews give a different slice again: Jin <em>et al.</em>'s 2023 review of flexible tactile sensors organizes the area around six sensing mechanisms.<a class="ref" href="#ref11">11</a></p>
+
+<p>The point is not to pick a winner among taxonomies, but to acknowledge that the underlying design space is still actively being explored.</p>
+
+<h3>Sensing principles compared</h3>
+
+<figure id="fig4">
+<div class="chart-container tall">
+<canvas id="chart-transduction"></canvas>
+</div>
+<figcaption><span class="fig-num">Figure 4.</span> Qualitative comparison of six transduction principles for tactile sensing across six dimensions (resolution, area coverage, durability, force range, frequency response, low cost). No principle dominates everywhere.</figcaption>
+</figure>
+
+<p>VBTS wins on resolution; magnetic wins on durability; piezoresistive wins on cost and area; piezoelectric and triboelectric win on frequency response. Different applications genuinely demand different transduction principles — which is part of why the field has not converged on a single sensor.</p>
+
+<h3>What's actually winning</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Family</th><th>Sources</th><th>Strength</th><th>Standing problem</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Vision-based</strong><br>GelSight, DIGIT, TacTip, GelSlim, Digit 360</td><td>[8]–[10], [14], [15]</td><td>High spatial resolution; ML-friendly images</td><td>Bulky; gel wear; latency</td></tr>
+<tr><td><strong>Magnetic</strong><br>ReSkin, AnySkin, eFlesh, uSkin</td><td>[4], [16]</td><td>Robust, replaceable, cross-instance generalization</td><td>Lower resolution than VBTS</td></tr>
+<tr><td><strong>Flexible piezoresistive</strong><br>STAG-glove, FlexiTac, 3D-ViTac</td><td>[11], [13], [17], [18]</td><td>Large area, low cost, full-finger coverage</td><td>Lower force resolution</td></tr>
+<tr><td><strong>Capacitive / piezoelectric e-skins</strong></td><td>[6], [11], [19]</td><td>Whole-body coverage; low power</td><td>Wiring complexity; resolution trade-off</td></tr>
+<tr><td><strong>Triboelectric / self-powered</strong></td><td>[6], [11]</td><td>Self-powered, vibration sensing</td><td>Calibration drift; no DC response</td></tr>
+<tr><td><strong>MEMS-based force/pressure</strong></td><td>[12]</td><td>Industrial maturity; small footprint</td><td>Less expressive than VBTS</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The big practical hardware story since 2020 has five chapters that the reviews mostly agree on:</p>
+<ol>
+<li><strong>DIGIT</strong> (Lambeta <em>et al.</em>, 2020) miniaturized vision-based sensing for multi-fingered hands, with an open-sourced design that significantly lowered the barrier to entry.<a class="ref" href="#ref20">20</a></li>
+<li><strong>AnySkin</strong> (Bhirangi <em>et al.</em>, 2024) showed that decoupling sensing electronics from the elastomer interface produces cross-instance policy generalization.<a class="ref" href="#ref16">16</a></li>
+<li><strong>3D-ViTac</strong> (Huang <em>et al.</em>, CoRL 2024) showed dense flexible piezoresistive arrays at 3 mm² resolution outperform vision-only policies on long-horizon and fragile-object tasks.<a class="ref" href="#ref17">17</a></li>
+<li><strong>Digit 360</strong> (Meta + GelSight, 2024) introduced a fingertip with over 18 sensing features.<a class="ref" href="#ref21">21</a></li>
+<li>Industrial deployment reached scale: <strong>Amazon Vulcan</strong> manipulates 75% of the 1M items at the Spokane warehouse using force feedback and AI.<a class="ref" href="#ref22">22</a></li>
+</ol>
+
+<h3>How a vision-based tactile sensor works</h3>
+
+<figure id="fig5">
+<svg class="diagram" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg">
+  <rect x="200" y="60" width="280" height="60" rx="6" fill="#444441" opacity="0.3"/>
+  <rect x="200" y="60" width="280" height="60" rx="6" fill="none" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+  <rect x="320" y="76" width="40" height="28" rx="3" fill="#1F1F1D"/>
+  <circle cx="340" cy="90" r="6" fill="#0c0c0a"/>
+  <circle cx="340" cy="90" r="3" fill="#3B6D11">
+    <animate attributeName="r" values="3;3.8;3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <rect x="208" y="100" width="20" height="14" rx="2" fill="#E24B4A"/>
+  <rect x="244" y="100" width="20" height="14" rx="2" fill="#3B8BD4"/>
+  <rect x="416" y="100" width="20" height="14" rx="2" fill="#3B6D11"/>
+  <rect x="452" y="100" width="20" height="14" rx="2" fill="#E24B4A"/>
+  <rect x="200" y="160" width="280" height="80" rx="10" fill="#7F77DD" opacity="0.18"/>
+  <rect x="200" y="160" width="280" height="80" rx="10" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+  <path d="M200 160 Q230 160 240 168 Q260 196 290 188 Q318 178 340 200 Q362 178 390 188 Q420 196 440 168 Q450 160 480 160" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+  <rect x="200" y="158" width="280" height="6" rx="3" fill="#444441" opacity="0.55"/>
+  <g>
+    <rect x="312" y="216" width="56" height="50" rx="4" fill="#5F5E5A" opacity="0.65"/>
+    <text class="node-sub" x="340" y="248" text-anchor="middle" dominant-baseline="central" fill="#fff">Object</text>
+  </g>
+  <line x1="218" y1="120" x2="290" y2="180" stroke="#E24B4A" stroke-width="0.7" opacity="0.55"/>
+  <line x1="254" y1="120" x2="320" y2="184" stroke="#3B8BD4" stroke-width="0.7" opacity="0.55"/>
+  <line x1="426" y1="120" x2="370" y2="186" stroke="#3B6D11" stroke-width="0.7" opacity="0.55"/>
+  <line x1="462" y1="120" x2="400" y2="180" stroke="#E24B4A" stroke-width="0.7" opacity="0.55"/>
+  <line x1="290" y1="180" x2="338" y2="98" stroke="currentColor" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.4"/>
+  <line x1="320" y1="184" x2="340" y2="98" stroke="currentColor" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.4"/>
+  <line x1="370" y1="186" x2="342" y2="98" stroke="currentColor" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.4"/>
+  <line x1="400" y1="180" x2="344" y2="98" stroke="currentColor" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.4"/>
+  <line x1="340" y1="96" x2="540" y2="80" stroke="currentColor" stroke-width="0.4" opacity="0.5"/><text class="node-sub" x="546" y="84">Camera</text>
+  <line x1="218" y1="116" x2="540" y2="120" stroke="currentColor" stroke-width="0.4" opacity="0.5"/><text class="node-sub" x="546" y="124">RGB LEDs</text>
+  <line x1="340" y1="170" x2="540" y2="160" stroke="currentColor" stroke-width="0.4" opacity="0.5"/><text class="node-sub" x="546" y="164">Reflective gel</text>
+  <line x1="340" y1="200" x2="540" y2="200" stroke="currentColor" stroke-width="0.4" opacity="0.5"/><text class="node-sub" x="546" y="204">Contact zone</text>
+  <line x1="200" y1="200" x2="140" y2="200" stroke="currentColor" stroke-width="0.4" opacity="0.5"/><text class="node-sub" x="134" y="204" text-anchor="end">Membrane</text>
+  <text class="node-sub" x="340" y="304" text-anchor="middle">Photometric stereo recovers surface normals from three-color illumination,</text>
+  <text class="node-sub" x="340" y="320" text-anchor="middle">letting a single camera image reconstruct sub-millimeter 3D geometry of contact.</text>
+  <g class="anim-node" style="animation-delay: 0s;"><rect class="node-bg-blue" x="60" y="354" width="160" height="56" rx="6" stroke-width="0.5"/><text class="node-title" x="140" y="374" text-anchor="middle">Marker-based</text><text class="node-sub" x="140" y="392" text-anchor="middle">TacTip, GelSlim 3</text></g>
+  <g class="anim-node" style="animation-delay: 0.1s;"><rect class="node-bg-teal" x="240" y="354" width="170" height="56" rx="6" stroke-width="0.5"/><text class="node-title" x="325" y="374" text-anchor="middle">Intensity-based</text><text class="node-sub" x="325" y="392" text-anchor="middle">GelSight, DIGIT</text></g>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-purple" x="430" y="354" width="190" height="56" rx="6" stroke-width="0.5"/><text class="node-title" x="525" y="374" text-anchor="middle">Multimodal fingertip</text><text class="node-sub" x="525" y="392" text-anchor="middle">Digit 360</text></g>
+</svg>
+<figcaption><span class="fig-num">Figure 5.</span> Cross-section of a vision-based tactile sensor. The contact-mechanics problem is recast as a vision problem.</figcaption>
+</figure>
+
+<p>The trick that makes VBTS work is recasting a contact-mechanics problem as a vision problem. Once it's an image, the entire deep-learning toolkit becomes available. That observation unlocked the 2017–2024 VBTS wave.</p>
+
+<h3>The standardization problem</h3>
+
+<p>Multiple reviews independently flag the same hardware problem: standardization. TLV-CoRe authors observe that tactile sensors are not yet fully standardized; tactile images differ significantly under identical touch conditions due to camera type, lighting, color, and illumination.<a class="ref" href="#ref24">24</a> UniVTAC authors (2026) note that the current infrastructure for visuo-tactile manipulation remains underdeveloped, with scarcity of large-scale tactile data severely limiting tactile-centric representation models.<a class="ref" href="#ref25">25</a></p>
+
+<!-- ============ 4. SIMULATION ============ -->
+<h2 id="sim2real">Simulation and sim-to-real</h2>
+
+<p>Sim-to-real for vision is hard but well-trodden. For tactile it is structurally different because what transfers is a physical contact response, not an appearance. The 2025 Tactile Robotics Outlook reviews how data-driven simulation has matured, noting that approaches like image-to-image translation via GANs work for surface tracing and bi-manual manipulation but at the cost of a substantive sim-to-real gap.<a class="ref" href="#ref26">26</a></p>
+
+<h3>Simulator landscape</h3>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Year</th><th>Simulator</th><th>Method</th><th>Contribution</th></tr></thead>
+<tbody>
+<tr><td>2022</td><td>Taxim</td><td>Example-based image rendering</td><td>Fast GelSight image generation</td></tr>
+<tr><td>2022</td><td>TACTO</td><td>Pyrender + soft body approx</td><td>First open-source flexible VBTS sim</td></tr>
+<tr><td>2023</td><td>Tacchi</td><td>Material Point Method</td><td>Particle-based elastomer; low GPU cost</td></tr>
+<tr><td>2024</td><td>DiffTactile</td><td>Differentiable FEM</td><td>Physics-accurate, gradient-based learning</td></tr>
+<tr><td>2024</td><td>TacIPC</td><td>Incremental Potential Contact</td><td>Numerical stability for friction</td></tr>
+<tr><td>2024</td><td>FOTS</td><td>Optical</td><td>Fast sim-to-real for motor skills</td></tr>
+<tr><td>2024</td><td>TacEx</td><td>Soft-body in Isaac Sim</td><td>Bridges robotics and tactile rendering</td></tr>
+<tr><td>2025</td><td>Tacchi 2.0</td><td>Dynamic MPM</td><td>Captures press, slip, rotate dynamics</td></tr>
+<tr><td>2025</td><td>Taccel</td><td>High-performance GPU</td><td>Scaling vision-based tactile robotics</td></tr>
+<tr><td>2026</td><td>Tac2Real</td><td>GPU visuotactile</td><td>Online RL with zero-shot real deployment</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>The transfer pipeline</h3>
+
+<figure id="fig6" class="full-width">
+<svg class="diagram" viewBox="0 0 680 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <g class="anim-node" style="animation-delay: 0s;"><rect class="node-bg-teal" x="20" y="40" width="200" height="380" rx="14" stroke-width="0.5"/><text class="node-title" x="120" y="64" text-anchor="middle">Simulation side</text></g>
+  <g class="anim-node" style="animation-delay: 0.1s;"><rect class="node-bg-teal" x="36" y="86" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="120" y="106" text-anchor="middle">Soft-body contact</text><text class="node-sub" x="120" y="124" text-anchor="middle">FEM, MPM, IPC</text></g>
+  <g class="anim-node" style="animation-delay: 0.15s;"><rect class="node-bg-teal" x="36" y="146" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="120" y="166" text-anchor="middle">Tactile rendering</text><text class="node-sub" x="120" y="184" text-anchor="middle">Taxim, FOTS, TacEx</text></g>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-teal" x="36" y="206" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="120" y="226" text-anchor="middle">Differentiable physics</text><text class="node-sub" x="120" y="244" text-anchor="middle">DiffTactile</text></g>
+  <g class="anim-node" style="animation-delay: 0.25s;"><rect class="node-bg-teal" x="36" y="266" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="120" y="286" text-anchor="middle">GPU-scale sim</text><text class="node-sub" x="120" y="304" text-anchor="middle">Taccel, Tac2Real</text></g>
+  <g class="anim-node" style="animation-delay: 0.3s;"><rect class="node-bg-teal" x="36" y="326" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="120" y="346" text-anchor="middle">Policy training</text><text class="node-sub" x="120" y="364" text-anchor="middle">RL or BC in sim</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.35s;"><rect class="node-bg-purple" x="240" y="40" width="200" height="380" rx="14" stroke-width="0.5"/><text class="node-title" x="340" y="64" text-anchor="middle">Transfer techniques</text></g>
+  <g class="anim-node" style="animation-delay: 0.4s;"><rect class="node-bg-purple" x="256" y="86" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="106" text-anchor="middle">Domain randomization</text><text class="node-sub" x="340" y="124" text-anchor="middle">Friction, stiffness, noise</text></g>
+  <g class="anim-node" style="animation-delay: 0.45s;"><rect class="node-bg-purple" x="256" y="146" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="166" text-anchor="middle">Image translation</text><text class="node-sub" x="340" y="184" text-anchor="middle">Sim ↔ real GANs</text></g>
+  <g class="anim-node" style="animation-delay: 0.5s;"><rect class="node-bg-purple" x="256" y="206" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="226" text-anchor="middle">Latent alignment</text><text class="node-sub" x="340" y="244" text-anchor="middle">Shared encoders</text></g>
+  <g class="anim-node" style="animation-delay: 0.55s;"><rect class="node-bg-purple" x="256" y="266" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="286" text-anchor="middle">Real fine-tuning</text><text class="node-sub" x="340" y="304" text-anchor="middle">Small in-domain data</text></g>
+  <g class="anim-node" style="animation-delay: 0.6s;"><rect class="node-bg-purple" x="256" y="326" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="346" text-anchor="middle">Calibration</text><text class="node-sub" x="340" y="364" text-anchor="middle">Per-sensor tuning</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.65s;"><rect class="node-bg-coral" x="460" y="40" width="200" height="380" rx="14" stroke-width="0.5"/><text class="node-title" x="560" y="64" text-anchor="middle">Real-world side</text></g>
+  <g class="anim-node" style="animation-delay: 0.7s;"><rect class="node-bg-coral" x="476" y="86" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="560" y="106" text-anchor="middle">Physical sensor</text><text class="node-sub" x="560" y="124" text-anchor="middle">DIGIT, AnySkin, etc.</text></g>
+  <g class="anim-node" style="animation-delay: 0.75s;"><rect class="node-bg-coral" x="476" y="146" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="560" y="166" text-anchor="middle">Robot platform</text><text class="node-sub" x="560" y="184" text-anchor="middle">Allegro, Leap, Franka</text></g>
+  <g class="anim-node" style="animation-delay: 0.8s;"><rect class="node-bg-coral" x="476" y="206" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="560" y="226" text-anchor="middle">Closed-loop control</text><text class="node-sub" x="560" y="244" text-anchor="middle">Compliance, force</text></g>
+  <g class="anim-node" style="animation-delay: 0.85s;"><rect class="node-bg-coral" x="476" y="266" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="560" y="286" text-anchor="middle">Real evaluation</text><text class="node-sub" x="560" y="304" text-anchor="middle">Benchmarks, success</text></g>
+  <g class="anim-node" style="animation-delay: 0.9s;"><rect class="node-bg-coral" x="476" y="326" width="168" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="560" y="346" text-anchor="middle">Residual / online RL</text><text class="node-sub" x="560" y="364" text-anchor="middle">Adaptation in deployment</text></g>
+
+  <line class="arrow anim-arrow" style="animation-delay: 0.95s;" x1="220" y1="111" x2="256" y2="111" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.97s;" x1="220" y1="171" x2="256" y2="171" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.99s;" x1="220" y1="231" x2="256" y2="231" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.01s;" x1="220" y1="291" x2="256" y2="291" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.03s;" x1="220" y1="351" x2="256" y2="351" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.05s;" x1="424" y1="111" x2="476" y2="111" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.07s;" x1="424" y1="171" x2="476" y2="171" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.09s;" x1="424" y1="231" x2="476" y2="231" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.11s;" x1="424" y1="291" x2="476" y2="291" marker-end="url(#arrow6)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 1.13s;" x1="424" y1="351" x2="476" y2="351" marker-end="url(#arrow6)"/>
+
+  <text class="node-sub" x="340" y="450" text-anchor="middle">No simulator currently dominates: each row trades fidelity, speed, differentiability,</text>
+  <text class="node-sub" x="340" y="468" text-anchor="middle">and ease of integration differently — choice depends on the downstream policy.</text>
+</svg>
+<figcaption><span class="fig-num">Figure 6.</span> The sim-to-real pipeline for tactile manipulation. The middle column (transfer techniques) is the most important practically.</figcaption>
+</figure>
+
+<p>The bottleneck has shifted from the simulator (now adequate for many tasks) to the transfer pipeline. Even with a perfect simulator and a real sensor, transfer is mediated by domain randomization, image translation, latent alignment, real fine-tuning, and per-sensor calibration. Most papers use two or three together.</p>
+
+<!-- ============ 5. POLICY ============ -->
+<h2 id="policy">Policy learning: a critical view</h2>
+
+<p>I want to be more honest in this section than typical surveys.</p>
+
+<p>Xie &amp; Correll's 2025 "Towards Forceful Robotic Foundation Models" survey reaches a pointed conclusion: while there are tasks like pouring, peg-in-hole insertion, and handling delicate objects where force matters, the performance of imitation learning models is generally not at a level of dynamics where force truly matters.<a class="ref" href="#ref37">37</a></p>
+
+<div class="callout"><strong>Sobering take:</strong> most "tactile-augmented" imitation learning has not yet reached the regime where the tactile signal is what is actually limiting performance.</div>
+
+<h3>Methods landscape</h3>
+
+<figure id="fig7">
+<svg class="diagram" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg">
+  <line x1="60" y1="80" x2="60" y2="430" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+  <line x1="60" y1="430" x2="640" y2="430" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+  <text class="node-sub" x="340" y="455" text-anchor="middle">Maturity / deployment evidence →</text>
+  <text class="node-sub" x="36" y="255" text-anchor="middle" transform="rotate(-90 36 255)">Force regime relevance →</text>
+  <text class="node-sub" x="64" y="100">High</text>
+  <text class="node-sub" x="64" y="425">Low</text>
+  <text class="node-sub" x="80" y="442">Early</text>
+  <text class="node-sub" x="612" y="442">Mature</text>
+  <g class="anim-node" style="animation-delay: 0s;"><rect class="node-bg-blue" x="430" y="350" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="515" y="370" text-anchor="middle">Sim-to-real RL (in-hand)</text><text class="node-sub" x="515" y="388" text-anchor="middle">DLR, OpenAI, UCL stick</text></g>
+  <g class="anim-node" style="animation-delay: 0.1s;"><rect class="node-bg-blue" x="430" y="290" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="515" y="310" text-anchor="middle">Visuotactile imitation</text><text class="node-sub" x="515" y="328" text-anchor="middle">3D-ViTac, TactileAloha</text></g>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-amber" x="280" y="180" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="365" y="200" text-anchor="middle">Force-aware diffusion</text><text class="node-sub" x="365" y="218" text-anchor="middle">FARM, VT-Refine</text></g>
+  <g class="anim-node" style="animation-delay: 0.3s;"><rect class="node-bg-amber" x="280" y="120" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="365" y="140" text-anchor="middle">Contact grounding</text><text class="node-sub" x="365" y="158" text-anchor="middle">CGP, FBI, SC-Fields</text></g>
+  <g class="anim-node" style="animation-delay: 0.4s;"><rect class="node-bg-coral" x="100" y="100" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="185" y="120" text-anchor="middle">Tactile-VLA / VLA-Touch</text><text class="node-sub" x="185" y="138" text-anchor="middle">OmniVTLA, Tactile-VLA</text></g>
+  <g class="anim-node" style="animation-delay: 0.5s;"><rect class="node-bg-coral" x="100" y="170" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="185" y="190" text-anchor="middle">Tactile foundation</text><text class="node-sub" x="185" y="208" text-anchor="middle">T3, Sparsh, AnyTouch</text></g>
+  <g class="anim-node" style="animation-delay: 0.6s;"><rect class="node-bg-gray" x="100" y="350" width="170" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="185" y="370" text-anchor="middle">LLM-designed rewards</text><text class="node-sub" x="185" y="388" text-anchor="middle">Text2Touch</text></g>
+  <text class="node-sub" x="340" y="40" text-anchor="middle">Most "tactile-augmented" IL has not been shown in regimes where force is the binding constraint (Xie &amp; Correll 2025)</text>
+  <text class="node-sub" x="340" y="58" text-anchor="middle">Force-aware diffusion and contact grounding are the responses to that critique</text>
+</svg>
+<figcaption><span class="fig-num">Figure 7.</span> Tactile policy-learning methods plotted by deployment maturity and force-regime relevance.</figcaption>
+</figure>
+
+<h3>What works and what is early</h3>
+
+<p><strong>Sim-to-real RL for in-hand manipulation</strong> works for specific tasks. DLR's purely tactile in-hand manipulation work used off-policy deep RL trained in 600 CPU hours, then transferred to a humanoid hand achieving 46+ full rotations of a cube in a single run.<a class="ref" href="#ref38">38</a></p>
+
+<p><strong>Imitation learning + visuotactile fusion</strong> has dominated since 2022 because diffusion policies and ALOHA-style teleoperation made demonstration collection cheap. 3D-ViTac shows that dense flexible piezoresistive sensors fused with vision in a 3D representation enable bimanual manipulation that significantly outperforms vision-only policies on fragile and long-horizon tasks.<a class="ref" href="#ref17">17</a></p>
+
+<p><strong>Force-aware diffusion</strong> is the most recent direction. FARM (2025) integrates high-dimensional tactile data to infer tactile-conditioned force signals which define a matching force-based action space.<a class="ref" href="#ref41">41</a></p>
+
+<p><strong>Contact-grounding policies</strong> are the structural response to Xie &amp; Correll's critique. CGP (2026) argues most prior work uses tactile signals as additional observations rather than modeling contact state or how action outputs interact with low-level controller dynamics.<a class="ref" href="#ref43">43</a> FBI (2025) takes a complementary direction: extract tactile information from temporal object motion flow via a dynamics-aware latent model.<a class="ref" href="#ref44">44</a></p>
+
+<!-- ============ 6. FOUNDATION ============ -->
+<h2 id="foundation">Foundation models for touch</h2>
+
+<p>Three families of tactile foundation models coexist. They have different scaling laws and different bottlenecks.</p>
+
+<figure id="fig8" class="full-width">
+<svg class="diagram" viewBox="0 0 680 540" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <text class="node-title" x="120" y="36" text-anchor="middle">Encoder family</text>
+  <text class="node-sub" x="120" y="54" text-anchor="middle">T3, Sparsh, AnyTouch</text>
+  <g class="anim-node" style="animation-delay: 0s;"><rect class="node-bg-gray" x="40" y="76" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="120" y="96" text-anchor="middle" dominant-baseline="central">Multi-sensor tactile</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.05s;" x1="120" y1="116" x2="120" y2="136" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.1s;"><rect class="node-bg-purple" x="40" y="136" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="120" y="156" text-anchor="middle" dominant-baseline="central">Sensor-specific tokens</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.15s;" x1="120" y1="176" x2="120" y2="196" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-purple" x="40" y="196" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="120" y="216" text-anchor="middle" dominant-baseline="central">Shared transformer</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.25s;" x1="120" y1="236" x2="120" y2="256" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.3s;"><rect class="node-bg-purple" x="40" y="256" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="120" y="276" text-anchor="middle" dominant-baseline="central">Tactile representation</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.35s;" x1="120" y1="296" x2="120" y2="316" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.4s;"><rect class="node-bg-amber" x="40" y="316" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="120" y="336" text-anchor="middle" dominant-baseline="central">Task heads</text></g>
+  <text class="node-sub" x="120" y="396" text-anchor="middle">Pretrained via SSL</text>
+  <text class="node-sub" x="120" y="412" text-anchor="middle">(MAE, DINO, JEPA)</text>
+  <text class="node-sub" x="120" y="428" text-anchor="middle">on millions of frames</text>
+  <text class="node-sub" x="120" y="448" text-anchor="middle">across diverse sensors</text>
+  <line x1="232" y1="80" x2="232" y2="460" stroke="currentColor" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.4"/>
+
+  <text class="node-title" x="340" y="36" text-anchor="middle">Binding family</text>
+  <text class="node-sub" x="340" y="54" text-anchor="middle">UniTouch, TVL, Octopi, TLV-CoRe</text>
+  <g class="anim-node" style="animation-delay: 0.45s;"><rect class="node-bg-gray" x="260" y="76" width="68" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="294" y="96" text-anchor="middle" dominant-baseline="central">Touch</text></g>
+  <g class="anim-node" style="animation-delay: 0.5s;"><rect class="node-bg-gray" x="334" y="76" width="68" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="368" y="96" text-anchor="middle" dominant-baseline="central">Vision</text></g>
+  <g class="anim-node" style="animation-delay: 0.55s;"><rect class="node-bg-gray" x="380" y="136" width="40" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="400" y="156" text-anchor="middle" dominant-baseline="central">Lang</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.6s;" x1="294" y1="116" x2="320" y2="196" marker-end="url(#arrow8)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.62s;" x1="368" y1="116" x2="345" y2="196" marker-end="url(#arrow8)"/>
+  <line class="arrow anim-arrow" style="animation-delay: 0.64s;" x1="400" y1="176" x2="368" y2="196" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.7s;"><rect class="node-bg-purple" x="270" y="196" width="140" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="216" text-anchor="middle">Aligned latent</text><text class="node-sub" x="340" y="234" text-anchor="middle">Contrastive loss</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.75s;" x1="340" y1="246" x2="340" y2="266" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.8s;"><rect class="node-bg-amber" x="270" y="266" width="140" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="340" y="286" text-anchor="middle">Open-vocab tasks</text><text class="node-sub" x="340" y="304" text-anchor="middle">Property reasoning</text></g>
+  <text class="node-sub" x="340" y="380" text-anchor="middle">Aligns touch with</text>
+  <text class="node-sub" x="340" y="396" text-anchor="middle">other modalities,</text>
+  <text class="node-sub" x="340" y="412" text-anchor="middle">borrowing CLIP-style</text>
+  <text class="node-sub" x="340" y="428" text-anchor="middle">contrastive recipes</text>
+  <line x1="448" y1="80" x2="448" y2="460" stroke="currentColor" stroke-width="0.5" stroke-dasharray="4 3" opacity="0.4"/>
+
+  <text class="node-title" x="560" y="36" text-anchor="middle">Policy family</text>
+  <text class="node-sub" x="560" y="54" text-anchor="middle">VLA-Touch, Tactile-VLA, OmniVTLA</text>
+  <g class="anim-node" style="animation-delay: 0.85s;"><rect class="node-bg-gray" x="480" y="76" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="560" y="96" text-anchor="middle" dominant-baseline="central">Vision + language input</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 0.9s;" x1="560" y1="116" x2="560" y2="136" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 0.95s;"><rect class="node-bg-blue" x="480" y="136" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="560" y="156" text-anchor="middle" dominant-baseline="central">VLA backbone</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 1.0s;" x1="560" y1="176" x2="560" y2="196" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 1.05s;"><rect class="node-bg-purple" x="480" y="196" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="560" y="216" text-anchor="middle" dominant-baseline="central">+ tactile encoder</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 1.1s;" x1="560" y1="236" x2="560" y2="256" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 1.15s;"><rect class="node-bg-coral" x="480" y="256" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="560" y="276" text-anchor="middle" dominant-baseline="central">Force-aware policy</text></g>
+  <line class="arrow anim-arrow" style="animation-delay: 1.2s;" x1="560" y1="296" x2="560" y2="316" marker-end="url(#arrow8)"/>
+  <g class="anim-node" style="animation-delay: 1.25s;"><rect class="node-bg-coral" x="480" y="316" width="160" height="40" rx="6" stroke-width="0.5"/><text class="node-sub" x="560" y="336" text-anchor="middle" dominant-baseline="central">Robot actions + forces</text></g>
+  <text class="node-sub" x="560" y="396" text-anchor="middle">Touch is wired into</text>
+  <text class="node-sub" x="560" y="412" text-anchor="middle">the action generation</text>
+  <text class="node-sub" x="560" y="428" text-anchor="middle">step, not just</text>
+  <text class="node-sub" x="560" y="448" text-anchor="middle">perception</text>
+  <text class="node-sub" x="340" y="500" text-anchor="middle">All three families coexist; the policy family is the newest and most contested.</text>
+</svg>
+<figcaption><span class="fig-num">Figure 8.</span> Three families of tactile foundation models. Encoders trained by family 1 are often plugged into family 2 or family 3 systems.</figcaption>
+</figure>
+
+<h3>Encoder family</h3>
+
+<p><strong>T3</strong> (Zhao <em>et al.</em>, 2024) introduced the FoTa dataset — over 3 million data points from 13 sensors and 11 tasks — and showed zero-shot transferability across sensor-task pairings.<a class="ref" href="#ref45">45</a> <strong>Sparsh</strong> (Higuera <em>et al.</em>, CoRL 2024) curated ~661K samples and trained foundation models using MAE, DINO/DINOv2, and JEPA.<a class="ref" href="#ref46">46</a> <strong>Sparsh-X</strong> (2025) extends this to a unified backbone fusing image, audio, motion, and pressure signals.<a class="ref" href="#ref47">47</a> <strong>AnyTouch</strong> (Feng <em>et al.</em>, 2025) introduced TacQuad with 72,606 contact frames from four different visuo-tactile sensors.<a class="ref" href="#ref48">48</a></p>
+
+<h3>Binding family</h3>
+
+<p><strong>UniTouch</strong> (CVPR 2024) connects touch to vision, language and sound by aligning UniTouch embeddings to pretrained image embeddings, with learnable sensor-specific tokens.<a class="ref" href="#ref49">49</a> The <strong>TVL</strong> dataset (ICML 2024 oral) provides 44K in-the-wild vision-touch pairs with English labels, with ~29% improvement over prior models.<a class="ref" href="#ref50">50</a> <strong>Octopi</strong> (NUS, 2024) reasons about tactile inputs — for example, identifying the softer of two avocados via touch and inferring it is ripe via commonsense.<a class="ref" href="#ref51">51</a></p>
+
+<h3>Policy family</h3>
+
+<p><strong>VLA-Touch</strong> enhances generalist robot policies with tactile sensing without fine-tuning the base VLA.<a class="ref" href="#ref52">52</a> <strong>Tactile-VLA</strong> goes further by unlocking the VLA's physical knowledge for tactile generalization — generalizing language-based force control by applying force modifiers like "gently" learned from one task to a new task that was only trained on motion.<a class="ref" href="#ref53">53</a></p>
+
+<h3>The data scarcity problem</h3>
+
+<p>The honest picture for foundation models with touch is that a "GPT moment" for tactile manipulation does not yet exist. The biggest single dataset is FoTa at 3M points. This is roughly 1000× smaller than the equivalent vision corpora.</p>
+
+<figure id="fig9">
+<div class="chart-container">
+<canvas id="chart-datascale"></canvas>
+</div>
+<figcaption><span class="fig-num">Figure 9.</span> Logarithmic comparison of dataset sizes — tactile datasets are roughly 1000–10000× smaller than mature vision corpora.</figcaption>
+</figure>
+
+<p>Xie &amp; Correll observe that data collection of tactile robot data is an active research problem. The next breakthrough may come from data-collection methods (Touch in the Wild, OpenTouch, FlexiTac-equipped UMI) rather than from architectures.</p>
+
+<!-- ============ 7. APPLICATIONS ============ -->
+<h2 id="applications">Application landscape</h2>
+
+<p>A useful diagnostic when reading any individual tactile-manipulation paper is asking which application driver it is targeting, and whether the metric of success aligns with that application.</p>
+
+<figure id="fig10">
+<svg class="diagram" viewBox="0 0 680 540" xmlns="http://www.w3.org/2000/svg">
+  <line x1="60" y1="80" x2="60" y2="460" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+  <line x1="60" y1="460" x2="640" y2="460" stroke="currentColor" stroke-width="0.5" opacity="0.5"/>
+  <text class="node-sub" x="340" y="485" text-anchor="middle">Deployment maturity →</text>
+  <text class="node-sub" x="36" y="270" text-anchor="middle" transform="rotate(-90 36 270)">Tactile dependence →</text>
+  <text class="node-sub" x="64" y="100">High</text>
+  <text class="node-sub" x="64" y="455">Low</text>
+  <text class="node-sub" x="80" y="475">Research</text>
+  <text class="node-sub" x="612" y="475">Industrial</text>
+
+  <g class="anim-node" style="animation-delay: 0s;"><rect class="node-bg-coral" x="100" y="100" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="180" y="120" text-anchor="middle">In-hand reorientation</text><text class="node-sub" x="180" y="138" text-anchor="middle">Cubes, sticks, articulated</text></g>
+  <g class="anim-node" style="animation-delay: 0.1s;"><rect class="node-bg-coral" x="100" y="170" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="180" y="190" text-anchor="middle">Cable / cloth handling</text><text class="node-sub" x="180" y="208" text-anchor="middle">Deformable objects</text></g>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-coral" x="100" y="240" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="180" y="260" text-anchor="middle">Surgical assistance</text><text class="node-sub" x="180" y="278" text-anchor="middle">Tissue, needle insertion</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.3s;"><rect class="node-bg-amber" x="280" y="120" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="360" y="140" text-anchor="middle">Sub-mm assembly</text><text class="node-sub" x="360" y="158" text-anchor="middle">Connector insertion</text></g>
+  <g class="anim-node" style="animation-delay: 0.4s;"><rect class="node-bg-amber" x="280" y="190" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="360" y="210" text-anchor="middle">Tool use</text><text class="node-sub" x="360" y="228" text-anchor="middle">Screwdriver, hammer</text></g>
+  <g class="anim-node" style="animation-delay: 0.5s;"><rect class="node-bg-amber" x="280" y="260" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="360" y="280" text-anchor="middle">Fragile / fresh items</text><text class="node-sub" x="360" y="298" text-anchor="middle">Fruit, glass, electronics</text></g>
+  <g class="anim-node" style="animation-delay: 0.6s;"><rect class="node-bg-amber" x="280" y="330" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="360" y="350" text-anchor="middle">Prosthetics</text><text class="node-sub" x="360" y="368" text-anchor="middle">Wearable feedback</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.7s;"><rect class="node-bg-blue" x="460" y="190" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="540" y="210" text-anchor="middle">Warehouse pick / stow</text><text class="node-sub" x="540" y="228" text-anchor="middle">Amazon Vulcan</text></g>
+  <g class="anim-node" style="animation-delay: 0.8s;"><rect class="node-bg-blue" x="460" y="260" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="540" y="280" text-anchor="middle">Industrial assembly</text><text class="node-sub" x="540" y="298" text-anchor="middle">Force-controlled robots</text></g>
+  <g class="anim-node" style="animation-delay: 0.9s;"><rect class="node-bg-blue" x="460" y="330" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="540" y="350" text-anchor="middle">Bin picking with slip</text><text class="node-sub" x="540" y="368" text-anchor="middle">F/T sensor based</text></g>
+
+  <g class="anim-node" style="animation-delay: 1.0s;"><rect class="node-bg-gray" x="460" y="100" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="540" y="120" text-anchor="middle">Humanoid loco-manip</text><text class="node-sub" x="540" y="138" text-anchor="middle">Whole-body contact</text></g>
+  <g class="anim-node" style="animation-delay: 1.1s;"><rect class="node-bg-gray" x="100" y="380" width="160" height="50" rx="6" stroke-width="0.5"/><text class="node-title" x="180" y="400" text-anchor="middle">Material classification</text><text class="node-sub" x="180" y="418" text-anchor="middle">Texture, hardness</text></g>
+
+  <text class="node-sub" x="340" y="50" text-anchor="middle">High tactile dependence + research-only: in-hand, cable/cloth, surgery, sub-mm</text>
+  <text class="node-sub" x="340" y="68" text-anchor="middle">Industrial deployment uses simpler sensing (F/T) — research and industry are not yet the same field</text>
+  <text class="node-sub" x="60" y="510" text-anchor="start">Color: red = research-driven · amber = transitional · blue = deployed · gray = early/sleeper</text>
+</svg>
+<figcaption><span class="fig-num">Figure 10.</span> Application landscape showing where research and industry diverge.</figcaption>
+</figure>
+
+<p>Two things to read off this map. <strong>First</strong>, research and industrial tactile manipulation are not yet the same field. Industrial deployments mostly use force/torque sensors with simple control rather than the high-resolution VBTS dominating academic literature. <strong>Second</strong>, the transitional cluster — sub-mm assembly, tool use, fragile-item handling — is where the two will collide first, probably 2027–2029.</p>
+
+<!-- ============ 8. LABS ============ -->
+<h2 id="labs">Research labs and lineages</h2>
+
+<p>Tactile manipulation is genuinely global, but lineages cluster geographically in ways that reflect funding traditions and equipment availability.</p>
+
+<figure id="fig11" class="full-width">
+<svg class="diagram" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
+  <g class="anim-node" style="animation-delay: 0s;"><rect class="node-bg-blue" x="20" y="40" width="320" height="216" rx="14" stroke-width="0.5"/><text class="node-title" x="180" y="62" text-anchor="middle">North America</text></g>
+  <g class="anim-node" style="animation-delay: 0.05s;"><rect class="node-bg-blue" x="36" y="80" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="106" y="97" text-anchor="middle">MIT (Adelson)</text><text class="node-sub" x="106" y="113" text-anchor="middle">GelSight family</text></g>
+  <g class="anim-node" style="animation-delay: 0.1s;"><rect class="node-bg-blue" x="184" y="80" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="254" y="97" text-anchor="middle">Meta FAIR</text><text class="node-sub" x="254" y="113" text-anchor="middle">DIGIT, Digit360, Sparsh</text></g>
+  <g class="anim-node" style="animation-delay: 0.15s;"><rect class="node-bg-blue" x="36" y="134" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="106" y="151" text-anchor="middle">CMU (Kroemer)</text><text class="node-sub" x="106" y="167" text-anchor="middle">Manipulation, IL</text></g>
+  <g class="anim-node" style="animation-delay: 0.2s;"><rect class="node-bg-blue" x="184" y="134" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="254" y="151" text-anchor="middle">NYU (Pinto)</text><text class="node-sub" x="254" y="167" text-anchor="middle">AnySkin, eFlesh</text></g>
+  <g class="anim-node" style="animation-delay: 0.25s;"><rect class="node-bg-blue" x="36" y="188" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="106" y="205" text-anchor="middle">Columbia / UIUC (Y. Li)</text><text class="node-sub" x="106" y="221" text-anchor="middle">3D-ViTac, FlexiTac</text></g>
+  <g class="anim-node" style="animation-delay: 0.3s;"><rect class="node-bg-blue" x="184" y="188" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="254" y="205" text-anchor="middle">UW / Berkeley</text><text class="node-sub" x="254" y="221" text-anchor="middle">STAG glove, TVL</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.35s;"><rect class="node-bg-purple" x="350" y="40" width="310" height="216" rx="14" stroke-width="0.5"/><text class="node-title" x="505" y="62" text-anchor="middle">Europe</text></g>
+  <g class="anim-node" style="animation-delay: 0.4s;"><rect class="node-bg-purple" x="366" y="80" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="433" y="97" text-anchor="middle">Bristol (Lepora)</text><text class="node-sub" x="433" y="113" text-anchor="middle">TacTip, Tactile Gym</text></g>
+  <g class="anim-node" style="animation-delay: 0.45s;"><rect class="node-bg-purple" x="509" y="80" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="576" y="97" text-anchor="middle">KCL (Luo)</text><text class="node-sub" x="576" y="113" text-anchor="middle">Tacchi, FOTS</text></g>
+  <g class="anim-node" style="animation-delay: 0.5s;"><rect class="node-bg-purple" x="366" y="134" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="433" y="151" text-anchor="middle">Bielefeld (Ritter)</text><text class="node-sub" x="433" y="167" text-anchor="middle">Active touch, hands</text></g>
+  <g class="anim-node" style="animation-delay: 0.55s;"><rect class="node-bg-purple" x="509" y="134" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="576" y="151" text-anchor="middle">DLR (Bäuml)</text><text class="node-sub" x="576" y="167" text-anchor="middle">Pure-tactile in-hand</text></g>
+  <g class="anim-node" style="animation-delay: 0.6s;"><rect class="node-bg-purple" x="366" y="188" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="433" y="205" text-anchor="middle">TUM (Kaboli)</text><text class="node-sub" x="433" y="221" text-anchor="middle">Active tactile, e-skin</text></g>
+  <g class="anim-node" style="animation-delay: 0.65s;"><rect class="node-bg-purple" x="509" y="188" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="576" y="205" text-anchor="middle">IIT Genoa</text><text class="node-sub" x="576" y="221" text-anchor="middle">iCub skin, biomimetic</text></g>
+
+  <g class="anim-node" style="animation-delay: 0.7s;"><rect class="node-bg-teal" x="20" y="276" width="320" height="216" rx="14" stroke-width="0.5"/><text class="node-title" x="180" y="298" text-anchor="middle">Asia-Pacific</text></g>
+  <g class="anim-node" style="animation-delay: 0.75s;"><rect class="node-bg-teal" x="36" y="316" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="106" y="333" text-anchor="middle">Tsinghua (Xu)</text><text class="node-sub" x="106" y="349" text-anchor="middle">ManiSkill-ViTac</text></g>
+  <g class="anim-node" style="animation-delay: 0.8s;"><rect class="node-bg-teal" x="184" y="316" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="254" y="333" text-anchor="middle">SUSTech / HKU</text><text class="node-sub" x="254" y="349" text-anchor="middle">TacGNN, in-hand</text></g>
+  <g class="anim-node" style="animation-delay: 0.85s;"><rect class="node-bg-teal" x="36" y="370" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="106" y="387" text-anchor="middle">NUS (Soh)</text><text class="node-sub" x="106" y="403" text-anchor="middle">Octopi, VLA-Touch</text></g>
+  <g class="anim-node" style="animation-delay: 0.9s;"><rect class="node-bg-teal" x="184" y="370" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="254" y="387" text-anchor="middle">Tencent Robotics X</text><text class="node-sub" x="254" y="403" text-anchor="middle">Industrial dexterity</text></g>
+  <g class="anim-node" style="animation-delay: 0.95s;"><rect class="node-bg-teal" x="36" y="424" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="106" y="441" text-anchor="middle">Tohoku (Kosuge)</text><text class="node-sub" x="106" y="457" text-anchor="middle">TactileAloha, IL</text></g>
+  <g class="anim-node" style="animation-delay: 1.0s;"><rect class="node-bg-teal" x="184" y="424" width="140" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="254" y="441" text-anchor="middle">Beihang / CAS</text><text class="node-sub" x="254" y="457" text-anchor="middle">Materials, e-skin</text></g>
+
+  <g class="anim-node" style="animation-delay: 1.05s;"><rect class="node-bg-coral" x="350" y="276" width="310" height="216" rx="14" stroke-width="0.5"/><text class="node-title" x="505" y="298" text-anchor="middle">Industry tactile programs</text></g>
+  <g class="anim-node" style="animation-delay: 1.1s;"><rect class="node-bg-coral" x="366" y="316" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="433" y="333" text-anchor="middle">Amazon Robotics</text><text class="node-sub" x="433" y="349" text-anchor="middle">Vulcan stow / pick</text></g>
+  <g class="anim-node" style="animation-delay: 1.15s;"><rect class="node-bg-coral" x="509" y="316" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="576" y="333" text-anchor="middle">Toyota Research</text><text class="node-sub" x="576" y="349" text-anchor="middle">Soft-bubble, UMI</text></g>
+  <g class="anim-node" style="animation-delay: 1.2s;"><rect class="node-bg-coral" x="366" y="370" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="433" y="387" text-anchor="middle">GelSight Inc.</text><text class="node-sub" x="433" y="403" text-anchor="middle">Commercial sensors</text></g>
+  <g class="anim-node" style="animation-delay: 1.25s;"><rect class="node-bg-coral" x="509" y="370" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="576" y="387" text-anchor="middle">Wonik / Sanctuary</text><text class="node-sub" x="576" y="403" text-anchor="middle">Allegro, dex hands</text></g>
+  <g class="anim-node" style="animation-delay: 1.3s;"><rect class="node-bg-coral" x="366" y="424" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="433" y="441" text-anchor="middle">BMW (Kaboli)</text><text class="node-sub" x="433" y="457" text-anchor="middle">Industrial e-skin</text></g>
+  <g class="anim-node" style="animation-delay: 1.35s;"><rect class="node-bg-coral" x="509" y="424" width="135" height="46" rx="6" stroke-width="0.5"/><text class="node-title" x="576" y="441" text-anchor="middle">Humanoid co's</text><text class="node-sub" x="576" y="457" text-anchor="middle">Figure, 1X, Apptronik</text></g>
+</svg>
+<figcaption><span class="fig-num">Figure 11.</span> Major tactile manipulation research and industry programs grouped by region.</figcaption>
+</figure>
+
+<p>Two patterns are worth flagging. <strong>First</strong>, the four-region split is real: North American groups dominate VBTS and foundation models, European groups dominate biomimetic and active-touch traditions, Asian groups dominate materials science, simulation, and emerging dexterous-hand work. <strong>Second</strong>, the industry side is concentrated, with Amazon, Toyota Research, GelSight Inc., and the humanoid startups doing most of the deployment-driven work.</p>
+
+<!-- ============ 9. KEY PAPERS ============ -->
+<h2 id="keypapers">Key papers (2020–2026)</h2>
+
+<p>A non-exhaustive shortlist of papers that recur across recent surveys, organized by impact area.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Paper</th><th>Year</th><th>Venue</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>DIGIT (Lambeta <em>et al.</em>)</td><td>2020</td><td>RA-L</td><td>Open-source, miniaturized GelSight; the workhorse VBTS</td></tr>
+<tr><td>Touch and Go</td><td>2022</td><td>NeurIPS D&amp;B</td><td>First in-the-wild paired vision + touch dataset</td></tr>
+<tr><td>3D-ViTac</td><td>2024</td><td>CoRL</td><td>Dense flexible visuotactile + 3D fusion + diffusion policy</td></tr>
+<tr><td>DiffTactile</td><td>2024</td><td>ICLR</td><td>Differentiable physics-based tactile sim</td></tr>
+<tr><td>AnySkin</td><td>2024</td><td>arXiv</td><td>Plug-and-play, cross-instance generalizable magnetic sensor</td></tr>
+<tr><td>Digit 360 (Meta + GelSight)</td><td>2024</td><td>—</td><td>First multimodal commercial fingertip sensor</td></tr>
+<tr><td>T3</td><td>2024</td><td>NeurIPS / CoRL</td><td>Tactile foundation transformer + FoTa dataset</td></tr>
+<tr><td>Sparsh / Sparsh-X</td><td>2024–25</td><td>CoRL</td><td>SSL touch representations across sensor types</td></tr>
+<tr><td>UniTouch</td><td>2024</td><td>CVPR</td><td>Touch ↔ vision/language/sound binding</td></tr>
+<tr><td>TVL</td><td>2024</td><td>ICML (oral)</td><td>Touch + vision + language alignment</td></tr>
+<tr><td>Octopi / Octopi-1.5</td><td>2024–25</td><td>RSS</td><td>Tactile-language model for property reasoning</td></tr>
+<tr><td>Tactile-VLA / VLA-Touch</td><td>2025</td><td>arXiv</td><td>VLAs with native touch grounding</td></tr>
+<tr><td>FARM</td><td>2025</td><td>arXiv</td><td>Force-aware diffusion policy with GelSight Mini</td></tr>
+<tr><td>Text2Touch</td><td>2025</td><td>arXiv</td><td>LLM-designed rewards for tactile in-hand RL</td></tr>
+<tr><td>TactileAloha</td><td>2025</td><td>RA-L</td><td>Tactile-augmented bimanual ACT</td></tr>
+<tr><td>Touch in the Wild</td><td>2025</td><td>NeurIPS</td><td>Portable visuotactile gripper, large-scale in-the-wild data</td></tr>
+<tr><td>VT-Refine</td><td>2025</td><td>CoRL</td><td>Bimanual assembly via visuotactile sim fine-tuning</td></tr>
+<tr><td>OpenTouch</td><td>2025</td><td>arXiv</td><td>First in-the-wild full-hand egocentric tactile dataset</td></tr>
+<tr><td>ManiFeel</td><td>2025</td><td>CoRL</td><td>First reproducible visuotactile policy benchmark</td></tr>
+<tr><td>FBI (Flow Before Imitation)</td><td>2025</td><td>arXiv</td><td>Learns tactile from visual flow; works without sensors</td></tr>
+<tr><td>Tacchi 2.0 / Taccel</td><td>2025</td><td>arXiv</td><td>Dynamic MPM / GPU-scale tactile sim</td></tr>
+<tr><td>eFlesh</td><td>2025</td><td>arXiv</td><td>Customizable magnetic touch via cut-cell microstructures</td></tr>
+<tr><td>FlexiTac</td><td>2026</td><td>—</td><td>Open-source scalable flexible tactile platform</td></tr>
+<tr><td>CGP (Contact-Grounded Policy)</td><td>2026</td><td>arXiv</td><td>Reframes visuotactile policy learning as contact grounding</td></tr>
+<tr><td>UniVTAC</td><td>2026</td><td>arXiv</td><td>Unified visuotactile sim platform + 8-task benchmark</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============ 10. CHALLENGES ============ -->
+<h2 id="challenges">Open challenges</h2>
+
+<p>Each challenge below is corroborated across multiple independent reviews.</p>
+
+<h4>Sensor heterogeneity / standardization</h4>
+<p>Tactile sensors are not yet fully standardized; tactile images differ significantly under identical touch conditions due to camera type, lighting, color, and illumination. The current infrastructure for visuo-tactile manipulation remains underdeveloped, with scarcity of large-scale tactile data severely limiting tactile-centric representation models. Jin <em>et al.</em>'s materials review identifies six different sensing mechanisms in active use, with no convergence in sight.</p>
+
+<h4>Sim-to-real on tactile signals</h4>
+<p>Direct zero-shot sim-to-real transfer is challenging due to complex nonlinear deformation of soft sensors, motivating two-stage pipelines.</p>
+
+<h4>Data scarcity</h4>
+<p>Data collection of tactile robot data is an active research problem, and the community remains in an exploratory phase where developing new practical data collection methods is as important as refining existing ones.</p>
+
+<h4>Generalization across objects</h4>
+<p>The heart of tactile-based manipulation: how do you train a tactile-based policy that can manipulate unseen and diverse objects?</p>
+
+<h4>Whole-body / large-area touch is under-developed</h4>
+<p>A 2025 humanoid loco-manipulation survey explicitly highlights whole-body tactile sensing as a crucial modality, observing that most robotic hands prioritize dexterity at the expense of payload capacity.</p>
+
+<h4>Force is not the same as tactile</h4>
+<p>Xie &amp; Correll's most useful conceptual point: force and touch are abstract quantities that can be inferred through a wide range of modalities — proprioception, force-torque sensors, and tactile sensors all reveal aspects of the same underlying physical interaction. Conflating these in surveys can mislead.</p>
+
+<!-- ============ 11. DISAGREEMENT ============ -->
+<h2 id="disagreement">Where the field disagrees</h2>
+
+<p>Reading multiple reviews together surfaces three live disagreements that single-source surveys obscure.</p>
+
+<h3>Disagreement 1: Is more sensing always better?</h3>
+<p>Xie &amp; Correll observe that force and touch are abstract quantities that can be inferred through a wide range of modalities and are often measured and controlled implicitly, implying that better policy learning, not more sensing, may be the bottleneck. Materials-science reviews advocate higher resolution, larger area, more modalities. The FBI paper is on the smarter-learning side; 3D-ViTac's 1024-taxel approach is on the denser-sensing side. Both work. The field has not settled this.</p>
+
+<h3>Disagreement 2: Is there a "winning" tactile sensor architecture?</h3>
+<p>Lepora's 2025 VBTS classification argues marker-based and intensity-based vision sensors are both viable for high-resolution tasks. AnySkin's authors argue magnetic, replaceable skins are the practical winner. 3D-ViTac's authors argue dense flexible piezoresistive arrays are the practical winner. There is no consensus, and the practical winner is likely task-dependent.</p>
+
+<h3>Disagreement 3: Is industrial deployment a sign of progress or a distraction?</h3>
+<p>Amazon Vulcan's force feedback sensors are simple six-axis force-torque, not high-resolution tactile. Reviews from the academic side note that high-resolution tactile sensing — the kind dominating research papers — is barely deployed industrially. The same word, "tactile," covers very different things in research vs. industry.</p>
+
+<!-- ============ 12. FORECAST ============ -->
+<h2 id="forecast">Forecast</h2>
+
+<figure id="fig12">
+<div class="chart-container tall">
+<canvas id="chart-forecast"></canvas>
+</div>
+<figcaption><span class="fig-num">Figure 12.</span> Forecast 2020–2030 for tactile manipulation research interest by direction. Solid through 2026 = observed (sources cross-validated from multiple reviews); dashed = projection.</figcaption>
+</figure>
+
+<p>Predictions are calibrated to the strength of evidence behind each claim.</p>
+
+<div class="confidence high">
+<h4>High confidence (multiple independent reviews agree)</h4>
+<ul>
+<li>Touch foundation models will grow rapidly through 2027 and likely plateau as the field hits the data-scaling wall around 2028.</li>
+<li>Sim-to-real for tactile will keep improving but at a slower pace than RGB sim-to-real did, because contact physics is fundamentally harder.</li>
+<li>Visuotactile benchmarks (ManiFeel, UniVTAC, ManiSkill-ViTac) will become standard reporting expectations within two years.</li>
+<li>Industrial deployment will use force/torque + simple tactile, not high-resolution VBTS, for at least 3–5 more years.</li>
+</ul>
+</div>
+
+<div class="confidence medium">
+<h4>Medium confidence (one or two reviews supportive)</h4>
+<ul>
+<li>Magnetic skins will become the default for deployment-oriented research because of cross-instance generalization.</li>
+<li>Dense flexible piezoresistive arrays will become the default for fingertip + full-finger coverage in research because they integrate cleanly with vision.</li>
+<li>Contact-grounded policies will be the dominant policy framework by 2027–2028.</li>
+</ul>
+</div>
+
+<div class="confidence contested">
+<h4>Contested or speculative</h4>
+<ul>
+<li>Whether vision-only "inferred tactile" (FBI-style) will partially replace physical sensors. Genuine open question.</li>
+<li>When whole-body / large-area e-skin will hit production. Could be 2027 with humanoid push, or 2030+ given skin durability and wiring problems.</li>
+<li>Whether a "GPT moment" for tactile manipulation is possible at all. Xie &amp; Correll are skeptical; foundation-model optimists are more sanguine.</li>
+</ul>
+</div>
+
+<!-- ============ 13. DIAGNOSTIC ============ -->
+<h2 id="diagnostic">Concluding diagnostic</h2>
+
+<p>A useful test for any new tactile-manipulation paper, derived from synthesizing the reviews above:</p>
+
+<div class="checklist">
+<h4>The seven-question test</h4>
+<ol>
+<li>Which level of the Li-Kroemer hierarchy does this operate at?</li>
+<li>Which sensing principle, and what trade-offs did it accept?</li>
+<li>Is the simulator–transfer–real pipeline complete or partial?</li>
+<li>Does the policy operate in a regime where force is the binding constraint, or only where vision would already suffice?</li>
+<li>Is this in the research-driven, transitional, or deployed cluster of applications?</li>
+<li>Which family of foundation models — encoder, binding, or policy — does it interface with, if any?</li>
+<li>What data did it train on, and how does that compare to the 1000× gap with vision?</li>
+</ol>
+</div>
+
+<p>A paper that addresses all seven explicitly is doing the field a service. A paper that addresses none of them is hard to position.</p>
+
+<h2 id="methodology">Methodological notes</h2>
+
+<p>The references below span roughly fourteen review papers from at least eight research traditions plus primary research papers from 2020 through early 2026. Where reviews disagree the disagreement is shown in the prose; where they converge the convergence is documented with multiple citations. Bibliometric numbers are estimated rather than measured. Two honest limitations: this survey works primarily from review snippets and abstracts rather than full-text PDFs, and the 2026 picture will not crystallize until autumn ICRA/IROS/RSS proceedings are available.</p>
+
+<p style="margin-top: 24px; font-family: var(--sans); font-size: 13px; color: var(--text-muted);">A LaTeX/IEEE version of this survey with full BibTeX references is available on request.</p>
+
+<h2 id="references">References</h2>
+
+<p style="font-family: var(--sans); font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Numbered in citation order, IEEE style. Click any <span style="font-family: var(--mono); color: var(--accent);">[N]</span> superscript in the body to jump to its entry.</p>
+
+<ol class="references-list">
+<li id="ref1"><span class="ref-num">[1]</span> C. Li, R. Dang, X. Li, Z. Wu, J. Xu, H. Kasaei, R. Calandra, N. Lepora, S. Luo, H. Su, and R. Chen, "ManiSkill-ViTac 2025: Challenge on manipulation skill learning with vision and tactile sensing," <em>arXiv preprint arXiv:2411.12503</em>, 2024.</li>
+<li id="ref2"><span class="ref-num">[2]</span> Q. Li, O. Kroemer, Z. Su, F. F. Veiga, M. Kaboli, and H. J. Ritter, "A review of tactile information: Perception and action through touch," <em>IEEE Transactions on Robotics</em>, vol. 36, no. 6, pp. 1619–1634, 2020.</li>
+<li id="ref3"><span class="ref-num">[3]</span> S. Luo, J. Bimbo, R. Dahiya, and H. Liu, "Robotic tactile perception of object properties: A review," <em>Mechatronics</em>, vol. 48, pp. 54–67, 2017.</li>
+<li id="ref4"><span class="ref-num">[4]</span> T. Tsuji, Y. Kato, G. Solak, H. Zhang, T. Petrič, F. Nori, and A. Ajoudani, "A survey on imitation learning for contact-rich tasks in robotics," <em>The International Journal of Robotics Research</em>, 2026.</li>
+<li id="ref5"><span class="ref-num">[5]</span> N. F. Lepora, "Tactile robotics: Past and future," <em>arXiv preprint arXiv:2512.01106</em>, 2025.</li>
+<li id="ref6"><span class="ref-num">[6]</span> Y. Wang <em>et al.</em>, "Recent advances and challenges of tactile sensing for robotics: From fundamentals to applications," <em>Materials Today Physics</em>, 2025.</li>
+<li id="ref7"><span class="ref-num">[7]</span> A. Welte and R. Rayyes, "Interactive imitation learning for dexterous robotic manipulation: Challenges and perspectives," <em>Frontiers in Robotics and AI</em>, vol. 12, 2025.</li>
+<li id="ref8"><span class="ref-num">[8]</span> K. Shimonomura, "Tactile image sensors employing camera: A review," <em>Sensors</em>, vol. 19, no. 18, p. 3933, 2019.</li>
+<li id="ref9"><span class="ref-num">[9]</span> U. H. Shah, R. Muthusamy, D. Gan, Y. Zweiri, and L. Seneviratne, "On the design and development of vision-based tactile sensors," <em>Journal of Intelligent and Robotic Systems</em>, 2021.</li>
+<li id="ref10"><span class="ref-num">[10]</span> N. F. Lepora, "Classification of vision-based tactile sensors: A review," <em>arXiv preprint arXiv:2509.02478</em>, 2025.</li>
+<li id="ref11"><span class="ref-num">[11]</span> J. Jin, S. Wang <em>et al.</em>, "Progress on flexible tactile sensors in robotic applications on object properties recognition, manipulation and human-machine interactions," <em>Soft Science</em>, 2023.</li>
+<li id="ref12"><span class="ref-num">[12]</span> I. S. Bayer, "MEMS-based tactile sensors: Materials, processes and applications in robotics," <em>Micromachines</em>, vol. 13, no. 12, p. 2051, 2022.</li>
+<li id="ref13"><span class="ref-num">[13]</span> L. Yu and D. Liu, "Recent progress in tactile sensing and machine learning for texture perception in humanoid robotics," <em>Interdisciplinary Materials</em>, vol. 4, pp. 235–248, 2025.</li>
+<li id="ref14"><span class="ref-num">[14]</span> A. C. Abad and A. Ranasinghe, "Visuotactile sensors with emphasis on GelSight sensor: A review," <em>IEEE Sensors Journal</em>, vol. 20, no. 14, pp. 7628–7638, 2020.</li>
+<li id="ref15"><span class="ref-num">[15]</span> N. F. Lepora, "Soft biomimetic optical tactile sensing with the TacTip: A review," <em>IEEE Sensors Journal</em>, vol. 21, no. 19, pp. 21131–21143, 2021.</li>
+<li id="ref16"><span class="ref-num">[16]</span> R. Bhirangi, V. Pattabiraman, E. Erciyes, Y. Cao, T. Hellebrekers, and L. Pinto, "AnySkin: Plug-and-play skin sensing for robotic touch," <em>arXiv preprint arXiv:2409.08276</em>, 2024.</li>
+<li id="ref17"><span class="ref-num">[17]</span> B. Huang, Y. Wang, X. Yang, Y. Luo, and Y. Li, "3D-ViTac: Learning fine-grained manipulation with visuo-tactile sensing," in <em>Conference on Robot Learning (CoRL)</em>, 2024.</li>
+<li id="ref18"><span class="ref-num">[18]</span> B. Huang and Y. Li, "FlexiTac: An open-source, scalable tactile solution for robotic systems," 2026, <a href="https://flexitac.github.io/" target="_blank" rel="noopener">https://flexitac.github.io/</a>.</li>
+<li id="ref19"><span class="ref-num">[19]</span> Y. Liu <em>et al.</em>, "A neuromorphic robotic electronic skin with active pain and injury perception," <em>Proceedings of the National Academy of Sciences</em>, 2025.</li>
+<li id="ref20"><span class="ref-num">[20]</span> M. Lambeta, P.-W. Chou, S. Tian, B. Yang, B. Maloon, V. R. Most, D. Stroud, R. Santos, A. Byagowi, G. Kammerer, D. Jayaraman, and R. Calandra, "DIGIT: A novel design for a low-cost compact high-resolution tactile sensor with application to in-hand manipulation," <em>IEEE Robotics and Automation Letters</em>, vol. 5, no. 3, pp. 3838–3845, 2020.</li>
+<li id="ref21"><span class="ref-num">[21]</span> Meta AI and GelSight, "Digit 360: An artificial fingertip-shaped tactile sensor," 2024, <a href="https://ai.meta.com/blog/fair-robotics-open-source/" target="_blank" rel="noopener">https://ai.meta.com/blog/fair-robotics-open-source/</a>.</li>
+<li id="ref22"><span class="ref-num">[22]</span> Amazon Robotics, "Meet Amazon's vulcan: A warehouse robot with a sense of touch," 2025, <a href="https://www.aboutamazon.com/news/operations/amazon-vulcan-robot-pick-stow-touch" target="_blank" rel="noopener">https://www.aboutamazon.com/news/operations/amazon-vulcan-robot-pick-stow-touch</a>.</li>
+<li id="ref23"><span class="ref-num">[23]</span> W. Yuan, S. Dong, and E. H. Adelson, "GelSight: High-resolution robot tactile sensors for estimating geometry and force," <em>Sensors</em>, vol. 17, no. 12, p. 2762, 2017.</li>
+<li id="ref24"><span class="ref-num">[24]</span> Anonymous, "Collaborative representation learning for alignment of tactile, language, and vision modalities," <em>arXiv preprint arXiv:2511.11512</em>, 2025.</li>
+<li id="ref25"><span class="ref-num">[25]</span> Various authors, "UniVTAC: A unified simulation platform for visuo-tactile manipulation data generation, learning, and benchmarking," <em>arXiv preprint arXiv:2602.10093</em>, 2026.</li>
+<li id="ref26"><span class="ref-num">[26]</span> Various authors, "Tactile robotics: An outlook," <em>arXiv preprint arXiv:2508.11261</em>, 2025.</li>
+<li id="ref27"><span class="ref-num">[27]</span> Various authors, "Tac2Real: Reliable and GPU visuotactile simulation for online reinforcement learning and zero-shot real-world deployment," <em>arXiv preprint arXiv:2603.28475</em>, 2026.</li>
+<li id="ref28"><span class="ref-num">[28]</span> Z. Si and W. Yuan, "Taxim: An example-based simulation model for GelSight tactile sensors," <em>IEEE Robotics and Automation Letters</em>, vol. 7, no. 2, pp. 2361–2368, 2022.</li>
+<li id="ref29"><span class="ref-num">[29]</span> S. Wang, M. Lambeta, P.-W. Chou, and R. Calandra, "TACTO: A fast, flexible, and open-source simulator for high-resolution vision-based tactile sensors," <em>IEEE Robotics and Automation Letters</em>, vol. 7, no. 2, pp. 3930–3937, 2022.</li>
+<li id="ref30"><span class="ref-num">[30]</span> Z. Chen, S. Zhang, S. Luo, F. Sun, and B. Fang, "Tacchi: A pluggable and low computational cost elastomer deformation simulator for optical tactile sensors," <em>IEEE Robotics and Automation Letters</em>, vol. 8, no. 3, pp. 1239–1246, 2023.</li>
+<li id="ref31"><span class="ref-num">[31]</span> Z. Si, G. Zhang, Q. Ben, B. Romero, Z. Xian, C. Liu, and C. Gan, "DiffTactile: A physics-based differentiable tactile simulator for contact-rich robotic manipulation," in <em>International Conference on Learning Representations (ICLR)</em>, 2024.</li>
+<li id="ref32"><span class="ref-num">[32]</span> W. Du, W. Xu, J. Ren, Z. Yu, and C. Lu, "TacIPC: Intersection- and inversion-free FEM-based elastomer simulation for optical tactile sensors," <em>arXiv preprint</em>, 2024.</li>
+<li id="ref33"><span class="ref-num">[33]</span> Y. Zhao, K. Qian, B. Duan, and S. Luo, "FOTS: A fast optical tactile simulator for sim2real learning of tactile-motor robot manipulation skills," <em>IEEE Robotics and Automation Letters</em>, 2024.</li>
+<li id="ref34"><span class="ref-num">[34]</span> Anonymous, "TacEx: GelSight tactile simulation in Isaac Sim – combining soft-body and visuotactile simulators," <em>arXiv preprint arXiv:2411.04776</em>, 2024.</li>
+<li id="ref35"><span class="ref-num">[35]</span> Y. Sun <em>et al.</em>, "Tacchi 2.0: A low computational cost and comprehensive dynamic contact simulator for vision-based tactile sensors," <em>arXiv preprint arXiv:2503.09100</em>, 2025.</li>
+<li id="ref36"><span class="ref-num">[36]</span> Anonymous, "Taccel: Scaling up vision-based tactile robotics via high-performance GPU simulation," <em>arXiv preprint arXiv:2504.12908</em>, 2025.</li>
+<li id="ref37"><span class="ref-num">[37]</span> W. Xie and N. Correll, "Towards forceful robotic foundation models: A literature survey," <em>arXiv preprint arXiv:2504.11827</em>, 2025.</li>
+<li id="ref38"><span class="ref-num">[38]</span> J. Pitz, L. R\"ostel, L. Sievers, and B. B\"auml, "Learning purely tactile in-hand manipulation with a torque-controlled hand," <em>arXiv preprint arXiv:2204.03698</em>, 2022.</li>
+<li id="ref39"><span class="ref-num">[39]</span> W. Hu, B. Huang, W. W. Lee, S. Yang, Y. Zheng, and Z. Li, "Dexterous in-hand manipulation of slender cylindrical objects through deep reinforcement learning with tactile sensing," <em>Robotics and Autonomous Systems</em>, vol. 186, p. 104904, 2025.</li>
+<li id="ref40"><span class="ref-num">[40]</span> N. Gu, K. Kosuge, and M. Hayashibe, "TactileAloha: Learning bimanual manipulation with tactile sensing," <em>IEEE Robotics and Automation Letters</em>, vol. 10, no. 8, pp. 8348–8355, 2025.</li>
+<li id="ref41"><span class="ref-num">[41]</span> E. Helmut, N. Funk, T. Schneider, C. de Farias, and J. Peters, "Tactile-conditioned diffusion policy for force-aware robotic manipulation," <em>arXiv preprint arXiv:2510.13324</em>, 2025.</li>
+<li id="ref42"><span class="ref-num">[42]</span> Anonymous, "Text2Touch: Tactile in-hand manipulation with LLM-designed reward functions," <em>arXiv preprint arXiv:2509.07445</em>, 2025.</li>
+<li id="ref43"><span class="ref-num">[43]</span> Various authors, "Contact-grounded policy: Dexterous visuotactile policy with generative contact grounding," <em>arXiv preprint arXiv:2603.05687</em>, 2026.</li>
+<li id="ref44"><span class="ref-num">[44]</span> Various authors, "FBI: Learning dexterous in-hand manipulation with dynamic visuotactile shortcut policy," <em>arXiv preprint arXiv:2508.14441</em>, 2025.</li>
+<li id="ref45"><span class="ref-num">[45]</span> J. Zhao, Y. Ma, L. Wang, and E. H. Adelson, "Transferable tactile transformers for representation learning across diverse sensors and tasks," <em>arXiv preprint arXiv:2406.13640</em>, 2024.</li>
+<li id="ref46"><span class="ref-num">[46]</span> C. Higuera, A. Sharma, C. K. Bodduluri, T. Fan, P. Lancaster, M. Kalakrishnan, M. Kaess, B. Boots, M. Lambeta, T. Wu, and M. Mukadam, "Sparsh: Self-supervised touch representations for vision-based tactile sensing," in <em>Conference on Robot Learning (CoRL)</em>, 2024.</li>
+<li id="ref47"><span class="ref-num">[47]</span> Anonymous, "Sparsh-X: Tactile beyond pixels: Multisensory touch representations for robot manipulation," <em>arXiv preprint arXiv:2506.14754</em>, 2025.</li>
+<li id="ref48"><span class="ref-num">[48]</span> A. Feng <em>et al.</em>, "AnyTouch: Learning unified static-dynamic representation across multiple visuo-tactile sensors," <em>arXiv preprint arXiv:2502.12191</em>, 2025.</li>
+<li id="ref49"><span class="ref-num">[49]</span> F. Yang, C. Feng, Z. Chen, H. Park, D. Wang, Y. Dou, Z. Zeng, X. Chen, R. Gangopadhyay, A. Owens, and A. Wong, "Binding touch to everything: Learning unified multimodal tactile representations," in <em>IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</em>, 2024, pp. 26340–26353.</li>
+<li id="ref50"><span class="ref-num">[50]</span> L. Fu, G. Datta, H. Huang, W. C.-H. Panitch, J. Drake, J. Ortiz, M. Mukadam, M. Lambeta, R. Calandra, and K. Goldberg, "A touch, vision, and language dataset for multimodal alignment," in <em>International Conference on Machine Learning (ICML)</em>, 2024.</li>
+<li id="ref51"><span class="ref-num">[51]</span> S. Yu, K. Lin, A. Xiao, J. Duan, and H. Soh, "Octopi: Object property reasoning with large tactile-language models," in <em>Robotics: Science and Systems (RSS)</em>, 2024.</li>
+<li id="ref52"><span class="ref-num">[52]</span> J. Bi, K. Y. Ma, C. Hao, M. Z. Shou, and H. Soh, "VLA-Touch: Enhancing vision-language-action models with dual-level tactile feedback," <em>arXiv preprint arXiv:2507.17294</em>, 2025.</li>
+<li id="ref53"><span class="ref-num">[53]</span> Anonymous, "Tactile-VLA: Unlocking vision-language-action model's physical knowledge for tactile generalization," <em>arXiv preprint arXiv:2507.09160</em>, 2025.</li>
+<li id="ref54"><span class="ref-num">[54]</span> Various authors, "OmniVTLA: Vision-tactile-language-action model with semantic-aligned tactile sensing," <em>arXiv preprint arXiv:2508.08706</em>, 2025.</li>
+<li id="ref55"><span class="ref-num">[55]</span> Y. R. Song, J. Li, R. Fu <em>et al.</em>, "OPENTOUCH: Bringing full-hand touch to real-world interaction," <em>arXiv preprint arXiv:2512.16842</em>, 2025.</li>
+<li id="ref56"><span class="ref-num">[56]</span> X. Zhu, B. Huang, and Y. Li, "Touch in the wild: Learning fine-grained manipulation with a portable visuo-tactile gripper," <em>arXiv preprint arXiv:2507.15062</em>, 2025.</li>
+<li id="ref57"><span class="ref-num">[57]</span> F. Yang, C. Ma, J. Zhang, J. Zhu, W. Yuan, and A. Owens, "Touch and go: Learning from human-collected vision and touch," in <em>NeurIPS Datasets and Benchmarks</em>, 2022.</li>
+<li id="ref58"><span class="ref-num">[58]</span> Anonymous, "VT-Refine: Learning bimanual assembly with visuo-tactile feedback via simulation fine-tuning," <em>arXiv preprint arXiv:2510.14930</em>, 2025.</li>
+<li id="ref59"><span class="ref-num">[59]</span> Q. K. Luu, P. Zhou, Z. Xu, Z. Zhang, Q. Qiu, and Y. She, "ManiFeel: Benchmarking and understanding visuotactile manipulation policy learning," <em>arXiv preprint arXiv:2505.18472</em>, 2025.</li>
+<li id="ref60"><span class="ref-num">[60]</span> V. Pattabiraman, Z. Huang, D. Panozzo, D. Zorin, L. Pinto, and R. Bhirangi, "eFlesh: Highly customizable magnetic touch sensing using cut-cell microstructures," <em>arXiv preprint arXiv:2506.09994</em>, 2025.</li>
+<li id="ref61"><span class="ref-num">[61]</span> Anonymous, "Crossing the reality gap in tactile-based learning," <em>arXiv preprint arXiv:2305.09870</em>, 2023.</li>
+<li id="ref62"><span class="ref-num">[62]</span> Various authors, "Semantic-contact fields for category-level generalizable tactile tool manipulation," <em>arXiv preprint arXiv:2602.13833</em>, 2026.</li>
+<li id="ref63"><span class="ref-num">[63]</span> Various authors, "Sim2Real manipulation on unknown objects with tactile-based reinforcement learning," <em>arXiv preprint arXiv:2403.12170</em>, 2024.</li>
+<li id="ref64"><span class="ref-num">[64]</span> Various authors, "Humanoid locomotion and manipulation: Current progress and challenges in control, planning, and learning," <em>arXiv preprint arXiv:2501.02116</em>, 2025.</li>
+</ol>
+
+</article>
+
+<!-- ============ Side meta ============ -->
+<aside class="meta-side">
+<h4>Reading progress</h4>
+<div class="progress-bar">
+<div class="progress-fill" id="progressFill"></div>
+</div>
+<div id="progressPercent" style="font-family: var(--mono); font-size: 11px;">0%</div>
+</aside>
+
+</div>
+
+<footer>
+<p>Tactile Sensing in Robot Manipulation (2020–2026) — A multi-source survey</p>
+<p style="margin-top: 8px;">Built with Chart.js, inline SVG, and a lot of cross-referencing.</p>
+</footer>
+
+<script>
+// ===== Theme toggle =====
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+const savedTheme = localStorage.getItem('theme') ||
+  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+body.setAttribute('data-theme', savedTheme);
+themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+themeToggle.addEventListener('click', () => {
+  const current = body.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  body.setAttribute('data-theme', next);
+  themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', next);
+  // recolor charts when theme changes
+  setTimeout(rebuildCharts, 100);
+});
+
+// ===== Color helpers (read live from CSS) =====
+function getCSSVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+function getTextColor() {
+  return body.getAttribute('data-theme') === 'dark' ? '#ededed' : '#1a1a1a';
+}
+function getMutedColor() {
+  return body.getAttribute('data-theme') === 'dark' ? '#a8a8a8' : '#666';
+}
+function getGridColor() {
+  return body.getAttribute('data-theme') === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+}
+
+// ===== Chart instances (so we can destroy/rebuild on theme change) =====
+let charts = {};
+
+function buildPubGrowth() {
+  const ctx = document.getElementById('chart-pubgrowth');
+  if (!ctx) return;
+  if (charts.pub) charts.pub.destroy();
+  Chart.defaults.color = getMutedColor();
+  Chart.defaults.borderColor = getGridColor();
+  charts.pub = new Chart(ctx, {
+    data: {
+      labels: ['2018','2019','2020','2021','2022','2023','2024','2025','2026'],
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Annual papers (est.)',
+          data: [180,240,340,480,720,1100,1700,2400,3100],
+          backgroundColor: '#7F77DD',
+          borderRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          type: 'line',
+          label: 'Cumulative (est.)',
+          data: [180,420,760,1240,1960,3060,4760,7160,10260],
+          borderColor: '#D85A30',
+          backgroundColor: 'transparent',
+          borderWidth: 2.5,
+          tension: 0.35,
+          yAxisID: 'y2',
+          pointRadius: 4,
+          pointBackgroundColor: '#D85A30',
+          pointBorderColor: '#D85A30',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeOutQuart' },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 12, family: 'Inter' } } },
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Annual papers (est.)', font: { family: 'Inter', size: 12 } },
+          beginAtZero: true,
+          grid: { color: getGridColor() }
+        },
+        y2: {
+          position: 'right',
+          title: { display: true, text: 'Cumulative', font: { family: 'Inter', size: 12 } },
+          grid: { drawOnChartArea: false },
+          beginAtZero: true,
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function buildTransduction() {
+  const ctx = document.getElementById('chart-transduction');
+  if (!ctx) return;
+  if (charts.trans) charts.trans.destroy();
+  charts.trans = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Spatial resolution','Area coverage','Durability','Force range','Frequency response','Low cost'],
+      datasets: [
+        { label: 'Vision-based (GelSight)', data: [9,3,4,6,5,6], borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.12)', borderWidth: 2, pointRadius: 3 },
+        { label: 'Magnetic (AnySkin)', data: [5,6,9,7,7,8], borderColor: '#D85A30', backgroundColor: 'rgba(216,90,48,0.12)', borderWidth: 2, pointRadius: 3 },
+        { label: 'Capacitive', data: [5,7,6,7,6,7], borderColor: '#7F77DD', backgroundColor: 'rgba(127,119,221,0.12)', borderWidth: 2, pointRadius: 3 },
+        { label: 'Piezoresistive (3D-ViTac)', data: [6,8,6,6,6,9], borderColor: '#3B6D11', backgroundColor: 'rgba(59,109,17,0.12)', borderWidth: 2, pointRadius: 3 },
+        { label: 'Piezoelectric (PVDF)', data: [4,6,5,6,9,6], borderColor: '#BA7517', backgroundColor: 'rgba(186,117,23,0.12)', borderWidth: 2, pointRadius: 3 },
+        { label: 'Triboelectric', data: [3,7,5,5,8,7], borderColor: '#D4537E', backgroundColor: 'rgba(212,83,126,0.12)', borderWidth: 2, pointRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11, family: 'Inter' }, boxWidth: 10, padding: 8 } }
+      },
+      scales: {
+        r: {
+          min: 0, max: 10,
+          ticks: { stepSize: 2, font: { size: 10 }, backdropColor: 'transparent', color: getMutedColor() },
+          pointLabels: { font: { size: 11, family: 'Inter' }, color: getTextColor() },
+          grid: { color: getGridColor() },
+          angleLines: { color: getGridColor() }
+        }
+      }
+    }
+  });
+}
+
+function buildDataScale() {
+  const ctx = document.getElementById('chart-datascale');
+  if (!ctx) return;
+  if (charts.data) charts.data.destroy();
+  charts.data = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['TVL','TacQuad','OpenTouch','Sparsh','Touch&Go','FoTa','OpenX-Embod.','LAION-5B'],
+      datasets: [{
+        label: 'Samples',
+        data: [44000,73000,250000,661000,3000000,3000000,1000000,5000000000],
+        backgroundColor: ['#7F77DD','#7F77DD','#7F77DD','#7F77DD','#7F77DD','#7F77DD','#1D9E75','#888780'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeOutQuart', delay: (ctx) => ctx.dataIndex * 80 },
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          type: 'logarithmic',
+          title: { display: true, text: 'Samples (log scale)', font: { family: 'Inter', size: 12 } },
+          min: 10000, max: 10000000000,
+          grid: { color: getGridColor() },
+          ticks: {
+            callback: v => {
+              const e = Math.log10(v);
+              if (e !== Math.floor(e)) return '';
+              return v >= 1e9 ? (v/1e9)+'B' : v >= 1e6 ? (v/1e6)+'M' : v >= 1e3 ? (v/1e3)+'K' : v;
+            }
+          }
+        },
+        y: {
+          ticks: { font: { size: 11, family: 'Inter' } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+function buildForecast() {
+  const ctx = document.getElementById('chart-forecast');
+  if (!ctx) return;
+  if (charts.forecast) charts.forecast.destroy();
+  const yrs = ['2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'];
+  charts.forecast = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: yrs,
+      datasets: [
+        { label: 'Tactile foundation / VLA-Touch', data: [2,3,5,10,30,60,80,90,95,93,90], borderColor: '#7F77DD', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointRadius: 3, pointBackgroundColor: '#7F77DD',
+          segment: { borderDash: ctx => ctx.p0DataIndex >= 6 ? [6,4] : undefined } },
+        { label: 'Sim-to-real & diff. tactile sim', data: [15,25,35,50,60,70,76,82,85,86,85], borderColor: '#378ADD', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointRadius: 3, pointBackgroundColor: '#378ADD',
+          segment: { borderDash: ctx => ctx.p0DataIndex >= 6 ? [6,4] : undefined } },
+        { label: 'Visuotactile benchmarks', data: [0,0,0,2,5,15,35,55,72,76,72], borderColor: '#5F5E5A', backgroundColor: 'transparent', borderWidth: 2, borderDash: [4,3], tension: 0.35, pointRadius: 2 },
+        { label: 'Dense flexible / magnetic skins', data: [5,8,12,18,30,52,68,80,86,86,82], borderColor: '#3B6D11', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointRadius: 3, pointBackgroundColor: '#3B6D11',
+          segment: { borderDash: ctx => ctx.p0DataIndex >= 6 ? [6,4] : undefined } },
+        { label: 'Whole-body / large-area e-skin', data: [10,12,15,18,25,30,40,55,72,84,90], borderColor: '#BA7517', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointRadius: 3, pointBackgroundColor: '#BA7517',
+          segment: { borderDash: ctx => ctx.p0DataIndex >= 6 ? [6,4] : undefined } },
+        { label: 'Vision-only "inferred tactile" (contested)', data: [0,1,2,4,8,15,28,42,56,64,68], borderColor: '#D4537E', backgroundColor: 'transparent', borderWidth: 2, borderDash: [4,3], tension: 0.35, pointRadius: 2 },
+        { label: 'Classic VBTS hardware (plateau)', data: [40,55,65,75,80,78,72,64,57,50,45], borderColor: '#1D9E75', backgroundColor: 'transparent', borderWidth: 2.5, tension: 0.35, pointRadius: 3, pointBackgroundColor: '#1D9E75',
+          segment: { borderDash: ctx => ctx.p0DataIndex >= 6 ? [6,4] : undefined } },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 2000, easing: 'easeOutQuart' },
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10, family: 'Inter' }, boxWidth: 10, padding: 6 } }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'Relative attention (qualitative)', font: { family: 'Inter', size: 12 } },
+          beginAtZero: true, max: 100,
+          grid: { color: getGridColor() }
+        },
+        x: {
+          title: { display: true, text: 'Year', font: { family: 'Inter', size: 12 } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+function rebuildCharts() {
+  Chart.defaults.color = getMutedColor();
+  buildPubGrowth();
+  buildTransduction();
+  buildDataScale();
+  buildForecast();
+}
+
+// ===== Intersection Observer for figure entrance animation =====
+const figureObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // restart node animations by removing/readding the class
+      const nodes = entry.target.querySelectorAll('.anim-node');
+      nodes.forEach(n => {
+        n.style.animation = 'none';
+        n.offsetHeight; // force reflow
+        n.style.animation = '';
+      });
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('figure, .table-wrap').forEach(el => figureObserver.observe(el));
+
+// Backstop: if a figure is still hidden after 2.5s (e.g. browser doesn't fire
+// IntersectionObserver, or print/PDF engines), force-show everything.
+setTimeout(() => {
+  document.querySelectorAll('figure, .table-wrap').forEach(el => {
+    el.classList.add('visible');
+  });
+}, 2500);
+
+// ===== TOC active section highlighting =====
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = document.querySelectorAll('article h2');
+
+const tocObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const id = entry.target.id;
+    const link = document.querySelector(`.toc a[href="#${id}"]`);
+    if (link) {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    }
+  });
+}, { rootMargin: '-100px 0px -70% 0px' });
+
+sections.forEach(s => tocObserver.observe(s));
+
+// ===== Reading progress =====
+const progressFill = document.getElementById('progressFill');
+const progressPercent = document.getElementById('progressPercent');
+
+function updateProgress() {
+  const article = document.querySelector('article');
+  const articleTop = article.offsetTop;
+  const articleHeight = article.offsetHeight;
+  const windowHeight = window.innerHeight;
+  const scrollY = window.scrollY;
+  const start = articleTop - windowHeight * 0.5;
+  const end = articleTop + articleHeight - windowHeight * 0.5;
+  const progress = Math.max(0, Math.min(1, (scrollY - start) / (end - start)));
+  if (progressFill) progressFill.style.height = (progress * 100) + '%';
+  if (progressPercent) progressPercent.textContent = Math.round(progress * 100) + '%';
+}
+
+window.addEventListener('scroll', updateProgress, { passive: true });
+
+// ===== Build charts on load =====
+window.addEventListener('load', () => {
+  rebuildCharts();
+  updateProgress();
+});
+
+// Build charts immediately (Chart.js is already loaded via <head>)
+if (document.readyState === 'complete') {
+  rebuildCharts();
+} else {
+  document.addEventListener('DOMContentLoaded', rebuildCharts);
+}
+</script>
+
+</body>
+</html>
