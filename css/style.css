@@ -410,8 +410,10 @@ figure.image img {
 }
 
 .sidebar-name {
+  font-size: 1.45rem !important;
   margin-top: 0.25rem !important;
   margin-bottom: 0.35rem !important;
+  white-space: nowrap;
 }
 
 .sidebar-tagline {
@@ -434,7 +436,7 @@ figure.image img {
 .hero-teaser {
   width: 100%;
   text-align: right;
-  margin-bottom: 1rem;
+  margin-bottom: 0.25rem;
 }
 
 .hero-teaser-img {
@@ -447,8 +449,8 @@ figure.image img {
   border: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
-          mask-image: linear-gradient(to right, transparent 0%, black 30%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
 }
 
 .hero-teaser-img:hover {
@@ -463,4 +465,35 @@ figure.image img {
   .hero-teaser-img {
     max-height: 160px;
   }
+}
+
+/* Quick-links pill row under the intro */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.quick-links a,
+.quick-links a:link,
+.quick-links a:visited {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-accent);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.quick-links a:hover,
+.quick-links a:focus {
+  background: #f1f5f9;
+  border-color: rgba(30, 41, 59, 0.18);
+  transform: translateY(-1px);
+  text-decoration: none;
 }
