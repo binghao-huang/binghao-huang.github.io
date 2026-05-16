@@ -435,16 +435,15 @@ figure.image img {
 /* Hero teaser at top of main content column */
 .hero-teaser {
   width: 100%;
-  text-align: right;
   margin-bottom: 0.25rem;
 }
 
 .hero-teaser-img {
-  display: inline-block;
-  max-width: 100%;
-  max-height: 240px;
-  width: auto;
-  height: auto;
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  object-position: center;
   opacity: 0.85;
   border: none !important;
   box-shadow: none !important;
