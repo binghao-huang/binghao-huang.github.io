@@ -87,8 +87,57 @@ article.columns {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-soft);
   padding: 0.65rem 0.8rem;
-  margin-bottom: 0.65rem !important;
+  margin-bottom: 1.5rem !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Publications view toggle (show selected / show by date) */
+.pub-toggle {
+  font-weight: 400;
+  font-size: 1rem;
+  margin-left: 0.4rem;
+}
+
+.pub-toggle a {
+  color: var(--text-secondary, #555);
+  text-decoration: none;
+  margin: 0 0.15rem;
+}
+
+.pub-toggle a:hover {
+  color: var(--text-accent, #1e3a8a);
+  text-decoration: underline;
+}
+
+.pub-toggle a.active {
+  color: var(--text-accent, #000);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Work Experience: single card wraps logo + content; logo image itself has no border/shadow */
+article.columns.work-card {
+  margin-bottom: 1.5rem !important;
+}
+
+.work-card .work-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-card .work-logo img {
+  max-width: 100%;
+  height: auto;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.work-card .work-logo img:hover {
+  transform: none;
+  box-shadow: none !important;
 }
 
 article.columns:hover {
@@ -182,8 +231,17 @@ article.columns .column.is-2 picture img {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1rem;
+  margin: 0 0.3rem;
   box-shadow: var(--shadow-soft);
   transition: transform 0.2s ease;
+}
+
+.columns.is-centered .column:first-child {
+  margin-left: 0;
+}
+
+.columns.is-centered .column:last-child {
+  margin-right: 0;
 }
 
 .columns.is-centered .column:hover {
