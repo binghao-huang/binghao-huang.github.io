@@ -404,11 +404,28 @@ figure.image img {
   opacity: 0.55;
 }
 
-/* Sidebar tagline (was <h6> — name in Chinese / research area / status) */
+/* Sidebar: tighten avatar / name / tagline spacing */
+.sticky figure.image.is-128x128 {
+  margin: 0 auto 0.75rem;
+}
+
+.sidebar-name {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.35rem !important;
+}
+
 .sidebar-tagline {
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-muted);
-  line-height: 1.4;
-  margin: 0.25rem 0 0.5rem;
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+}
+
+/* Sidebar email — never let the address overflow the narrow column */
+.sidebar-email {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+  margin-top: 0.25rem;
 }
