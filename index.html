@@ -19,10 +19,9 @@
   <script defer src="font-awesome-5.9.0/js/fontawesome.min.js"></script>
   <script src="js/menuspy.js"></script>
 	<script type="text/javascript">
-		function toggle_vis(id) {
-	    // var e = document.getElementById(id);
+		function toggle_vis(id, btnId) {
 	    var e = document.getElementsByClassName(id);
-			var showText = document.getElementById("showText");
+	    var showText = document.getElementById(btnId || "showText");
 			for (var i = 0; i < e.length; i++) {
 		    	if (e[i].style.display == "none") {
 		        	e[i].style.display = "inline";
@@ -43,33 +42,33 @@
         <div class="column is-2">
           <div class="sticky">
             <figure class="image is-128x128">
-              <img class="is-rounded" src="/images/IMG_0205.jpg" alt="Portrait of Binghao Huang">
+              <img class="is-rounded" src="images/IMG_0205.jpg" alt="Portrait of Binghao Huang">
             </figure>
             <div class="content">
               <h3>Binghao Huang</h3>
-              <h6>黄秉豪<br />Robot Learning<br /><br />CS Ph.D. student</h6>
+              <p class="sidebar-tagline">黄秉豪<br />Robot Learning<br /><br />CS Ph.D. student</p>
             </div>
             <!-- details -->
             <div class="details">
               <h3>EMAIL</h3>
-              <p><a href="mailto:binghao.huang@columbia.edu">binghao.huang<br>[at]columbia[dot]edu</a></p>
+              <p><a href="mailto:binghao.huang@columbia.edu">binghao.huang@columbia.edu</a></p>
             </div>
             <!-- social network icons -->
             <div class="social">
-              <a href="https://github.com/binghao-huang" target="_blank" rel="noopener noreferrer">
-                <span class="fab fa-github fa-2x" style="display:inline; text-decoration: none"></span>
+              <a href="https://github.com/binghao-huang" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <span class="fab fa-github fa-2x"></span>
               </a>
-              <a href="https://scholar.google.com/citations?user=nqoOetAAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener noreferrer">
-                <span class="fab fa-google fa-2x" style="display:inline; text-decoration: none"></span>
+              <a href="https://scholar.google.com/citations?user=nqoOetAAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar">
+                <span class="fab fa-google fa-2x"></span>
               </a>
-              <a href="https://www.linkedin.com/in/binghao-huang" target="_blank" rel="noopener noreferrer">
-                <span class="fab fa-linkedin fa-2x" style="display:inline; text-decoration: none"></span>
+              <a href="https://www.linkedin.com/in/binghao-huang" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <span class="fab fa-linkedin fa-2x"></span>
               </a>
-              <a href="https://twitter.com/binghao_huang" target="_blank" rel="noopener noreferrer">
-                <span class="fab fa-twitter fa-2x" style="display:inline; text-decoration: none"></span>
+              <a href="https://twitter.com/binghao_huang" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <span class="fab fa-twitter fa-2x"></span>
               </a>
               <a href="blog/" aria-label="Blog">
-                <span class="fas fa-blog fa-2x" style="display:inline; text-decoration: none"></span>
+                <span class="fas fa-blog fa-2x"></span>
               </a>
             </div>
 
@@ -78,13 +77,12 @@
               <p class="menu-label"><b>Quick Links</b></p>
               <ul class="menu-list">
                 <li><a href="#intro">Intro</a></li>
-                <li><a href="#publication">Publication</a></li>
+                <li><a href="#publication">Publications</a></li>
                 <li><a href="#robot_system">Robot Systems</a></li>
-                <!-- <li><a href="#research experience">Research Experience</a></li> -->
-                <li><a href="#work-experience">Professional Service</a></li>
+                <li><a href="#work-experience">Work Experience</a></li>
+                <li><a href="#professional-service">Professional Service</a></li>
                 <li><a href="#interests">Interests</a></li>
                 <li><a href="blog/">Blog</a></li>
-
               </ul>
             </div>
           </div>
@@ -102,37 +100,26 @@
             <!--Intro-->
             <h3 id="intro">Intro</h3>
             <p> I'm a third-year Ph.D. student in CS at Columbia University,
-              advised by Prof. <a href="https://yunzhuli.github.io/" style="text-decoration: underline;"><b>Yunzhu
+              advised by Prof. <a href="https://yunzhuli.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;"><b>Yunzhu
                   Li</b></a>.
-              I received M.S. from Mechanical and Aerospace Engineering at UC
+              I received my M.S. in Mechanical and Aerospace Engineering from UC
               San Diego, advised by Prof.
               <a href="https://xiaolonw.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;"><b>Xiaolong
-                  Wang</b></a>. 
-                  
-                  <!-- Prior to joining UCSD, I worked at <a href="http://www.fsie-zju.com/" target="_blank" rel="noopener noreferrer"
-                style="text-decoration: underline;"> <b>Lab of Flexible
-                  Sensors and Intelligent Interaction</b></a> with Prof.<a href="http://www.fsie-zju.com/team/"
-                target="_blank" rel="noopener noreferrer" style="text-decoration: underline;"><b>Geng Yang</b></a> at Zhejiang University.  -->
-                
+                  Wang</b></a>.
                 I've
               also had great experiences working at <a href="https://research.nvidia.com/labs/srl/" target="_blank" rel="noopener noreferrer"
                 style="text-decoration: underline;"><b>
                   NVIDIA Seattle Robotics Lab</b></a> and <a href="https://www.amazon.science/research-areas/robotics" target="_blank" rel="noopener noreferrer"
-                style="text-decoration: underline;"><b>Amazon Frontier AI & Robotics</b></a>.
+                style="text-decoration: underline;"><b>Amazon Frontier AI &amp; Robotics</b></a>.
               <br />
               <br />
-              My research interests lie in <b>Robot Learning, Dexterous Manipulation, Multi-Modal Perception</b>. 
-              <!-- My
-              research goal is to develop a robust robotic
-              system that can function similarly to humans and possess a deep understanding of its surrounding
-              environment - not just visually but also through touch and other physical cues. If you have any questions about tactile sensors or potential collaborations, please schedule an appointment with me: <a
-              href="https://calendly.com/bh2966-columbia/office-hour">Schedule a Meeting</a>.<br> -->
+              My research interests lie in <b>Robot Learning, Dexterous Manipulation, Tactile Sensing, Multi-Modal Perception</b>.
             </p>
             <a href="mailto:binghao.huang@columbia.edu">Email</a> /
-            <a href="files/Resume_binghaohuang_2025.pdf">CV_25.07</a> /
-            <a href="https://scholar.google.com/citations?user=nqoOetAAAAAJ&hl=en&oi=ao">Google Scholar</a> /
-            <a href="https://twitter.com/binghao_huang">Twitter</a> /
-            <a href="https://space.bilibili.com/1560961">Bilibili Video Channel</a> /
+            <a href="files/Resume_binghaohuang_2025.pdf" target="_blank" rel="noopener noreferrer">CV_25.07</a> /
+            <a href="https://scholar.google.com/citations?user=nqoOetAAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener noreferrer">Google Scholar</a> /
+            <a href="https://twitter.com/binghao_huang" target="_blank" rel="noopener noreferrer">Twitter</a> /
+            <a href="https://space.bilibili.com/1560961" target="_blank" rel="noopener noreferrer">Bilibili Video Channel</a> /
             <a href="blog/"><b>Blog</b></a>
 
 
@@ -140,71 +127,63 @@
             <div class="row">
               <div class="col-md-4">
                   <b>Learning with Flexible Tactile Skin</b><br>
-                  [2025/10] <b>Invited Talk, <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/"><b>UPenn GRASP</b></a></b><br>
+                  [2025/10] <b>Invited Talk, <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><b>UPenn GRASP</b></a></b><br>
                   <iframe src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg"  width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
-                  <!-- <div class="col-md-4">
-
-                  </div>
-                  <div class="col-md-4">
- 
-                  </div> -->
             </div>
             • [2026/05] Awarded the <font color="firebrick"><b>Qualcomm Innovation Fellowship 2026</b></font>. <a href="https://www.qualcomm.com/research/university-relations/innovation-fellowship/2026-north-america" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br />
             • [2026/05] Started my internship at <a href="https://www.amazon.science/research-areas/robotics" target="_blank" rel="noopener noreferrer"><b>Amazon, Frontier AI & Robotics</b></a>. <br />
             • [2026/03] Released <a href="https://flexitac.github.io/" target="_blank" rel="noopener noreferrer"><b>FlexiTac</b></a>, an open-source, scalable tactile solution for robotic systems. <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener noreferrer"><b>[Hardware Code]</b></a> <a href="https://github.com/binghao-huang/FlexiTac-IsaacSim-Simulation" target="_blank" rel="noopener noreferrer"><b>[Simulation]</b></a><br />
-            • [2025/11] Invited Talk at <a href="https://engineering.nyu.edu/research/centers/nyu-center-robotics-and-embodied-intelligence-creo"><b>New York University, General-purpose Robotics and AI Lab </b></a>. <br />
-            • [2025/11] Invited Talk at <a href="https://www.amazon.science/research-areas/robotics"><b>Amazon, Frontier AI & Robotics</b></a>.<br />
+            • [2025/11] Invited Talk at <a href="https://engineering.nyu.edu/research/centers/nyu-center-robotics-and-embodied-intelligence-creo" target="_blank" rel="noopener noreferrer"><b>New York University, General-purpose Robotics and AI Lab </b></a>. <br />
+            • [2025/11] Invited Talk at <a href="https://www.amazon.science/research-areas/robotics" target="_blank" rel="noopener noreferrer"><b>Amazon, Frontier AI & Robotics</b></a>.<br />
             • [2025/10] Our paper <a href="https://binghao-huang.github.io/vt_refine/" target="_blank" rel="noopener noreferrer"><b>VT-Refine</b></a> receives the <font color="firebrick"><b>Best Paper Award</b></font> at <b>IROS 2025</b> AHFHR Workshop. <a href="https://fsie-robotics.com/IROS2025-Workshop-AHFHR/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br />
-            • [2025/10] Invited Talk at <a href="https://robotics.pratt.duke.edu/"><b>Duke Robotics</b></a>.<br />
-            • [2025/10] Invited Talk at <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/"><b>UPenn GRASP SFI Seminar Series</b></a>.<br />
-            • [2025/08] Keynote Speaker at <a href="https://lu.ma/iqjrwcal"><b>UW AI & Robotics Data Summit</b></a>.<br />
+            • [2025/10] Invited Talk at <a href="https://robotics.pratt.duke.edu/" target="_blank" rel="noopener noreferrer"><b>Duke Robotics</b></a>.<br />
+            • [2025/10] Invited Talk at <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><b>UPenn GRASP SFI Seminar Series</b></a>.<br />
+            • [2025/08] Keynote Speaker at <a href="https://lu.ma/iqjrwcal" target="_blank" rel="noopener noreferrer"><b>UW AI & Robotics Data Summit</b></a>.<br />
             • [2025/08] One paper is accepted by CoRL 2025. <br />
-            • [2025/07] Released our new work <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer"><b>Touch in the wild</b></a> and <a href="https://github.com/YolandaXinyueZhu/touch_in_the_wild" target="_blank" rel="noopener noreferrer"><b>Code</b></a>.<br />
-            • [2025/07] Invited Talk at <a href="https://ai.facebook.com/research/"><b>Facebook AI Research(FAIR).</b></a> <a href="files/1h_vt_refine.pdf">[Slides]</a><br/>
+            • [2025/07] Released our new work <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer"><b>Touch in the Wild</b></a> and <a href="https://github.com/YolandaXinyueZhu/touch_in_the_wild" target="_blank" rel="noopener noreferrer"><b>Code</b></a>.<br />
+            • [2025/07] Invited Talk at <a href="https://ai.facebook.com/research/" target="_blank" rel="noopener noreferrer"><b>Facebook AI Research (FAIR).</b></a> <a href="files/1h_vt_refine.pdf" target="_blank" rel="noopener noreferrer">[Slides]</a><br/>
             • [2025/06] Our paper <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer"><b>Touch in the Wild</b></a> is awarded the <font color="firebrick"><b>Best Demo Award</b></font> at <b>RSS 2025</b> Workshop on Robot Hardware-Aware Intelligence. <a href="https://rss-hardware-intelligence.github.io/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br />
             • [2025/06] Invited Talk at <a href="https://www.me.washington.edu/" target="_blank" rel="noopener noreferrer"><b>
-              University of Washington, Mechanical Engineering Department</b></a>. <a href="files/1h_talk.pdf">[Slides]</a><br />
+              University of Washington, Mechanical Engineering Department</b></a>. <a href="files/1h_talk.pdf" target="_blank" rel="noopener noreferrer">[Slides]</a><br />
             <div class="talks" style="display:none">
-            • [2025/05] Started my 2nd time internship at <a href="https://research.nvidia.com/labs/srl/" target="_blank" rel="noopener noreferrer"><b>
-              NVIDIA Seattle Robotics Lab</b></a> <br />
+            • [2025/05] Started my 2nd internship at <a href="https://research.nvidia.com/labs/srl/" target="_blank" rel="noopener noreferrer"><b>
+              NVIDIA Seattle Robotics Lab</b></a>. <br />
             • [2025/05] Check out our newly released Tactile Skin Toolkits <a href="./tactile-skin-tool/index.html" target="_blank" rel="noopener noreferrer"><b>here</b></a>!<br />
             • [2025/04] Invited Talk at <a href="https://robotics.umd.edu/" target="_blank" rel="noopener noreferrer"><b>
-              UMD Multisensory Machine Intelligence Lab</b></a> .<a href="files/1h_talk.pdf">[Slides]</a> <br />
-            • [2025/02] Invited Talk at Samsung Research America. <a href="files/1h_talk.pdf">[Slides]</a><br />
-            • [2025/02] Invited Talk at <a href="https://cs.nyu.edu/~fouhey/NYCVision2025/"><b>NYC Computer Vision Day 2025</b></a>. <br />
+              UMD Multisensory Machine Intelligence Lab</b></a>. <a href="files/1h_talk.pdf" target="_blank" rel="noopener noreferrer">[Slides]</a><br />
+            • [2025/02] Invited Talk at Samsung Research America. <a href="files/1h_talk.pdf" target="_blank" rel="noopener noreferrer">[Slides]</a><br />
+            • [2025/02] Invited Talk at <a href="https://cs.nyu.edu/~fouhey/NYCVision2025/" target="_blank" rel="noopener noreferrer"><b>NYC Computer Vision Day 2025</b></a>. <br />
             • [2024/12] In just <b>a month</b>, our tactile sensor has been <b>reproduced</b> and adopted worldwide by both academia and industry: <a href="https://x.com/binghao_huang/status/1869492411908677877" target="_blank" rel="noopener noreferrer"><b>[Twitter Link]</b></a>  <br />
-            • [2024/11] Released our Corl 2024 paper <a href="https://binghao-huang.github.io/3D-ViTac/" target="_blank" rel="noopener noreferrer"><b>3D-ViTac</b></a> and <a href="https://docs.google.com/document/d/1XGyn-iV_wzRmcMIsyS3kwcrjxbnvblZAyigwbzDsX-E/edit?tab=t.0#heading=h.ny8zu0pq9mxy" target="_blank" rel="noopener noreferrer"><b>Tactile Hardware Guide</b></a>. <br />
+            • [2024/11] Released our CoRL 2024 paper <a href="https://binghao-huang.github.io/3D-ViTac/" target="_blank" rel="noopener noreferrer"><b>3D-ViTac</b></a> and <a href="https://docs.google.com/document/d/1XGyn-iV_wzRmcMIsyS3kwcrjxbnvblZAyigwbzDsX-E/edit?tab=t.0#heading=h.ny8zu0pq9mxy" target="_blank" rel="noopener noreferrer"><b>Tactile Hardware Guide</b></a>. <br />
             • [2024/09] Three papers are accepted by CoRL 2024. <br />
-            • [2024/06] My new journey will be a CS Ph.D. at <a href="https://www.columbia.edu/"><b>Columbia
-              University</b></a> starting from 2024 Fall, working with <a href="https://yunzhuli.github.io/"><b>Prof. Yunzhu Li</b></a>. <br />
+            • [2024/06] My new journey will be a CS Ph.D. at <a href="https://www.columbia.edu/" target="_blank" rel="noopener noreferrer"><b>Columbia
+              University</b></a> starting in Fall 2024, working with <a href="https://yunzhuli.github.io/" target="_blank" rel="noopener noreferrer"><b>Prof. Yunzhu Li</b></a>. <br />
             • [2024/05] Started my internship at <a href="https://research.nvidia.com/labs/srl/" target="_blank" rel="noopener noreferrer"><b>
-                NVIDIA Seattle Robotics Lab</b></a> <br />
+                NVIDIA Seattle Robotics Lab</b></a>. <br />
             • [2024/01] Two papers are accepted by ICRA 2024. <br />
             • [2023/09] One paper is accepted by CoRL 2023. <br />
-            • [2023/07] Our RSS paper <a href="https://touchdexterity.github.io/"><b>Rotating without Seeing</b></a> is
+            • [2023/07] Our RSS paper <a href="https://touchdexterity.github.io/" target="_blank" rel="noopener noreferrer"><b>Rotating without Seeing</b></a> is
             covered in <a
-              href="https://www.scientificamerican.com/article/new-robot-hand-works-by-feel-not-sight/"><b>Scientific
+              href="https://www.scientificamerican.com/article/new-robot-hand-works-by-feel-not-sight/" target="_blank" rel="noopener noreferrer"><b>Scientific
                 American</b></a>. <br>
             • [2023/07] I am co-organizing the Workshop on <a
-              href="https://learn-dex-hand.github.io/rss2023/"><b>Learning Dexterous Manipulation</b></a> in RSS
+              href="https://learn-dex-hand.github.io/rss2023/" target="_blank" rel="noopener noreferrer"><b>Learning Dexterous Manipulation</b></a> in RSS
             2023. <br />
             
-              • [2023/05] Invited Talk at <a href="https://ai.facebook.com/research/"><b>Facebook AI
-                  Research(FAIR)</b></a><br />
-              • [2023/03] My new journey will be a CS Ph.D. at <a href="https://illinois.edu/"><b>UIUC</b></a> starting
-              from 2023 Fall, working with <a href="https://yunzhuli.github.io/"><b>Prof. Yunzhu Li</b></a>. <br />
+              • [2023/05] Invited Talk at <a href="https://ai.facebook.com/research/" target="_blank" rel="noopener noreferrer"><b>Facebook AI Research (FAIR)</b></a>.<br />
+              • [2023/03] My new journey will be a CS Ph.D. at <a href="https://illinois.edu/" target="_blank" rel="noopener noreferrer"><b>UIUC</b></a> starting in Fall 2023, working with <a href="https://yunzhuli.github.io/" target="_blank" rel="noopener noreferrer"><b>Prof. Yunzhu Li</b></a>. <br />
               • [2023/03] Two Papers are accepted by RSS 2023. <br />
               • [2023/03] One Paper is accepted by RA-L 2023. <br />
-              • [2023/03] Awarded the degree of Master of Science in <a href="https://mae.ucsd.edu/"><b>Mechanical and
-                  Aerospace Engineering</b></a> at <a href="https://ucsd.edu/"><b>University of California, San Diego
+              • [2023/03] Awarded the degree of Master of Science in <a href="https://mae.ucsd.edu/" target="_blank" rel="noopener noreferrer"><b>Mechanical and
+                  Aerospace Engineering</b></a> at <a href="https://ucsd.edu/" target="_blank" rel="noopener noreferrer"><b>University of California, San Diego
                   (UCSD)</b></a>. <br />
               • [2022/08] One paper is accepted by CoRL 2022. <br />
             </div>
 
-            <li style="font-size: 16px">
+            <div style="font-size: 16px; margin-top: 0.5rem;">
               <a href="javascript:toggle_vis('talks')" id="showText">[Show more]</a>
-            </li>
+            </div>
 
             <h3 id="publication">
               Publications
@@ -213,7 +192,7 @@
                 <a href="#publication" id="select1" onclick="showPubs(1); return false;">show by date</a>)
               </small></small>
             </h3>
-            <em><sup>*</sup> Equal contribution, <sup>+</sup> Equal advising</em><br>
+            <em><sup>*</sup> Equal contribution, <sup>+</sup>/<sup>†</sup> Equal advising</em><br>
             <br />
             <div id="pubs_selected">
             <article class="columns">
@@ -226,10 +205,12 @@
                 <div class="content">
                   <p>
                     <b>FlexiTac: An Open-Source, Scalable Tactile Solution for Robotic Systems</b><br>
-                        <a href="https://binghao-huang.github.io/"><b> Binghao Huang </b></a>,
-                        <a href="https://yunzhuli.github.io/">Yunzhu Li</a>
+                    <a href="https://binghao-huang.github.io/"><b>Binghao Huang</b></a>,
+                    <a href="https://yunzhuli.github.io/">Yunzhu Li</a>
                     <br>
+                    <em>arXiv preprint, 2026</em><br>
                     <a href="https://flexitac.github.io/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
+                    <a href="https://arxiv.org/abs/2604.28156" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
                     <a href="https://www.youtube.com/watch?v=HYmMbsrwWFA" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
                     <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener noreferrer">[<u>Hardware Code</u>]</a>
                     <a href="https://docs.google.com/document/d/1bvz6AL7BUkhj4Dj7n9DFXTjnGIX4-ziN8-smiCKpVZU/edit?tab=t.0#heading=h.kk7d14qme9db" target="_blank" rel="noopener noreferrer">[<u>Hardware Tutorial</u>]</a>
@@ -249,7 +230,7 @@
                   <p>
                     <b>VT-Refine: Learning Bimanual Assembly with
                       Visuo-Tactile Feedback via Simulation Fine-Tuning</b><br>
-                        <a href="https://binghao-huang.github.io/"><b> Binghao Huang </b></a>,
+                        <a href="https://binghao-huang.github.io/"><b>Binghao Huang</b></a>,
                         <a href="https://people.csail.mit.edu/jiex/">Jie Xu</a>,
                         <a href="https://research.nvidia.com/person/iretiayo-akinola">Iretiayo Akinola</a>,
                         <a href="https://wyang.me/">Wei Yang</a>,
@@ -262,7 +243,7 @@
                         <a href="https://yunzhuli.github.io/">Yunzhu Li</a><sup>†</sup>
                     <br>
                     <em>Conference on Robot Learning (<b>CoRL</b>), 2025</em><br>
-                    <font color="firebrick"><b>Best Paper Award</b></font> at <b>IROS 2025</b> AHFHR Workshop <a href="https://fsie-robotics.com/IROS2025-Workshop-AHFHR/" target="_blank" rel="noopener noreferrer"> [Link]</a><br>
+                    <font color="firebrick"><b>Best Paper Award</b></font> at <b>IROS 2025</b> AHFHR Workshop <a href="https://fsie-robotics.com/IROS2025-Workshop-AHFHR/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br>
                     <a href="https://binghao-huang.github.io/vt_refine/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
                     <a href="https://openreview.net/forum?id=bOVF8Rj33i#discussion" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
                     <a href="https://www.youtube.com/watch?v=AEt30ttJ9A8" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
@@ -282,16 +263,15 @@
                   <p>
                     <b>Touch in the Wild:
                       Learning Fine-Grained Manipulation with a Portable Visuo-Tactile Gripper</b><br>
-                      <a href="https://xinyuezhu.com/">Xinyue Zhu</a><sup>*</sup>,
-                      <a href="https://binghao-huang.github.io/"><b> Binghao Huang </b> <sup>*</sup></a>,
-                      <a href="https://yunzhuli.github.io/">Yunzhu Li</a> <br />
-                      <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
-                      <a href="https://arxiv.org/abs/2507.15062v1" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a> 
-                      <a href="https://www.youtube.com/watch?v=gMoedqqJ0Rg" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
-                      <a href="https://github.com/YolandaXinyueZhu/touch_in_the_wild" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a>
-                      <br />
-                      <em>Conference on Neural Information Processing Systems (<b>NeurIPS</b>), 2025</em><br>
-                      <font color="firebrick"><b>Best Demo Award</b></font> at <b>RSS 2025</b> Workshop on Robot Hardware-Aware Intelligence <a href="https://rss-hardware-intelligence.github.io/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br>
+                    <a href="https://xinyuezhu.com/">Xinyue Zhu<sup>*</sup></a>,
+                    <a href="https://binghao-huang.github.io/"><b>Binghao Huang<sup>*</sup></b></a>,
+                    <a href="https://yunzhuli.github.io/">Yunzhu Li</a><br>
+                    <em>Conference on Neural Information Processing Systems (<b>NeurIPS</b>), 2025</em><br>
+                    <font color="firebrick"><b>Best Demo Award</b></font> at <b>RSS 2025</b> Workshop on Robot Hardware-Aware Intelligence <a href="https://rss-hardware-intelligence.github.io/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br>
+                    <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
+                    <a href="https://arxiv.org/abs/2507.15062v1" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
+                    <a href="https://www.youtube.com/watch?v=gMoedqqJ0Rg" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
+                    <a href="https://github.com/YolandaXinyueZhu/touch_in_the_wild" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a>
                     </p>
                 </div>
               </div>
@@ -309,7 +289,6 @@
                 <div class="content">
                   <p>
                     <b>Multi-Modal Manipulation via Multi-Modal Policy Consensus</b><br>
-                    <em>International Conference on Robotics & Automation (<b>ICRA</b>), 2026</em><br>
                     <a href="https://haonan16.github.io/">Haonan Chen</a>,
                     <a href="https://www.linkedin.com/in/jiaming-xu-7b4857264/">Jiaming Xu<sup>*</sup></a>,
                     <a href="https://www.linkedin.com/in/hongyu-chen-91996b22b">Hongyu Chen<sup>*</sup></a>,
@@ -321,6 +300,7 @@
                     <a href="https://yilundu.github.io/">Yilun Du<sup>+</sup></a>, and
                     <a href="https://krdc.web.illinois.edu/">Katherine Driggs-Campbell<sup>+</sup></a>
                     <br />
+                    <em>International Conference on Robotics and Automation (<b>ICRA</b>), 2026</em><br />
 
                     
 
@@ -369,7 +349,6 @@
             </article>
 
 
-            <!-- <article class="columns" style="background-color: rgb(250, 248, 223);"> -->
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
@@ -379,7 +358,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Dynamic Handover: Throw and Catch with Bimanual Hands </b></i><br>
+                    <b>Dynamic Handover: Throw and Catch with Bimanual Hands</b><br>
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang*</b></a>,
                     <a href="https://cypypccpy.github.io/">Yuanpei Chen*</a>,
                     <a href="https://tianyudwang.github.io/">Tianyu Wang</a>,
@@ -406,7 +385,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Robot Synesthesia: In-Hand Manipulation with Visuotactile Sensing </b></i><br>
+                    <b>Robot Synesthesia: In-Hand Manipulation with Visuotactile Sensing</b><br>
                     <a href="https://yingyuan0414.github.io/">Ying Yuan*</a>,
                     Haichuan Che*,
                     <a href="https://yzqin.github.io/">Yuzhe Qin*</a>,
@@ -415,9 +394,9 @@
                     Kang-Won Lee, Yi Wu, Soo-Chul Lim,
                     <a href="https://xiaolonw.github.io/">Xiaolong Wang</a><br>
                     <em>International Conference on Robotics and Automation (<b>ICRA</b>), 2024</em><br>
-                    <a href="https://yingyuan0414.github.io/visuotactile/" target="_blank" rel="noopener noreferrer">[<u>webpage</u>]</a>
-                    <a href="https://arxiv.org/abs/2312.01853" target="_blank" rel="noopener noreferrer">[<u>arxiv</u>]</a>
-                    <a href="https://github.com/YingYuan0414/in-hand-rotation" target="_blank" rel="noopener noreferrer">[<u>code</u>]</a>
+                    <a href="https://yingyuan0414.github.io/visuotactile/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
+                    <a href="https://arxiv.org/abs/2312.01853" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
+                    <a href="https://github.com/YingYuan0414/in-hand-rotation" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a>
                   </p>
                 </div>
               </div>
@@ -432,7 +411,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Rotating without Seeing: Towards In-hand Dexterity through Touch</b></i><br>
+                    <b>Rotating without Seeing: Towards In-hand Dexterity through Touch</b><br>
                     <a href="https://zhaohengyin.github.io/">Zhao-Heng Yin*</a>,
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang*</b></a>,
                     <a href="https://yzqin.github.io/">Yuzhe Qin</a>,
@@ -457,7 +436,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>AnyTeleop: A General Vision-Based Dexterous Robot Arm-Hand Teleoperation System</b></i><br>
+                    <b>AnyTeleop: A General Vision-Based Dexterous Robot Arm-Hand Teleoperation System</b><br>
                     <a href="https://yzqin.github.io/">Yuzhe Qin</a>,
                     <a href="https://wyang.me/">Wei Yang</a>,
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang</b></a>,
@@ -486,8 +465,8 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>DexPoint: Generalizable Point Cloud Reinforcement Learning for Sim-to-Real Dexterous
-                        Manipulation</b></i><br>
+                    <b>DexPoint: Generalizable Point Cloud Reinforcement Learning for Sim-to-Real Dexterous
+                        Manipulation</b><br>
                     <a href="https://yzqin.github.io/">Yuzhe Qin*</a>,
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang*</b></a>,
                     <a href="https://zhaohengyin.github.io/">Zhao-Heng Yin</a>,
@@ -540,10 +519,12 @@
                 <div class="content">
                   <p>
                     <b>FlexiTac: An Open-Source, Scalable Tactile Solution for Robotic Systems</b><br>
-                        <a href="https://binghao-huang.github.io/"><b> Binghao Huang </b></a>,
-                        <a href="https://yunzhuli.github.io/">Yunzhu Li</a>
+                    <a href="https://binghao-huang.github.io/"><b>Binghao Huang</b></a>,
+                    <a href="https://yunzhuli.github.io/">Yunzhu Li</a>
                     <br>
+                    <em>arXiv preprint, 2026</em><br>
                     <a href="https://flexitac.github.io/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
+                    <a href="https://arxiv.org/abs/2604.28156" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
                     <a href="https://www.youtube.com/watch?v=HYmMbsrwWFA" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
                     <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener noreferrer">[<u>Hardware Code</u>]</a>
                     <a href="https://docs.google.com/document/d/1bvz6AL7BUkhj4Dj7n9DFXTjnGIX4-ziN8-smiCKpVZU/edit?tab=t.0#heading=h.kk7d14qme9db" target="_blank" rel="noopener noreferrer">[<u>Hardware Tutorial</u>]</a>
@@ -612,7 +593,7 @@
                   <p>
                     <b>VT-Refine: Learning Bimanual Assembly with
                       Visuo-Tactile Feedback via Simulation Fine-Tuning</b><br>
-                        <a href="https://binghao-huang.github.io/"><b> Binghao Huang </b></a>,
+                        <a href="https://binghao-huang.github.io/"><b>Binghao Huang</b></a>,
                         <a href="https://people.csail.mit.edu/jiex/">Jie Xu</a>,
                         <a href="https://research.nvidia.com/person/iretiayo-akinola">Iretiayo Akinola</a>,
                         <a href="https://wyang.me/">Wei Yang</a>,
@@ -625,7 +606,7 @@
                         <a href="https://yunzhuli.github.io/">Yunzhu Li</a><sup>†</sup>
                     <br>
                     <em>Conference on Robot Learning (<b>CoRL</b>), 2025</em><br>
-                    <font color="firebrick"><b>Best Paper Award</b></font> at <b>IROS 2025</b> AHFHR Workshop <a href="https://fsie-robotics.com/IROS2025-Workshop-AHFHR/" target="_blank" rel="noopener noreferrer"> [Link]</a><br>
+                    <font color="firebrick"><b>Best Paper Award</b></font> at <b>IROS 2025</b> AHFHR Workshop <a href="https://fsie-robotics.com/IROS2025-Workshop-AHFHR/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br>
                     <a href="https://binghao-huang.github.io/vt_refine/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
                     <a href="https://openreview.net/forum?id=bOVF8Rj33i#discussion" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
                     <a href="https://www.youtube.com/watch?v=AEt30ttJ9A8" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
@@ -645,16 +626,15 @@
                   <p>
                     <b>Touch in the Wild:
                       Learning Fine-Grained Manipulation with a Portable Visuo-Tactile Gripper</b><br>
-                      <a href="https://xinyuezhu.com/">Xinyue Zhu</a><sup>*</sup>,
-                      <a href="https://binghao-huang.github.io/"><b> Binghao Huang </b> <sup>*</sup></a>,
-                      <a href="https://yunzhuli.github.io/">Yunzhu Li</a> <br />
-                      <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
-                      <a href="https://arxiv.org/abs/2507.15062v1" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a> 
-                      <a href="https://www.youtube.com/watch?v=gMoedqqJ0Rg" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
-                      <a href="https://github.com/YolandaXinyueZhu/touch_in_the_wild" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a>
-                      <br />
-                      <em>Conference on Neural Information Processing Systems (<b>NeurIPS</b>), 2025</em><br>
-                      <font color="firebrick"><b>Best Demo Award</b></font> at <b>RSS 2025</b> Workshop on Robot Hardware-Aware Intelligence <a href="https://rss-hardware-intelligence.github.io/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br>
+                    <a href="https://xinyuezhu.com/">Xinyue Zhu<sup>*</sup></a>,
+                    <a href="https://binghao-huang.github.io/"><b>Binghao Huang<sup>*</sup></b></a>,
+                    <a href="https://yunzhuli.github.io/">Yunzhu Li</a><br>
+                    <em>Conference on Neural Information Processing Systems (<b>NeurIPS</b>), 2025</em><br>
+                    <font color="firebrick"><b>Best Demo Award</b></font> at <b>RSS 2025</b> Workshop on Robot Hardware-Aware Intelligence <a href="https://rss-hardware-intelligence.github.io/" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br>
+                    <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
+                    <a href="https://arxiv.org/abs/2507.15062v1" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
+                    <a href="https://www.youtube.com/watch?v=gMoedqqJ0Rg" target="_blank" rel="noopener noreferrer">[<u>Video</u>]</a>
+                    <a href="https://github.com/YolandaXinyueZhu/touch_in_the_wild" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a>
                     </p>
                 </div>
               </div>
@@ -672,7 +652,6 @@
                 <div class="content">
                   <p>
                     <b>Multi-Modal Manipulation via Multi-Modal Policy Consensus</b><br>
-                    <em>International Conference on Robotics & Automation (<b>ICRA</b>), 2026</em><br>
                     <a href="https://haonan16.github.io/">Haonan Chen</a>,
                     <a href="https://www.linkedin.com/in/jiaming-xu-7b4857264/">Jiaming Xu<sup>*</sup></a>,
                     <a href="https://www.linkedin.com/in/hongyu-chen-91996b22b">Hongyu Chen<sup>*</sup></a>,
@@ -684,6 +663,7 @@
                     <a href="https://yilundu.github.io/">Yilun Du<sup>+</sup></a>, and
                     <a href="https://krdc.web.illinois.edu/">Katherine Driggs-Campbell<sup>+</sup></a>
                     <br />
+                    <em>International Conference on Robotics and Automation (<b>ICRA</b>), 2026</em><br />
 
                     
 
@@ -788,7 +768,6 @@
             </article>
 
 
-            <!-- <article class="columns" style="background-color: rgb(250, 248, 223);"> -->
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
@@ -798,7 +777,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Dynamic Handover: Throw and Catch with Bimanual Hands </b></i><br>
+                    <b>Dynamic Handover: Throw and Catch with Bimanual Hands</b><br>
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang*</b></a>,
                     <a href="https://cypypccpy.github.io/">Yuanpei Chen*</a>,
                     <a href="https://tianyudwang.github.io/">Tianyu Wang</a>,
@@ -825,7 +804,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Robot Synesthesia: In-Hand Manipulation with Visuotactile Sensing </b></i><br>
+                    <b>Robot Synesthesia: In-Hand Manipulation with Visuotactile Sensing</b><br>
                     <a href="https://yingyuan0414.github.io/">Ying Yuan*</a>,
                     Haichuan Che*,
                     <a href="https://yzqin.github.io/">Yuzhe Qin*</a>,
@@ -834,9 +813,9 @@
                     Kang-Won Lee, Yi Wu, Soo-Chul Lim,
                     <a href="https://xiaolonw.github.io/">Xiaolong Wang</a><br>
                     <em>International Conference on Robotics and Automation (<b>ICRA</b>), 2024</em><br>
-                    <a href="https://yingyuan0414.github.io/visuotactile/" target="_blank" rel="noopener noreferrer">[<u>webpage</u>]</a>
-                    <a href="https://arxiv.org/abs/2312.01853" target="_blank" rel="noopener noreferrer">[<u>arxiv</u>]</a>
-                    <a href="https://github.com/YingYuan0414/in-hand-rotation" target="_blank" rel="noopener noreferrer">[<u>code</u>]</a>
+                    <a href="https://yingyuan0414.github.io/visuotactile/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
+                    <a href="https://arxiv.org/abs/2312.01853" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
+                    <a href="https://github.com/YingYuan0414/in-hand-rotation" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a>
                   </p>
                 </div>
               </div>
@@ -851,7 +830,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Rotating without Seeing: Towards In-hand Dexterity through Touch</b></i><br>
+                    <b>Rotating without Seeing: Towards In-hand Dexterity through Touch</b><br>
                     <a href="https://zhaohengyin.github.io/">Zhao-Heng Yin*</a>,
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang*</b></a>,
                     <a href="https://yzqin.github.io/">Yuzhe Qin</a>,
@@ -876,7 +855,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>AnyTeleop: A General Vision-Based Dexterous Robot Arm-Hand Teleoperation System</b></i><br>
+                    <b>AnyTeleop: A General Vision-Based Dexterous Robot Arm-Hand Teleoperation System</b><br>
                     <a href="https://yzqin.github.io/">Yuzhe Qin</a>,
                     <a href="https://wyang.me/">Wei Yang</a>,
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang</b></a>,
@@ -904,7 +883,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>Learning Continuous Grasping Function with a Dexterous Hand from Human Demonstrations</b></i><br>
+                    <b>Learning Continuous Grasping Function with a Dexterous Hand from Human Demonstrations</b><br>
                     <a href="https://jianglongye.com/">Jianglong Ye</a><sup>*</sup>,
                     Jiashun Wang<sup>*</sup>,
                     <b>Binghao Huang</b>,
@@ -930,8 +909,8 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <i><b>DexPoint: Generalizable Point Cloud Reinforcement Learning for Sim-to-Real Dexterous
-                        Manipulation</b></i><br>
+                    <b>DexPoint: Generalizable Point Cloud Reinforcement Learning for Sim-to-Real Dexterous
+                        Manipulation</b><br>
                     <a href="https://yzqin.github.io/">Yuzhe Qin*</a>,
                     <a href="https://binghao-huang.github.io/"><b>Binghao Huang*</b></a>,
                     <a href="https://zhaohengyin.github.io/">Zhao-Heng Yin</a>,
@@ -975,7 +954,7 @@
             customize, and deploy across robotic systems. Based on the FlexiTac platform, we support fast hardware
             fabrication, tactile simulation for robot learning workflows, and system integration from manipulation
             hardware to real-world learning pipelines.
-            <a href="https://flexitac.github.io/" target="_blank" rel="noopener noreferrer">[<u>Project</u>]</a>
+            <a href="https://flexitac.github.io/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
             <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener noreferrer">[<u>Hardware Repo</u>]</a>
             <a href="https://docs.google.com/document/d/1bvz6AL7BUkhj4Dj7n9DFXTjnGIX4-ziN8-smiCKpVZU/edit?tab=t.0#heading=h.kk7d14qme9db" target="_blank" rel="noopener noreferrer">[<u>Hardware Tutorial</u>]</a>
             <a href="https://github.com/binghao-huang/FlexiTac-IsaacSim-Simulation" target="_blank" rel="noopener noreferrer">[<u>Simulation</u>]</a>
@@ -1018,16 +997,14 @@
                 </div>
               </div>
             </div>
-            <br />
 
             <h4>Tactile Bimanual Manipulation System</h4>
-            <b>If you want to know more about how tactile sensors can benefit your robot system, feel free to contact
-              me.</b> We propose 3D-ViTac, a multi-modal sensing and learning system for dexterous bimanual
+            We propose 3D-ViTac, a multi-modal sensing and learning system for dexterous bimanual
             manipulation. This system features flexible, scalable, low-cost tactile sensors, each finger equipped with a
             16 × 16 sensor
             array. 
             <a href="https://docs.google.com/document/d/1XGyn-iV_wzRmcMIsyS3kwcrjxbnvblZAyigwbzDsX-E/edit?tab=t.0#heading=h.ny8zu0pq9mxy" target="_blank" rel="noopener noreferrer">[<u>Hardware Tutorial</u>]</a>
-            <a href="https://binghao-huang.github.io/3D-ViTac/" target="_blank" rel="noopener noreferrer">[<u>Project</u>]</a>
+            <a href="https://binghao-huang.github.io/3D-ViTac/" target="_blank" rel="noopener noreferrer">[<u>Webpage</u>]</a>
             <a href="https://openreview.net/forum?id=bk28WlkqZn" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
             <br /><br />
             <div class="columns is-centered has-text-centered" style="align-items: stretch;">
@@ -1066,21 +1043,17 @@
                   </div>
                   </div>
                   <h2 class="title is-5" style="margin-top:1rem;">
-                    <a href="https://www.youtube.com/watch?v=8eTpFYgae64">
+                    <a href="https://www.youtube.com/watch?v=8eTpFYgae64" target="_blank" rel="noopener noreferrer">
                       Sensor Tutorial
                     </a>
                   </h2>
                 </div>
               </div>
             </div>
-            <br />
 
 
             <h4>Tactile Dexterous Hand System</h4>
-            We propose Touch Dexterity, a new dexterous manipulation system to perform in-hand object
-            rotation with only touch
-            sensing. On the left, we show our hardware setup with 16 FSR sensors attached to an Allegro
-            hand.<br /><br />
+            We propose Touch Dexterity, a new dexterous manipulation system that performs in-hand object rotation using only touch sensing. The hardware setup uses 16 FSR sensors attached to an Allegro hand.<br /><br />
             <div class="columns is-centered has-text-centered">
               <div class="column">
 
@@ -1090,7 +1063,7 @@
                     <source src="videos/web_hardware.mp4" type="video/mp4" />
                   </video>
                 </div>
-                <h2 class="title is-5"> Hardware Setup</h2>
+                <h2 class="title is-5">Hardware Setup</h2>
               </div>
 
               <div class="column">
@@ -1101,7 +1074,7 @@
                     <source src="videos/real.mp4" type="video/mp4" />
                   </video>
                 </div>
-                <h2 class="title is-5"> In-hand Object Rotation</h2>
+                <h2 class="title is-5">In-hand Object Rotation</h2>
               </div>
 
               <div class="column">
@@ -1112,17 +1085,13 @@
                     <source src="videos/sim.mp4" type="video/mp4" />
                   </video>
                 </div>
-                <h2 class="title is-5"> Contact Signal Simulation </h2>
+                <h2 class="title is-5">Contact Signal Simulation</h2>
               </div>
 
             </div>
-            <br />
 
             <h4>Bimanual Hand Robot System</h4>
-            We propose Dynamic Handover, a new bimanual dexterous hands system designed for throwing and
-            catching tasks. The system consists of two Allegro Hands, each individually attached to a separate XArm
-            robot,
-            arranged in a facing configuration.
+            We propose Dynamic Handover, a new bimanual dexterous-hand system for throwing and catching tasks. It consists of two Allegro hands mounted on XArm robots in a face-to-face configuration.
             <br>
             <br>
 
@@ -1134,7 +1103,7 @@
                     <img src="images/pipeline.jpg" alt="Bimanual hand robot system pipeline" style="border:none; box-shadow:none; border-radius:0; width:100%;">
                   </picture>
                 </div>
-                <h2 class="title is-5"> Hardware Setup</h2>
+                <h2 class="title is-5">Hardware Setup</h2>
               </div>
 
               <div class="column">
@@ -1145,7 +1114,7 @@
                     <source src="videos/throwing_real.mp4" type="video/mp4" />
                   </video>
                 </div>
-                <h2 class="title is-5"> Throw and Catch in Real</h2>
+                <h2 class="title is-5">Throw and Catch in Real</h2>
               </div>
 
               <div class="column">
@@ -1156,53 +1125,46 @@
                     <source src="videos/sim_throwing_small.mp4" type="video/mp4" />
                   </video>
                 </div>
-                <h2 class="title is-5"> System in Simulation </h2>
+                <h2 class="title is-5">System in Simulation</h2>
               </div>
 
             </div>
-            <br />
-            <h4>Humanoid Robot with Peception and Navigation</h4>
-            <p>
-              I have experience in developing a ROS-based control pipeline for a navigation system that utilizes 2D
-              Lidar and depth cameras. Additionally, I have designed a vision-based tracking method that leverages
-              object detection algorithms to enable obstacle avoidance for mobile robots.
-              <a href="/files/HuangBinghao_Final_project.pdf" target="_blank" rel="noopener noreferrer">[<u>paper</u>]</a>
-              <a href="https://github.com/binghao-huang/bulldog-robot-SLAM-ROS" target="_blank" rel="noopener noreferrer">[<u>code</u>]</a><br />
+            <h4>Mobile Robot Navigation &amp; Perception</h4>
+            <div>
+              We developed a ROS-based control pipeline for a mobile-robot navigation system that uses 2D LiDAR and depth cameras, together with a vision-based tracking method built on object detection for obstacle avoidance.
+              <a href="/files/HuangBinghao_Final_project.pdf" target="_blank" rel="noopener noreferrer">[<u>Paper</u>]</a>
+              <a href="https://github.com/binghao-huang/bulldog-robot-SLAM-ROS" target="_blank" rel="noopener noreferrer">[<u>Code</u>]</a><br /><br />
             <div class="columns is-centered has-text-centered">
               <div class="column">
-
-                <div style="text-align:center; width: 95%;">
-                  <picture class="image">
-                    <img alt="Humanoid robot mobile platform" src="images/mobile_1.jpg" style="display:inline-block;">
-                  </picture>
+                <div class="columns is-centered">
+                  <img alt="Mobile robot platform" src="images/mobile_1.jpg"
+                    style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block; border:none; box-shadow:none; border-radius:0;">
                 </div>
-                <h2 class="title is-5"> Hardware Setup </h2>
+                <h2 class="title is-5">Hardware Setup</h2>
               </div>
 
               <div class="column">
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
-                    style="border-radius:10px; ">
+                  <video playsinline="" autoplay="" loop="" preload="" muted=""
+                    style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; display:block;">
                     <source src="videos/mobile_robot_2.mp4" type="video/mp4" />
                   </video>
                 </div>
-                <h2 class="title is-5"> Navigation in Simulation </h2>
+                <h2 class="title is-5">Navigation in Simulation</h2>
               </div>
 
               <div class="column">
-
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
-                    style="border-radius:10px; ">
+                  <video playsinline="" autoplay="" loop="" preload="" muted=""
+                    style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; display:block;">
                     <source src="videos/mobile_robot_real.mp4" type="video/mp4" />
                   </video>
-
                 </div>
-                <h2 class="title is-5"> Navigation in Real World </h2>
+                <h2 class="title is-5">Navigation in Real World</h2>
               </div>
 
             </div>
-            </p>
+            </div>
 
             <br />
 
@@ -1214,7 +1176,7 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <b><a href="https://www.amazon.science/research-areas/robotics">Applied Scientist Intern, Amazon Frontier AI & Robotics</a></b><br>
+                    <b><a href="https://www.amazon.science/research-areas/robotics" target="_blank" rel="noopener noreferrer">Applied Scientist Intern, Amazon Frontier AI &amp; Robotics</a></b><br>
                     05/2026 - Present
                   </p>
                 </div>
@@ -1230,19 +1192,16 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <b><a href="https://www.nvidia.com/en-us/research/robotics/">Robotics Research Intern, NVIDIA</a></b><br>
-                    05/20/2025 - 8/15/2025 <br /><br />
+                    <b><a href="https://www.nvidia.com/en-us/research/robotics/" target="_blank" rel="noopener noreferrer">Robotics Research Intern, NVIDIA</a></b><br>
+                    05/2025 - 08/2025 <br /><br />
                     Mentor:
-                    <a href="https://research.nvidia.com/person/yu-wei-chao" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Yu-Wei Chao</a>,
-                    <a href="https://people.csail.mit.edu/jiex/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Jie
+                    <a href="https://research.nvidia.com/person/yu-wei-chao" target="_blank" rel="noopener noreferrer">Yu-Wei Chao</a>,
+                    <a href="https://people.csail.mit.edu/jiex/" target="_blank" rel="noopener noreferrer">Jie
                       Xu</a>,
-                    <a href="https://research.nvidia.com/person/iretiayo-akinola" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Iretiayo Akinola</a>,
-                    <a href="https://research.nvidia.com/person/wei-yang" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Wei Yang</a>,
+                    <a href="https://research.nvidia.com/person/iretiayo-akinola" target="_blank" rel="noopener noreferrer">Iretiayo Akinola</a>,
+                    <a href="https://research.nvidia.com/person/wei-yang" target="_blank" rel="noopener noreferrer">Wei Yang</a>,
                     and
-                    <a href="http://research.nvidia.com/person/yashraj-narang" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Yashraj Narang</a>
+                    <a href="http://research.nvidia.com/person/yashraj-narang" target="_blank" rel="noopener noreferrer">Yashraj Narang</a>
                   </p>
                 </div>
               </div>
@@ -1257,23 +1216,19 @@
               <div class="column">
                 <div class="content">
                   <p>
-                    <b><a href="https://www.nvidia.com/en-us/research/robotics/">Robotics Research Intern, NVIDIA</a></b><br>
-                    05/20/2024 - 12/24/2024 <br /><br />
+                    <b><a href="https://www.nvidia.com/en-us/research/robotics/" target="_blank" rel="noopener noreferrer">Robotics Research Intern, NVIDIA</a></b><br>
+                    05/2024 - 12/2024 <br /><br />
                     Mentor:
-                    <a href="https://research.nvidia.com/person/yu-wei-chao" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Yu-Wei Chao</a>,
-                    <a href="https://people.csail.mit.edu/jiex/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Jie
+                    <a href="https://research.nvidia.com/person/yu-wei-chao" target="_blank" rel="noopener noreferrer">Yu-Wei Chao</a>,
+                    <a href="https://people.csail.mit.edu/jiex/" target="_blank" rel="noopener noreferrer">Jie
                       Xu</a>,
-                    <a href="https://research.nvidia.com/person/iretiayo-akinola" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Iretiayo Akinola</a>,
-                    <a href="https://research.nvidia.com/person/wei-yang" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Wei Yang</a>,
-                    <a href="https://xiaolonw.github.io/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Xiaolong
+                    <a href="https://research.nvidia.com/person/iretiayo-akinola" target="_blank" rel="noopener noreferrer">Iretiayo Akinola</a>,
+                    <a href="https://research.nvidia.com/person/wei-yang" target="_blank" rel="noopener noreferrer">Wei Yang</a>,
+                    <a href="https://xiaolonw.github.io/" target="_blank" rel="noopener noreferrer">Xiaolong
                       Wang</a>,
-                    <a href="https://research.nvidia.com/person/arsalan-mousavian" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Arsalan
+                    <a href="https://research.nvidia.com/person/arsalan-mousavian" target="_blank" rel="noopener noreferrer">Arsalan
                       Mousavian</a>, and
-                    <a href="https://homes.cs.washington.edu/~fox/" target="_blank" rel="noopener noreferrer"
-                      style="text-decoration: underline;">Dieter Fox</a>.
+                    <a href="https://homes.cs.washington.edu/~fox/" target="_blank" rel="noopener noreferrer">Dieter Fox</a>.
                   </p>
                 </div>
               </div>
@@ -1281,43 +1236,49 @@
 
 
             <h3 id="professional-service">Professional Service</h3>
-            • Conference Reviewer:
+            • Conference Reviewer &mdash;
+            Robotics:
             <a href="https://www.corl.org/program" target="_blank" rel="noopener noreferrer"><u>CoRL</u></a>,
-            <a href="https://iclr.cc/" target="_blank" rel="noopener noreferrer"><u>ICLR</u></a>,
             <a href="https://roboticsconference.org/" target="_blank" rel="noopener noreferrer"><u>RSS</u></a>,
-            <a href="https://www.ieee-ras.org/conferences-workshops/financially-co-sponsored/iros"
-              target="_blank" rel="noopener noreferrer"><u>IROS</u></a>,
-            <a href="https://www.ieee-ras.org/conferences-workshops/fully-sponsored/icra"
-              target="_blank" rel="noopener noreferrer"><u>ICRA</u></a>
+            <a href="https://www.ieee-ras.org/conferences-workshops/fully-sponsored/icra" target="_blank" rel="noopener noreferrer"><u>ICRA</u></a>,
+            <a href="https://www.ieee-ras.org/conferences-workshops/financially-co-sponsored/iros" target="_blank" rel="noopener noreferrer"><u>IROS</u></a>;
+            ML:
+            <a href="https://neurips.cc/" target="_blank" rel="noopener noreferrer"><u>NeurIPS</u></a>,
+            <a href="https://iclr.cc/" target="_blank" rel="noopener noreferrer"><u>ICLR</u></a>
             <br>
-            • Journal Reviewer: <a href="https://www.ieee-ras.org/publications/t-ro" target="_blank" rel="noopener noreferrer"><u>IEEE
-                T-RO</u></a>, <a href="https://www.ieee-ras.org/publications/ra-l" target="_blank" rel="noopener noreferrer"><u>IEEE
-                RA-L</u></a>, <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=97" target="_blank" rel="noopener noreferrer"><u>IEEE Signal Processing Letters</u></a>
-                
-                <br>
-            • Workshop Organizer: <a href="https://learn-dex-hand.github.io/rss2023/" target="_blank" rel="noopener noreferrer"><u>Learning
-                Dexterous Manipulation @RSS 2023</u></a><br>
-            <!-- • Invited Speaker: Talk @ <a href="https://ai.facebook.com/research/" target="_blank" rel="noopener noreferrer"><u>Facebook AI
-                Research(FAIR)</u></a> -->
+            • Journal Reviewer:
+            <a href="https://www.ieee-ras.org/publications/t-ro" target="_blank" rel="noopener noreferrer"><u>IEEE T-RO</u></a>,
+            <a href="https://www.ieee-ras.org/publications/ra-l" target="_blank" rel="noopener noreferrer"><u>IEEE RA-L</u></a>,
+            <a href="https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=97" target="_blank" rel="noopener noreferrer"><u>IEEE Signal Processing Letters</u></a>
+            <br>
+            • Workshop Organizer:
+            <a href="https://learn-dex-hand.github.io/rss2023/" target="_blank" rel="noopener noreferrer"><u>Learning Dexterous Manipulation @RSS 2023</u></a>,
+            <a href="https://dex-manipulation.github.io/corl2025/" target="_blank" rel="noopener noreferrer"><u>2nd Workshop on Dexterous Manipulation @CoRL 2025</u></a><br>
+            • Invited Talks:
+            <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><u>UPenn GRASP SFI</u></a>,
+            <a href="https://robotics.pratt.duke.edu/" target="_blank" rel="noopener noreferrer"><u>Duke Robotics</u></a>,
+            <a href="https://lu.ma/iqjrwcal" target="_blank" rel="noopener noreferrer"><u>UW AI &amp; Robotics Data Summit (Keynote)</u></a>,
+            <a href="https://ai.facebook.com/research/" target="_blank" rel="noopener noreferrer"><u>Facebook AI Research (FAIR)</u></a>,
+            <a href="https://engineering.nyu.edu/research/centers/nyu-center-robotics-and-embodied-intelligence-creo" target="_blank" rel="noopener noreferrer"><u>NYU GRAIL</u></a>,
+            <a href="https://www.amazon.science/research-areas/robotics" target="_blank" rel="noopener noreferrer"><u>Amazon Frontier AI &amp; Robotics</u></a><span class="invited-more" style="display:none">,
+            <a href="https://www.me.washington.edu/" target="_blank" rel="noopener noreferrer"><u>UW Mechanical Engineering</u></a>,
+            <a href="https://robotics.umd.edu/" target="_blank" rel="noopener noreferrer"><u>UMD Multisensory Machine Intelligence Lab</u></a>,
+            Samsung Research America,
+            <a href="https://cs.nyu.edu/~fouhey/NYCVision2025/" target="_blank" rel="noopener noreferrer"><u>NYC Computer Vision Day 2025</u></a></span>
+            <a href="javascript:toggle_vis('invited-more','invitedShowText')" id="invitedShowText" style="font-size: 14px;">[Show more]</a>
+            <br />
 
             <br />
 
 
 
             <h3 id="interests">Interests</h3>
-            <!-- <h4><a href="https://space.bilibili.com/1560961" target="_blank" rel="noopener noreferrer"
-                style="text-decoration: underline;">Robotics Video Channel</a></h4> -->
-            <p>
+            <div>
               In addition to my research in Robotics, I am also a content creator with a strong passion for sharing my
-              knowledge of the field. I currently manage a <a href="https://space.bilibili.com/1560961" target="_blank" rel="noopener noreferrer"
-                style="text-decoration: underline;">Robotics Video Channel</a> with over 63,000 followers and <b>4
-                million views</b> in total. <a href="https://www.bilibili.com/video/BV1MK4y1g7QA" target="_blank" rel="noopener noreferrer"
-                style="text-decoration: underline;">One of my Most Popular Video</a>, which discusses robots combined
-              with brain-computer interfaces, has garnered over <b>1.84 million</b> views and is widely recognized
-              within the
-              field.
-
-
+              knowledge of the field. I currently manage a <a href="https://space.bilibili.com/1560961" target="_blank" rel="noopener noreferrer">Robotics Video Channel</a> with over 63,000 followers and <b>4
+                million views</b> in total. <a href="https://www.bilibili.com/video/BV1MK4y1g7QA" target="_blank" rel="noopener noreferrer">My Most Popular Video</a>, which discusses robots combined
+              with brain-computer interfaces, has garnered over <b>1.84 million</b> views and is widely recognized within the field.
+              <br /><br />
             <div class="columns is-centered has-text-centered">
               <div class="column">
 
@@ -1325,11 +1286,11 @@
 
                   <div style="position: relative; padding: 27% 48%;">
                     <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-                      src="//player.bilibili.com/player.html?aid=888825628&bvid=BV1MK4y1g7QA&cid=360832865&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true"></iframe>
+                      src="https://player.bilibili.com/player.html?aid=888825628&bvid=BV1MK4y1g7QA&cid=360832865&page=1&quality=1&autoplay=false&muted=1"
+                      frameborder="no" scrolling="no" allowfullscreen="true" title="Motor Augmentation Bilibili video"></iframe>
                   </div>
                 </div>
-                <h2 class="title is-5"> Motor Augmentation </h2>
+                <h2 class="title is-5">Motor Augmentation</h2>
               </div>
 
               <div class="column">
@@ -1337,11 +1298,11 @@
                 <div class="columns is-centered">
                   <div style="position: relative; padding: 27% 48%;">
                     <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-                      src="//player.bilibili.com/player.html?aid=805185475&bvid=BV1ey4y1G7ms&cid=397966445&page=1_quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true"></iframe>
+                      src="https://player.bilibili.com/player.html?aid=805185475&bvid=BV1ey4y1G7ms&cid=397966445&page=1&quality=1&autoplay=false&muted=1"
+                      frameborder="no" scrolling="no" allowfullscreen="true" title="Atlas and MPC Bilibili video"></iframe>
                   </div>
                 </div>
-                <h2 class="title is-5"> Atlas&MPC</h2>
+                <h2 class="title is-5">Atlas &amp; MPC</h2>
               </div>
 
               <div class="column">
@@ -1349,32 +1310,31 @@
                 <div class="columns is-centered">
                   <div style="position: relative; padding: 27% 48%;">
                     <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-                      src="//player.bilibili.com/player.html?aid=890903934&bvid=BV1tP4y187AA&cid=419365745&page=1_quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true"></iframe>
+                      src="https://player.bilibili.com/player.html?aid=890903934&bvid=BV1tP4y187AA&cid=419365745&page=1&quality=1&autoplay=false&muted=1"
+                      frameborder="no" scrolling="no" allowfullscreen="true" title="Soft Robot Bilibili video"></iframe>
                   </div>
                 </div>
-                <h2 class="title is-5"> Soft Robot </h2>
+                <h2 class="title is-5">Soft Robot</h2>
               </div>
 
             </div>
 
-            </p>
-
-            <br />
-
-
-            <br />
-
-            <div style="text-align:center; width: 33%;">
-              <script type="text/javascript" id="clustrmaps"
-                src="//clustrmaps.com/map_v2.js?d=pDGg_EF-2g21uzwOdOPHw-eLi7rwVnJ4695MR16MHsc&cl=ffffff&w=a"></script>
             </div>
 
-            <br />
-            Update: 2026.05
-            <br /><br />
-            Credit: web source from <a href="http://hansf.me/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Dr.
-              Songfang Han</a>
+            <div class="site-footer">
+              <div class="visitor-map">
+                <div class="visitor-map-label">Visitor Map</div>
+                <div class="visitor-map-widget">
+                  <script type="text/javascript" id="clustrmaps"
+                    src="https://clustrmaps.com/map_v2.js?d=pDGg_EF-2g21uzwOdOPHw-eLi7rwVnJ4695MR16MHsc&cl=ffffff&w=400&t=tt"></script>
+                </div>
+              </div>
+              <div class="site-footer-meta">
+                <span>Updated: 2026.05</span>
+                <span class="dot">&middot;</span>
+                <span>Site template adapted from <a href="http://hansf.me/" target="_blank" rel="noopener noreferrer">Dr. Songfang Han</a></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

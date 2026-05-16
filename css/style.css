@@ -115,20 +115,33 @@ article.columns {
   font-weight: 600;
 }
 
-/* Work Experience: single card wraps logo + content; logo image itself has no border/shadow */
+/* Work Experience heading spacing */
+h3#work-experience {
+  margin-top: 4rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Work Experience: single card wraps logo + content; logo image itself has no border/shadow.
+   All cards share a min-height so they look uniform; logo is contained and scaled. */
 article.columns.work-card {
   margin-bottom: 1.5rem !important;
+  min-height: 160px;
+  align-items: center;
 }
 
 .work-card .work-logo {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 120px;
 }
 
 .work-card .work-logo img {
   max-width: 100%;
+  max-height: 110px;
+  width: auto;
   height: auto;
+  object-fit: contain;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -178,6 +191,12 @@ h1, h2, h3, h4, h5, h6 {
 h3 {
   font-size: clamp(1.5rem, 3vw, 2rem);
   margin-bottom: 1rem;
+}
+
+/* Robot Systems subsection headings — tighter spacing between systems */
+h4 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.25rem;
 }
 
 p {
@@ -329,4 +348,67 @@ figure.image img {
   border-top: 1px solid var(--line);
   padding: 2rem 0;
   margin-top: 3rem;
+}
+
+/* Page footer: visitor map + meta line */
+.site-footer {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.visitor-map {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 0.75rem 0.9rem 0.6rem;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 480px;
+}
+
+.visitor-map-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.visitor-map-widget {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.visitor-map-widget img,
+.visitor-map-widget canvas,
+.visitor-map-widget iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+.site-footer-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.site-footer-meta .dot {
+  margin: 0 0.4rem;
+  opacity: 0.55;
+}
+
+/* Sidebar tagline (was <h6> — name in Chinese / research area / status) */
+.sidebar-tagline {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0.25rem 0 0.5rem;
 }
