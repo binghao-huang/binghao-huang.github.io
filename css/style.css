@@ -429,3 +429,38 @@ figure.image img {
   line-height: 1.35;
   margin-top: 0.25rem;
 }
+
+/* Hero teaser at top of main content column */
+.hero-teaser {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.hero-teaser-img {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 240px;
+  width: auto;
+  height: auto;
+  opacity: 0.85;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+          mask-image: linear-gradient(to right, transparent 0%, black 30%);
+}
+
+.hero-teaser-img:hover {
+  transform: none;
+  box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+  .hero-teaser {
+    text-align: center;
+  }
+  .hero-teaser-img {
+    max-height: 160px;
+  }
+}
