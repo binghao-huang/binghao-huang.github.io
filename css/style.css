@@ -206,7 +206,9 @@ body {
 .social a,
 .social a:link,
 .social a:visited {
+  display: inline-block;
   color: #1e3a8a;
+  margin-right: 0.55rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -215,6 +217,14 @@ body {
   color: #172554;
   transform: translateY(-2px);
   opacity: 0.8;
+}
+
+/* Inline social SVGs (replaced FontAwesome JS). Inherit color via currentColor. */
+.social-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  vertical-align: middle;
+  fill: currentColor;
 }
 
 .sidebar{
@@ -232,8 +242,13 @@ a:active { color: #b91c1c; }
 a:visited { color: var(--blue-dark); }
 
 /* ===== Liquid Glass cards =====
-   Base = near-solid (fallback for no backdrop-filter, keeps text readable).
-   @supports below upgrades to the translucent frosted-glass look. */
+   IMPORTANT: these do NOT use backdrop-filter. There are ~50 cards/tiles on
+   the page, and a live blur on each is the single most GPU-expensive thing a
+   page can do — ~50 of them re-blur their backdrop every repaint frame, which
+   janked the page even on localhost (no network involved). Instead we use a
+   semi-opaque frosted background + bright edge highlights, which gives the
+   glass look at ZERO runtime cost. Real backdrop-filter is reserved for the
+   ONE floating nav (cheap, and content genuinely scrolls behind it). */
 article.columns,
 .col-md-4,
 .columns.is-centered.has-text-centered > .column,
@@ -244,18 +259,6 @@ article.columns,
   border: 1px solid var(--glass-border);
   border-radius: var(--glass-radius);
   box-shadow: var(--glass-shadow);
-}
-
-/* -webkit- FIRST (Safari/iOS < 18 only support the prefixed form). */
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  article.columns,
-  .col-md-4,
-  .columns.is-centered.has-text-centered > .column,
-  .visitor-map {
-    background: var(--glass-tint);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-            backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  }
 }
 
 /* The LIQUID GLASS EDGE — a soft, feathered halo of light instead of a hard
@@ -407,6 +410,17 @@ video, img {
 video:hover, img:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow);
+}
+
+/* Publication teaser videos: reserve a 16:9 box so the card never collapses to
+   ~0 height before the video's first frame/metadata loads (a cause of cards
+   appearing "not loaded"). */
+.teaser-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #e2e8f0; /* light placeholder while the first frame loads */
 }
 
 /* Enhanced Typography */
@@ -781,16 +795,14 @@ a:focus-visible,
   }
 }
 
-/* Reduced transparency — drop the blur, raise the tint to near-solid so
-   text contrast is rock-solid (macOS "Reduce Transparency", etc.). */
+/* Reduced transparency — raise the tint to near-solid so text contrast is
+   rock-solid (macOS "Reduce Transparency", etc.). */
 @media (prefers-reduced-transparency: reduce) {
   article.columns,
   .col-md-4,
   .columns.is-centered.has-text-centered > .column,
   .visitor-map {
     background: rgba(255, 255, 255, 0.98) !important;
-    -webkit-backdrop-filter: none !important;
-            backdrop-filter: none !important;
     border-color: rgba(30, 41, 59, 0.18);
   }
   /* drop the decorative glass rim/glare — meaningless once solid */
@@ -806,7 +818,7 @@ a:focus-visible,
   }
 }
 
-/* Higher contrast — denser tint, stronger borders, crisper edges. */
+/* Higher contrast — denser tint, stronger borders. */
 @media (prefers-contrast: more) {
   article.columns,
   .col-md-4,
@@ -814,8 +826,6 @@ a:focus-visible,
   .visitor-map {
     background: rgba(255, 255, 255, 0.98) !important;
     border: 2px solid rgba(30, 41, 59, 0.55);
-    -webkit-backdrop-filter: blur(4px) !important;
-            backdrop-filter: blur(4px) !important;
   }
 }
 
