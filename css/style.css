@@ -241,24 +241,36 @@ a:hover { color: #1e40af; text-decoration: underline; text-decoration-thickness:
 a:active { color: #b91c1c; }
 a:visited { color: var(--blue-dark); }
 
-/* ===== Liquid Glass cards =====
-   IMPORTANT: these do NOT use backdrop-filter. There are ~50 cards/tiles on
-   the page, and a live blur on each is the single most GPU-expensive thing a
-   page can do — ~50 of them re-blur their backdrop every repaint frame, which
-   janked the page even on localhost (no network involved). Instead we use a
-   semi-opaque frosted background + bright edge highlights, which gives the
-   glass look at ZERO runtime cost. Real backdrop-filter is reserved for the
-   ONE floating nav (cheap, and content genuinely scrolls behind it). */
+/* ===== Liquid Glass cards (all sections) =====
+   Every card block is real frosted glass: backdrop-filter blurs whatever
+   scrolls behind it; the card's own video/image/text stays sharp on top.
+   PERFORMANCE NOTE: this is ~46 live backdrop-filters across the page, which
+   is GPU-heavy. The blur radius is kept modest (16px) to limit cost. If
+   scrolling janks, lower the radius or drop backdrop-filter on the densest
+   group (the robot/interest tiles) back to the flat --glass-tint-solid look. */
 article.columns,
 .col-md-4,
 .columns.is-centered.has-text-centered > .column,
 .visitor-map {
   position: relative;
   isolation: isolate;
-  background: var(--glass-tint-solid);
+  background: rgba(255, 255, 255, 0.60);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+          backdrop-filter: blur(16px) saturate(160%);
   border: 1px solid var(--glass-border);
   border-radius: var(--glass-radius);
   box-shadow: var(--glass-shadow);
+}
+
+/* Fallback where backdrop-filter is unsupported: keep the near-solid tint so
+   text stays readable (no see-through-without-blur). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  article.columns,
+  .col-md-4,
+  .columns.is-centered.has-text-centered > .column,
+  .visitor-map {
+    background: var(--glass-tint-solid);
+  }
 }
 
 /* The LIQUID GLASS EDGE — a soft, feathered halo of light instead of a hard
@@ -321,6 +333,18 @@ article.columns {
   padding: 0.65rem 0.8rem;
   margin-bottom: 1.5rem !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Deepen link color inside glass cards so links stay WCAG AA even when dark
+   content (a video/iframe from an adjacent card) scrolls behind the
+   translucent glass. Applies to every card type, not just publications. */
+article.columns a:link,
+article.columns a:visited,
+.col-md-4 a:link,
+.col-md-4 a:visited,
+.columns.is-centered.has-text-centered > .column a:link,
+.columns.is-centered.has-text-centered > .column a:visited {
+  color: #1e3a8a;
 }
 
 /* Publications view toggle (show selected / show by date) */
