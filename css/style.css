@@ -201,14 +201,18 @@ body {
     padding-bottom: 2rem;
     padding-top: 1rem;
     font-size: 1rem;
+    display: flex;
+    flex-wrap: nowrap;        /* keep all 5 icons on a single row */
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .social a,
 .social a:link,
 .social a:visited {
-  display: inline-block;
+  display: inline-flex;
+  flex: 0 0 auto;
   color: #1e3a8a;
-  margin-right: 0.55rem;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
@@ -219,10 +223,11 @@ body {
   opacity: 0.8;
 }
 
-/* Inline social SVGs (replaced FontAwesome JS). Inherit color via currentColor. */
+/* Inline social SVGs (replaced FontAwesome JS). Inherit color via currentColor.
+   Sized so all 5 icons fit one row in the narrow sidebar column. */
 .social-icon {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.4rem;
+  height: 1.4rem;
   vertical-align: middle;
   fill: currentColor;
 }
@@ -393,7 +398,7 @@ article.columns.work-card {
 }
 
 .work-card .work-logo img {
-  max-width: 100%;
+  max-width: 110px;     /* cap width so the wide Amazon logo matches the square NVIDIA logo (which renders ~110px wide) */
   max-height: 110px;
   width: auto;
   height: auto;
@@ -736,21 +741,41 @@ figure.image img {
   display: inline-block;
   padding: 0.3rem 0.85rem;
   font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-accent);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  font-weight: 600;
+  color: #102452;        /* deep navy, a bit darker than the card links (#1e3a8a) */
+  /* liquid glass pill — soft feathered edge (no hard 1px ring) so the glass
+     blends smoothly into the page instead of showing a crisp boundary line. */
+  background: rgba(255, 255, 255, 0.42);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+          backdrop-filter: blur(10px) saturate(160%);
+  border: none;
   border-radius: 999px;
+  box-shadow:
+    0 2px 8px rgba(30, 41, 59, 0.10),
+    inset 0 0 6px rgba(255, 255, 255, 0.55),       /* diffuse inner glow, not a line */
+    inset 0 1px 2px rgba(255, 255, 255, 0.7);      /* soft top sheen */
   text-decoration: none;
-  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .quick-links a:hover,
 .quick-links a:focus {
-  background: #f1f5f9;
-  border-color: rgba(30, 41, 59, 0.18);
+  background: rgba(255, 255, 255, 0.58);
   transform: translateY(-1px);
+  box-shadow:
+    0 4px 14px rgba(30, 41, 59, 0.14),
+    inset 0 0 8px rgba(255, 255, 255, 0.65),
+    inset 0 1px 3px rgba(255, 255, 255, 0.85);
   text-decoration: none;
+}
+
+/* Fallback where backdrop-filter is unsupported: keep a near-solid pill. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .quick-links a,
+  .quick-links a:link,
+  .quick-links a:visited {
+    background: var(--surface);
+  }
 }
 
 /* =====================================================================
