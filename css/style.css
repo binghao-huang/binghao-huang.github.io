@@ -91,21 +91,55 @@ html {
   position: fixed;
   top: 14px;
   left: 50%;
-  transform: translateX(-50%);
+  /* tilt vars (driven by JS on hover) composed with the centering translate */
+  --tiltX: 0deg;
+  --tiltY: 0deg;
+  transform: translateX(-50%) perspective(700px) rotateX(var(--tiltX)) rotateY(var(--tiltY));
+  transform-style: preserve-3d;
+  transition: transform 0.18s cubic-bezier(0.33, 1, 0.68, 1);
   z-index: 1000;
   border-radius: 999px;
-  /* CSS frosted glass — live-blurs whatever scrolls behind it. */
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid var(--glass-border);
+  overflow: hidden;            /* clip the sheen sweep to the pill */
+  isolation: isolate;
+  /* CSS frosted glass — reproduces the liquidGL demo-2 "Bank Card" look
+     (frost + deeper bevel + specular sheen + lift shadow + hover tilt)
+     without WebGL, so it stays fully clickable and never blanks out. */
+  background: rgba(255, 255, 255, 0.28);   /* more transparent glass */
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+          backdrop-filter: blur(20px) saturate(180%);
+  /* deeper bevel (demo-2 bevelDepth 0.1 / bevelWidth 0.17): thicker, brighter
+     top-left lip + stronger bottom-right edge */
   box-shadow:
-    0 8px 28px rgba(30, 41, 59, 0.12),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-          backdrop-filter: blur(16px) saturate(150%);
+    0 12px 32px rgba(30, 41, 59, 0.16),
+    0 1px 2px rgba(30, 41, 59, 0.06),
+    inset 2.5px 2.5px 2px rgba(255, 255, 255, 1),
+    inset -2.5px -2.5px 3px rgba(148, 163, 184, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45);
   max-width: calc(100vw - 24px);
 }
 
+/* Specular sheen — a soft diagonal band of light across the glass, like the
+   demo's moving highlight (static here, but gives the same glassy gleam). */
+.liquidGL-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.12) 22%,
+    rgba(255, 255, 255, 0) 48%,
+    rgba(255, 255, 255, 0.08) 80%,
+    rgba(255, 255, 255, 0.32) 100%
+  );
+}
+
 .liquidGL-nav-inner {
+  position: relative;
+  z-index: 1;              /* keep links above the ::before sheen */
   display: flex;
   align-items: center;
   gap: 1.1rem;

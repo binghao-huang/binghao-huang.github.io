@@ -110,8 +110,9 @@
   <!-- Soft tonal backdrop (light grey) behind the glass. -->
   <div class="gradient-mesh-bg" aria-hidden="true"></div>
 
-  <!-- Floating glass nav. Pure CSS backdrop-filter glass (always visible,
-       never flickers); JS adds active-section highlighting as you scroll. -->
+  <!-- Floating glass nav. Real WebGL liquid glass (liquidGL, demo-1 "Default"
+       preset) upgrades it where supported; falls back to CSS glass otherwise.
+       JS also adds active-section highlighting as you scroll. -->
   <nav class="liquidGL-nav" aria-label="Primary">
     <div class="liquidGL-nav-inner">
       <a class="liquidGL-nav-brand" href="#intro">Binghao&nbsp;Huang</a>
@@ -1480,6 +1481,35 @@
         a.addEventListener('click', function () {
           setActive(a.getAttribute('href').slice(1));
         });
+      });
+    })();
+
+    // Nav glass is pure CSS (see .liquidGL-nav in style.css) — always visible,
+    // always clickable. We intentionally do NOT run liquidGL on the nav:
+    // liquidGL sets the target pointer-events:none (links stop working) and
+    // renders it into a shared WebGL canvas that blanks on scroll/resize or
+    // when the html2canvas snapshot stalls on cross-origin embeds (the nav
+    // "disappears"). The demo's look uses refraction:0, so CSS reproduces it.
+
+    // ===== Nav 3D tilt on hover (matches liquidGL demo-2: tilt, tiltFactor 25) =====
+    (function () {
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return;
+      var nav = document.querySelector('.liquidGL-nav');
+      if (!nav) return;
+      var MAX = 25; // degrees (tiltFactor)
+
+      nav.addEventListener('pointermove', function (e) {
+        var r = nav.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width  - 0.5;  // -0.5..0.5
+        var py = (e.clientY - r.top)  / r.height - 0.5;
+        // rotateX follows vertical cursor (inverted), rotateY follows horizontal
+        nav.style.setProperty('--tiltX', (-py * MAX).toFixed(2) + 'deg');
+        nav.style.setProperty('--tiltY', ( px * MAX).toFixed(2) + 'deg');
+      });
+      nav.addEventListener('pointerleave', function () {
+        nav.style.setProperty('--tiltX', '0deg');
+        nav.style.setProperty('--tiltY', '0deg');
       });
     })();
   </script>
