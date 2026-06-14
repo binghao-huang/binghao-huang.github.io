@@ -1,23 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BinghaoHuang's Homepage</title>
-  <meta name="description" content="Binghao Huang's homepage featuring research, publications, robot systems, and professional updates.">
-  <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+  <title>Binghao Huang | Robot Learning &amp; Tactile Sensing PhD @ Columbia</title>
+  <meta name="description" content="Binghao Huang is a CS PhD student at Columbia University advised by Yunzhu Li, researching robot learning, dexterous manipulation, and tactile sensing.">
+
+  <!-- Canonical & indexing -->
+  <link rel="canonical" href="https://binghao-huang.github.io/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Binghao Huang">
+
+  <!-- Open Graph (Facebook, LinkedIn, Slack, iMessage) -->
+  <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Binghao Huang">
+  <meta property="og:title" content="Binghao Huang | Robot Learning & Tactile Sensing PhD @ Columbia">
+  <meta property="og:description" content="CS PhD student at Columbia University advised by Yunzhu Li, working on robot learning, dexterous manipulation, and tactile sensing.">
+  <meta property="og:url" content="https://binghao-huang.github.io/">
+  <meta property="og:image" content="https://binghao-huang.github.io/images/HAND.jpg">
+  <meta property="og:image:alt" content="Robot hand performing dexterous manipulation with tactile sensing">
+  <meta property="og:image:width" content="3987">
+  <meta property="og:image:height" content="1127">
+  <meta property="og:locale" content="en_US">
+  <meta property="profile:first_name" content="Binghao">
+  <meta property="profile:last_name" content="Huang">
+  <meta property="profile:username" content="binghao_huang">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@binghao_huang">
+  <meta name="twitter:creator" content="@binghao_huang">
+  <meta name="twitter:title" content="Binghao Huang | Robot Learning & Tactile Sensing PhD @ Columbia">
+  <meta name="twitter:description" content="CS PhD student at Columbia University, researching robot learning, dexterous manipulation, and tactile sensing.">
+  <meta name="twitter:image" content="https://binghao-huang.github.io/images/HAND.jpg">
+  <meta name="twitter:image:alt" content="Robot hand performing dexterous manipulation with tactile sensing">
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "dateModified": "2026-05-01",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Binghao Huang",
+      "alternateName": "黄秉豪",
+      "givenName": "Binghao",
+      "familyName": "Huang",
+      "url": "https://binghao-huang.github.io/",
+      "image": "https://binghao-huang.github.io/images/IMG_0205.jpg",
+      "email": "mailto:binghao.huang@columbia.edu",
+      "jobTitle": "Computer Science PhD Student",
+      "description": "CS PhD student at Columbia University, advised by Yunzhu Li, researching robot learning and tactile sensing.",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "Columbia University",
+        "url": "https://www.columbia.edu/"
+      },
+      "knowsAbout": [
+        "Robot Learning",
+        "Tactile Sensing",
+        "Dexterous Manipulation",
+        "Multi-Modal Perception",
+        "Robotics",
+        "Machine Learning"
+      ],
+      "sameAs": [
+        "https://github.com/binghao-huang",
+        "https://scholar.google.com/citations?user=nqoOetAAAAAJ&hl=en",
+        "https://www.linkedin.com/in/binghao-huang",
+        "https://twitter.com/binghao_huang"
+      ]
+    }
+  }
+  </script>
+
   <link rel="icon" type="image/png" href="images/IMG_1827.jpg">
-  <!--<link rel="shortcut icon" href="../images/fav_icon.png" type="image/x-icon">-->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <!-- Bulma Version 0.7.5-->
+
+  <!-- Speed up third-party origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://use.fontawesome.com">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Bulma Version 0.7.5 -->
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.7.5/css/bulma.min.css" />
   <link href='css/style.css' rel='stylesheet' type='text/css'>
   <script defer src="font-awesome-5.9.0/js/brands.min.js"></script>
   <script defer src="https://use.fontawesome.com/releases/v5.9.0/js/solid.js"></script>
   <script defer src="font-awesome-5.9.0/js/fontawesome.min.js"></script>
-  <script src="js/menuspy.js"></script>
+  <script defer src="js/menuspy.js"></script>
+  <!-- Liquid Glass (WebGL refraction). Loaded but initialized only after the
+       page is fully loaded, so it never blocks content/videos. -->
+  <script defer src="js/html2canvas.min.js"></script>
+  <script defer src="js/liquidGL.js"></script>
 	<script type="text/javascript">
 		function toggle_vis(id, btnId) {
 	    var e = document.getElementsByClassName(id);
@@ -36,13 +115,32 @@
 </head>
 
 <body>
+  <!-- Soft tonal backdrop (light grey) behind the glass. -->
+  <div class="gradient-mesh-bg" aria-hidden="true"></div>
+
+  <!-- Floating Liquid Glass nav. Real WebGL refraction (liquidGL) is applied
+       to .liquidGL-nav at load; until then / as fallback it shows the CSS
+       glass below. Page content scrolls behind it and refracts through. -->
+  <nav class="liquidGL-nav" aria-label="Primary">
+    <div class="liquidGL-nav-inner">
+      <a class="liquidGL-nav-brand" href="#intro">Binghao&nbsp;Huang</a>
+      <span class="liquidGL-nav-links">
+        <a href="#publication">Publications</a>
+        <a href="#robot_system">Robot&nbsp;Systems</a>
+        <a href="#work-experience">Work</a>
+        <a href="#interests">Interests</a>
+        <a href="blog/">Blog</a>
+      </span>
+    </div>
+  </nav>
+
   <section class="section">
     <div class="container">
       <div class="columns">
         <div class="column is-2">
           <div class="sticky">
             <figure class="image is-128x128">
-              <img class="is-rounded" src="images/IMG_0205.jpg" alt="Portrait of Binghao Huang">
+              <img decoding="async" class="is-rounded" src="images/IMG_0205.jpg" alt="Portrait of Binghao Huang">
             </figure>
             <div class="content">
               <h3 class="sidebar-name">Binghao Huang</h3>
@@ -93,7 +191,7 @@
         <div class="column">
           <div class="content">
             <div class="hero-teaser">
-              <img class="hero-teaser-img" alt="A robotic hand demonstration" src="images/HAND.jpg">
+              <img decoding="async" fetchpriority="high" class="hero-teaser-img" alt="A robotic hand demonstration" src="images/HAND.jpg">
             </div>
             <!--Intro-->
             <h3 id="intro">Intro</h3>
@@ -128,7 +226,7 @@
               <div class="col-md-4">
                   <b>Learning with Flexible Tactile Skin</b><br>
                   [2025/10] <b>Invited Talk, <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><b>UPenn GRASP</b></a></b><br>
-                  <iframe src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg"  width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                  <iframe loading="lazy" src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg"  width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
             </div>
             • [2026/05] Awarded the <font color="firebrick"><b>Qualcomm Innovation Fellowship 2026</b></font>. <a href="https://www.qualcomm.com/research/university-relations/innovation-fellowship/2026-north-america" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br />
@@ -197,7 +295,7 @@
             <div id="pubs_selected">
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop style="border-radius:10px; ">
+                <video class="teaser-video" width=99% muted loop style="border-radius:10px; " preload="none">
                   <source src="videos/flexitac.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -221,7 +319,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop style="border-radius:10px; ">
+                <video class="teaser-video" width=99% muted loop style="border-radius:10px; " preload="none">
                   <source src="videos/vtrefine.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -254,7 +352,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop style="border-radius:10px; ">
+                <video class="teaser-video" width=99% muted loop style="border-radius:10px; " preload="none">
                   <source src="videos/touchinthewild.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -279,7 +377,7 @@
 
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width="99%" muted autoplay loop style="border-radius:10px;">
+                <video class="teaser-video" width="99%" muted loop style="border-radius:10px;" preload="none">
                   <source src="videos/policyconsensus_compressed.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
@@ -325,7 +423,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/3d-vitac.png" alt="3D-ViTac project preview">
+                  <img loading="lazy" decoding="async" src="images/research/3d-vitac.png" alt="3D-ViTac project preview">
                 </picture>
               </div>
               <div class="column">
@@ -352,7 +450,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/dynamichandover.gif" alt="Dynamic Handover project preview">
+                  <img loading="lazy" decoding="async" src="images/research/dynamichandover.gif" alt="Dynamic Handover project preview">
                 </picture>
               </div>
               <div class="column">
@@ -378,7 +476,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/twoballs.gif" alt="Robot Synesthesia project preview">
+                  <img loading="lazy" decoding="async" src="images/research/twoballs.gif" alt="Robot Synesthesia project preview">
                 </picture>
 
               </div>
@@ -405,7 +503,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/tactile_v2_2.gif" alt="Rotating without Seeing project preview">
+                  <img loading="lazy" decoding="async" src="images/research/tactile_v2_2.gif" alt="Rotating without Seeing project preview">
                 </picture>
               </div>
               <div class="column">
@@ -430,7 +528,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/anyteleop.avif" alt="AnyTeleop project preview">
+                  <img loading="lazy" decoding="async" src="images/research/anyteleop.avif" alt="AnyTeleop project preview">
                 </picture>
               </div>
               <div class="column">
@@ -459,7 +557,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/door2.gif" alt="DexPoint project preview">
+                  <img loading="lazy" decoding="async" src="images/research/door2.gif" alt="DexPoint project preview">
                 </picture>
               </div>
               <div class="column">
@@ -485,7 +583,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/go2umitac.jpg" alt="Tactile-Aware Quadrupedal Loco-Manipulation project preview" style="width:100%; aspect-ratio:16/9; object-fit:cover; object-position:center;">
+                  <img loading="lazy" decoding="async" src="images/research/go2umitac.jpg" alt="Tactile-Aware Quadrupedal Loco-Manipulation project preview" style="width:100%; aspect-ratio:16/9; object-fit:cover; object-position:center;">
                 </picture>
               </div>
               <div class="column">
@@ -511,7 +609,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop style="border-radius:10px; ">
+                <video class="teaser-video" width=99% muted loop style="border-radius:10px; " preload="none">
                   <source src="videos/flexitac.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -535,7 +633,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop playsinline style="border-radius:10px;">
+                <video class="teaser-video" width=99% muted loop playsinline style="border-radius:10px;" preload="none">
                   <source src="videos/leflexitac.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -558,7 +656,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop playsinline style="border-radius:10px;">
+                <video class="teaser-video" width=99% muted loop playsinline style="border-radius:10px;" preload="none">
                   <source src="videos/residual_copilot.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -583,7 +681,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop playsinline style="border-radius:10px; aspect-ratio:16/9; object-fit:cover;">
+                <video class="teaser-video" width=99% muted loop playsinline style="border-radius:10px; aspect-ratio:16/9; object-fit:cover;" preload="none">
                   <source src="videos/force_gripper.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -607,7 +705,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop style="border-radius:10px; ">
+                <video class="teaser-video" width=99% muted loop style="border-radius:10px; " preload="none">
                   <source src="videos/vtrefine.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -640,7 +738,7 @@
             </article>
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop style="border-radius:10px; ">
+                <video class="teaser-video" width=99% muted loop style="border-radius:10px; " preload="none">
                   <source src="videos/touchinthewild.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -665,7 +763,7 @@
 
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width="99%" muted autoplay loop style="border-radius:10px;">
+                <video class="teaser-video" width="99%" muted loop style="border-radius:10px;" preload="none">
                   <source src="videos/policyconsensus_compressed.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
@@ -711,7 +809,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/3d-vitac.png" alt="3D-ViTac project preview">
+                  <img loading="lazy" decoding="async" src="images/research/3d-vitac.png" alt="3D-ViTac project preview">
                 </picture>
               </div>
               <div class="column">
@@ -737,7 +835,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/roboexp.gif" alt="RoboEXP project preview">
+                  <img loading="lazy" decoding="async" src="images/research/roboexp.gif" alt="RoboEXP project preview">
                 </picture>
               </div>
               <div class="column">
@@ -765,7 +863,7 @@
 
             <article class="columns">
               <div class="column is-3">
-                <video class="teaser-video" width=99% muted autoplay loop playsinline style="border-radius:10px;">
+                <video class="teaser-video" width=99% muted loop playsinline style="border-radius:10px;" preload="none">
                   <source src="videos/gendp_teaser.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -794,7 +892,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/dynamichandover.gif" alt="Dynamic Handover project preview">
+                  <img loading="lazy" decoding="async" src="images/research/dynamichandover.gif" alt="Dynamic Handover project preview">
                 </picture>
               </div>
               <div class="column">
@@ -820,7 +918,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/twoballs.gif" alt="Robot Synesthesia project preview">
+                  <img loading="lazy" decoding="async" src="images/research/twoballs.gif" alt="Robot Synesthesia project preview">
                 </picture>
 
               </div>
@@ -847,7 +945,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/tactile_v2_2.gif" alt="Rotating without Seeing project preview">
+                  <img loading="lazy" decoding="async" src="images/research/tactile_v2_2.gif" alt="Rotating without Seeing project preview">
                 </picture>
               </div>
               <div class="column">
@@ -872,7 +970,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/anyteleop.avif" alt="AnyTeleop project preview">
+                  <img loading="lazy" decoding="async" src="images/research/anyteleop.avif" alt="AnyTeleop project preview">
                 </picture>
               </div>
               <div class="column">
@@ -900,7 +998,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/cgf.jpg" alt="Continuous Grasping Function project preview" style="width:100%; aspect-ratio:16/9; object-fit:cover; object-position:center;">
+                  <img loading="lazy" decoding="async" src="images/research/cgf.jpg" alt="Continuous Grasping Function project preview" style="width:100%; aspect-ratio:16/9; object-fit:cover; object-position:center;">
                 </picture>
               </div>
               <div class="column">
@@ -926,7 +1024,7 @@
             <article class="columns">
               <div class="column is-3">
                 <picture class="image">
-                  <img src="images/research/door2.gif" alt="DexPoint project preview">
+                  <img loading="lazy" decoding="async" src="images/research/door2.gif" alt="DexPoint project preview">
                 </picture>
               </div>
               <div class="column">
@@ -987,7 +1085,7 @@
               <div class="column" style="display:flex;">
                 <div style="width:100%; display:flex; flex-direction:column;">
                   <div class="columns is-centered" style="margin:0;">
-                    <video playsinline="" autoplay="" loop="" preload="" muted=""
+                    <video playsinline="" loop="" preload="none" muted=""
                       style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;">
                       <source src="videos/flexitac.mp4" type="video/mp4" />
                     </video>
@@ -999,7 +1097,7 @@
               <div class="column" style="display:flex;">
                 <div style="width:100%; display:flex; flex-direction:column;">
                   <div class="columns is-centered" style="margin:0;">
-                    <video playsinline="" autoplay="" loop="" preload="" muted=""
+                    <video playsinline="" loop="" preload="none" muted=""
                       style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;">
                       <source src="videos/vtrefine.mp4" type="video/mp4" />
                     </video>
@@ -1011,7 +1109,7 @@
               <div class="column" style="display:flex;">
                 <div style="width:100%; display:flex; flex-direction:column;">
                   <div class="columns is-centered" style="margin:0;">
-                    <video playsinline="" autoplay="" loop="" preload="" muted=""
+                    <video playsinline="" loop="" preload="none" muted=""
                       style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;">
                       <source src="videos/touchinthewild.mp4" type="video/mp4" />
                     </video>
@@ -1035,7 +1133,7 @@
               <div class="column" style="display:flex;">
                 <div style="width:100%; display:flex; flex-direction:column;">
                   <div class="columns is-centered" style="margin:0;">
-                  <video playsinline="" autoplay="" loop="" preload="" muted=""
+                  <video playsinline="" loop="" preload="none" muted=""
                     style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;">
                     <source src="videos/sensor test 1.mp4" type="video/mp4" />
                   </video>
@@ -1047,7 +1145,7 @@
               <div class="column" style="display:flex;">
                 <div style="width:100%; display:flex; flex-direction:column;">
                   <div class="columns is-centered" style="margin:0;">
-                  <video playsinline="" autoplay="" loop="" preload="" muted=""
+                  <video playsinline="" loop="" preload="none" muted=""
                     style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;">
                     <source src="videos/teaser.mp4" type="video/mp4" />
                   </video>
@@ -1061,7 +1159,7 @@
                   <div class="columns is-centered" style="margin:0;">
                   <div class="column content" style="padding:0; width:100%;">
                     <a href="https://www.youtube.com/watch?v=8eTpFYgae64" target="_blank" rel="noopener noreferrer">
-                      <img src="images/COVER.png" style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;" alt="Sensor tutorial cover image">
+                      <img loading="lazy" decoding="async" src="images/COVER.png" style="width:100%; aspect-ratio:16 / 9; object-fit:cover; border-radius:10px; display:block;" alt="Sensor tutorial cover image">
                     </a>
                   </div>
                   </div>
@@ -1081,7 +1179,7 @@
               <div class="column">
 
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
+                  <video playsinline="" loop="" preload="none" muted="" width="99%"
                     style="border-radius:10px; ">
                     <source src="videos/web_hardware.mp4" type="video/mp4" />
                   </video>
@@ -1092,7 +1190,7 @@
               <div class="column">
 
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
+                  <video playsinline="" loop="" preload="none" muted="" width="99%"
                     style="border-radius:10px; ">
                     <source src="videos/real.mp4" type="video/mp4" />
                   </video>
@@ -1103,7 +1201,7 @@
               <div class="column">
 
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
+                  <video playsinline="" loop="" preload="none" muted="" width="99%"
                     style="border-radius:10px; ">
                     <source src="videos/sim.mp4" type="video/mp4" />
                   </video>
@@ -1123,7 +1221,7 @@
 
                 <div style="text-align:center; width: 100%;">
                   <picture width="99%">
-                    <img src="images/pipeline.jpg" alt="Bimanual hand robot system pipeline" style="border:none; box-shadow:none; border-radius:0; width:100%;">
+                    <img loading="lazy" decoding="async" src="images/pipeline.jpg" alt="Bimanual hand robot system pipeline" style="border:none; box-shadow:none; border-radius:0; width:100%;">
                   </picture>
                 </div>
                 <h2 class="title is-5">Hardware Setup</h2>
@@ -1132,7 +1230,7 @@
               <div class="column">
 
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
+                  <video playsinline="" loop="" preload="none" muted="" width="99%"
                     style="border-radius:10px; ">
                     <source src="videos/throwing_real.mp4" type="video/mp4" />
                   </video>
@@ -1143,7 +1241,7 @@
               <div class="column">
 
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted="" width="99%"
+                  <video playsinline="" loop="" preload="none" muted="" width="99%"
                     style="border-radius:10px; ">
                     <source src="videos/sim_throwing_small.mp4" type="video/mp4" />
                   </video>
@@ -1160,7 +1258,7 @@
             <div class="columns is-centered has-text-centered">
               <div class="column">
                 <div class="columns is-centered">
-                  <img alt="Mobile robot platform" src="images/mobile_1.jpg"
+                  <img loading="lazy" decoding="async" alt="Mobile robot platform" src="images/mobile_1.jpg"
                     style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block; border:none; box-shadow:none; border-radius:0;">
                 </div>
                 <h2 class="title is-5">Hardware Setup</h2>
@@ -1168,7 +1266,7 @@
 
               <div class="column">
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted=""
+                  <video playsinline="" loop="" preload="none" muted=""
                     style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; display:block;">
                     <source src="videos/mobile_robot_2.mp4" type="video/mp4" />
                   </video>
@@ -1178,7 +1276,7 @@
 
               <div class="column">
                 <div class="columns is-centered">
-                  <video playsinline="" autoplay="" loop="" preload="" muted=""
+                  <video playsinline="" loop="" preload="none" muted=""
                     style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; display:block;">
                     <source src="videos/mobile_robot_real.mp4" type="video/mp4" />
                   </video>
@@ -1194,7 +1292,7 @@
             <h3 id="work-experience">Work Experience</h3>
             <article class="columns work-card">
               <div class="column is-2 work-logo">
-                <img src="images/Amazon_logo.png" alt="Amazon logo">
+                <img loading="lazy" decoding="async" src="images/Amazon_logo.png" alt="Amazon logo">
               </div>
               <div class="column">
                 <div class="content">
@@ -1209,7 +1307,7 @@
               <div class="column is-2 work-logo">
                 <picture>
                   <source type="image/avif" srcset="images/nvidia.avif" />
-                  <img src="images/nvidia.png" alt="NVIDIA logo">
+                  <img loading="lazy" decoding="async" src="images/nvidia.png" alt="NVIDIA logo">
                 </picture>
               </div>
               <div class="column">
@@ -1233,7 +1331,7 @@
               <div class="column is-2 work-logo">
                 <picture>
                   <source type="image/avif" srcset="images/nvidia.avif" />
-                  <img src="images/nvidia.png" alt="NVIDIA logo">
+                  <img loading="lazy" decoding="async" src="images/nvidia.png" alt="NVIDIA logo">
                 </picture>
               </div>
               <div class="column">
@@ -1308,7 +1406,7 @@
                 <div class="columns is-centered">
 
                   <div style="position: relative; padding: 27% 48%;">
-                    <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
+                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
                       src="https://player.bilibili.com/player.html?aid=888825628&bvid=BV1MK4y1g7QA&cid=360832865&page=1&quality=1&autoplay=false&muted=1"
                       frameborder="no" scrolling="no" allowfullscreen="true" title="Motor Augmentation Bilibili video"></iframe>
                   </div>
@@ -1320,7 +1418,7 @@
 
                 <div class="columns is-centered">
                   <div style="position: relative; padding: 27% 48%;">
-                    <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
+                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
                       src="https://player.bilibili.com/player.html?aid=805185475&bvid=BV1ey4y1G7ms&cid=397966445&page=1&quality=1&autoplay=false&muted=1"
                       frameborder="no" scrolling="no" allowfullscreen="true" title="Atlas and MPC Bilibili video"></iframe>
                   </div>
@@ -1332,7 +1430,7 @@
 
                 <div class="columns is-centered">
                   <div style="position: relative; padding: 27% 48%;">
-                    <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
+                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
                       src="https://player.bilibili.com/player.html?aid=890903934&bvid=BV1tP4y187AA&cid=419365745&page=1&quality=1&autoplay=false&muted=1"
                       frameborder="no" scrolling="no" allowfullscreen="true" title="Soft Robot Bilibili video"></iframe>
                   </div>
@@ -1365,10 +1463,135 @@
   </section>
 
   <script>
-    var elm = document.querySelector('#sidebar');
-    var ms = new MenuSpy(elm, {
-      activeClass: 'is-active'
+    // menuspy.js is now deferred, so wait for DOM + script before init.
+    document.addEventListener('DOMContentLoaded', function () {
+      var elm = document.querySelector('#sidebar');
+      if (elm && typeof MenuSpy !== 'undefined') {
+        new MenuSpy(elm, { activeClass: 'is-active' });
+      }
     });
+
+    // Lazy-play teaser videos: only play what's on screen, pause the rest.
+    // The <video> tags ship WITHOUT autoplay and with preload="none", so the
+    // browser fetches none of the ~24 clips (59MB) at load; this observer
+    // bumps preload to "auto" and plays each one just before it scrolls in.
+    (function () {
+      var vids = Array.prototype.slice.call(document.querySelectorAll('video'));
+      if (!vids.length) return;
+
+      vids.forEach(function (v) {
+        v.muted = true;            // required for programmatic play()
+        v.setAttribute('playsinline', '');
+      });
+
+      if (!('IntersectionObserver' in window)) {
+        // No IO support: restore eager loading + play everything (legacy).
+        vids.forEach(function (v) {
+          v.preload = 'auto';
+          v.autoplay = true;
+          v.play().catch(function () {});
+        });
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var v = e.target;
+          if (e.isIntersecting) {
+            if (v.preload === 'none') v.preload = 'auto';
+            var p = v.play();
+            if (p && p.catch) p.catch(function () {});
+          } else if (!v.paused) {
+            v.pause();
+          }
+        });
+      }, { rootMargin: '200px 0px', threshold: 0.1 });
+
+      vids.forEach(function (v) { io.observe(v); });
+    })();
+
+    // ===== Liquid Glass (WebGL refraction) =====
+    // Progressive enhancement: only runs where WebGL + liquidGL + html2canvas
+    // are available and the user hasn't asked to reduce motion/transparency.
+    // Otherwise the CSS frosted-glass look (already applied) stays as-is.
+    (function () {
+      function hasWebGL() {
+        try {
+          var c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext &&
+            (c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch (e) { return false; }
+      }
+
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var reduceTransp = window.matchMedia && window.matchMedia('(prefers-reduced-transparency: reduce)').matches;
+
+      // Liquid Glass WebGL refraction is applied ONLY to the floating nav.
+      // (Applying it to the in-flow cards stacked full-viewport lenses and
+      // stripped their backgrounds, which broke text legibility — and over a
+      // light-grey page there was almost nothing to refract anyway. The cards
+      // keep their polished CSS glass.)
+      //
+      // Safety net: liquidGL sets the nav transparent + opacity:0 immediately,
+      // expecting WebGL to take over after the html2canvas snapshot succeeds.
+      // If that snapshot is slow/fails (e.g. cross-origin content), the nav
+      // would be left glass-less — so if the WebGL canvas never reveals, we
+      // restore the full CSS frosted glass via .glass-css-fallback.
+      function webglRevealed() {
+        var c = document.querySelector('canvas[data-liquid-ignore]');
+        return c && window.getComputedStyle(c).visibility !== 'hidden' &&
+               parseFloat(window.getComputedStyle(c).opacity) > 0.01;
+      }
+      function ensureNavVisible() {
+        if (!webglRevealed()) {
+          var nav = document.querySelector('.liquidGL-nav');
+          if (nav) nav.classList.add('glass-css-fallback');
+        }
+      }
+
+      function initLiquidGL() {
+        if (typeof window.liquidGL !== 'function' || typeof window.html2canvas === 'undefined') return;
+        if (!hasWebGL() || reduceMotion || reduceTransp) return; // keep CSS glass
+
+        // If the WebGL reveal hasn't happened in 6s, restore the nav's CSS glass.
+        var safety = setTimeout(ensureNavVisible, 6000);
+
+        try {
+          // Floating nav — the showcase element: dramatic refraction + magnify.
+          window.liquidGL({
+            target: '.liquidGL-nav',
+            snapshot: 'body',
+            resolution: 1.0,
+            refraction: 0.02,
+            bevelDepth: 0.10,
+            bevelWidth: 0.18,
+            frost: 2,
+            shadow: true,
+            specular: true,
+            magnify: 1.06,
+            reveal: 'fade',
+            on: {
+              init: function () {
+                // snapshot succeeded & first render done — cancel the fallback
+                clearTimeout(safety);
+              }
+            }
+          });
+        } catch (e) {
+          if (window.console) console.warn('liquidGL init skipped:', e);
+        }
+      }
+
+      // Defer until everything (incl. fonts/first videos) has loaded.
+      if (document.readyState === 'complete') {
+        initLiquidGL();
+      } else {
+        window.addEventListener('load', function () {
+          // small delay so first-paint + layout settle before the snapshot
+          setTimeout(initLiquidGL, 300);
+        });
+      }
+    })();
   </script>
 </body>
 

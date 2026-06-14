@@ -1,11 +1,12 @@
 /* Modern Visual Enhancements for Binghao Huang's Homepage */
 
 :root {
-  --bg-primary: #f8fafc;
+  --bg-primary: #eef1f5;      /* very light grey — almost white, but enough tone
+                                 that the near-white glass panels read as brighter */
   --surface: #ffffff;
   --surface-soft: #fbfcfe;
   --text-primary: #1e293b;
-  --text-muted: #64748b;
+  --text-muted: #556277; /* darkened from #64748b so it clears WCAG AA on glass */
   --text-accent: #0f172a;
   --line: rgba(30, 41, 59, 0.08);
   --blue: #2563eb;
@@ -15,19 +16,147 @@
   --radius: 12px;
   --radius-lg: 16px;
   --max-width: 1280px;
+
+  /* ===== Liquid Glass design tokens (light theme, grey-on-grey) =====
+     The glass reads against a very light grey backdrop rather than colored
+     mesh: the panel is near-white & translucent, so it looks brighter and
+     slightly frosted over the grey, and the edge is a SOFT feathered halo of
+     light (no hard ring) — the look of light wrapping a rounded liquid blob. */
+  --glass-tint: rgba(255, 255, 255, 0.60);
+  --glass-tint-solid: rgba(255, 255, 255, 0.85); /* fallback when backdrop-filter unsupported */
+  --glass-blur: 18px;
+  --glass-saturate: 130%;
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-radius: 22px;
+  /* Soft lift + gently feathered inset highlights (3px blur, no hard 1px ring)
+     so the rim looks liquid/rounded, not stiff. A faint inner dark seat at the
+     bottom gives the rounded-surface read. */
+  --glass-shadow:
+    0 10px 30px rgba(30, 41, 59, 0.10),
+    0 2px 8px rgba(30, 41, 59, 0.05),
+    inset 2px 3px 4px rgba(255, 255, 255, 0.85),
+    inset -2px -3px 5px rgba(148, 163, 184, 0.12);
+  --glass-shadow-hover:
+    0 18px 46px rgba(30, 41, 59, 0.14),
+    0 4px 12px rgba(30, 41, 59, 0.07),
+    inset 2px 3px 5px rgba(255, 255, 255, 0.95),
+    inset -2px -3px 6px rgba(148, 163, 184, 0.16);
+  --focus-ring: #2563eb;
 }
 
 body {
     font-family: 'Inter', 'Open Sans', 'Noto Sans', sans-serif;
     scroll-behavior: smooth;
-    background: var(--bg-primary);
+    /* Transparent so the fixed .gradient-mesh-bg (z-index:-1) shows through.
+       An opaque body background would propagate to the page canvas and paint
+       OVER the mesh, hiding it — and then the glass cards have nothing to
+       refract. The mesh div carries the base color instead. */
+    background: transparent;
     color: var(--text-primary);
     line-height: 1.6;
 }
 
+/* Base color lives on the root canvas as a safety net behind the mesh. */
+html {
+    background: var(--bg-primary);
+}
+
+/* ===== Soft tonal backdrop =====
+   Fixed, behind everything. A very light grey base with barely-there lighter
+   pools, so frosted-glass panels have subtle tone to sit against (and look
+   brighter than the page) — but no color and no distracting motion. */
+.gradient-mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(at 20% 18%, rgba(255, 255, 255, 0.7) 0px, transparent 50%),
+    radial-gradient(at 82% 78%, rgba(255, 255, 255, 0.5) 0px, transparent 55%),
+    radial-gradient(at 70% 12%, rgba(203, 213, 225, 0.25) 0px, transparent 45%);
+}
+
+/* Transparent so the fixed backdrop shows through and the glass can sample it. */
 .section {
-  background: var(--bg-primary);
+  background: transparent;
   padding: 4rem 1.5rem;
+}
+
+/* ===== Floating Liquid Glass nav =====
+   liquidGL replaces this element's background with live WebGL refraction at
+   load; the rules here are the pre-init + no-WebGL fallback (CSS frosted
+   glass), so it looks right before the script runs and on unsupported GPUs. */
+.liquidGL-nav {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  border-radius: 999px;
+  /* CSS-glass fallback look */
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 8px 28px rgba(30, 41, 59, 0.12),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+          backdrop-filter: blur(16px) saturate(150%);
+  max-width: calc(100vw - 24px);
+}
+
+.liquidGL-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0.5rem 1.1rem;
+  white-space: nowrap;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.liquidGL-nav-inner::-webkit-scrollbar { display: none; }
+
+.liquidGL-nav-brand {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+
+.liquidGL-nav-brand,
+.liquidGL-nav-brand:link,
+.liquidGL-nav-brand:visited {
+  color: var(--text-accent);
+}
+
+.liquidGL-nav-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.liquidGL-nav-links a,
+.liquidGL-nav-links a:link,
+.liquidGL-nav-links a:visited {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.liquidGL-nav-links a:hover {
+  color: var(--blue-dark);
+  text-decoration: none;
+}
+
+/* Push content down so the floating nav never overlaps the top of the page. */
+body {
+  padding-top: 64px;
+}
+
+@media (max-width: 768px) {
+  .liquidGL-nav-brand { font-size: 0.85rem; }
+  .liquidGL-nav-links a { font-size: 0.8rem; }
 }
 
 .container {
@@ -45,7 +174,7 @@ body {
 
 .sticky {
     position: sticky;
-    top: 30px;
+    top: 78px; /* clears the fixed floating glass nav */
 }
 
 .social{
@@ -74,18 +203,109 @@ body {
     font-size: 1rem;
 }
 
-/* Enhanced Link Styling */
-a:link { color: var(--blue); text-decoration: none; transition: color 0.2s ease; }
-a:hover { color: var(--blue-dark); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
-a:active { color: #dc2626; }
-a:visited { color: var(--blue); }
+/* Enhanced Link Styling
+   Uses the darker --blue-dark (#1d4ed8) at rest so inline links keep WCAG AA
+   (>=4.5:1) even when they sit over the colored mesh / translucent glass. */
+a:link { color: var(--blue-dark); text-decoration: none; transition: color 0.2s ease; }
+a:hover { color: #1e40af; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:active { color: #b91c1c; }
+a:visited { color: var(--blue-dark); }
 
-/* Modern Card Styling */
+/* Robust fallback for the floating nav: if liquidGL's WebGL snapshot never
+   reveals (e.g. the html2canvas capture fails on cross-origin content), the JS
+   adds this class to restore the CSS frosted glass that liquidGL had stripped.
+   !important beats liquidGL's inline background:transparent / backdrop-filter:none. */
+.liquidGL-nav.glass-css-fallback {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.55) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
+          backdrop-filter: blur(16px) saturate(150%) !important;
+}
+
+/* ===== Liquid Glass cards =====
+   Base = near-solid (fallback for no backdrop-filter, keeps text readable).
+   @supports below upgrades to the translucent frosted-glass look. */
+article.columns,
+.col-md-4,
+.columns.is-centered.has-text-centered > .column,
+.visitor-map {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass-tint-solid);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+}
+
+/* -webkit- FIRST (Safari/iOS < 18 only support the prefixed form). */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  article.columns,
+  .col-md-4,
+  .columns.is-centered.has-text-centered > .column,
+  .visitor-map {
+    background: var(--glass-tint);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+            backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  }
+}
+
+/* The LIQUID GLASS EDGE — a soft, feathered halo of light instead of a hard
+   ring. The bright edge diffuses INTO the surface (blurred, semi-transparent),
+   so it reads like light wrapping a rounded liquid blob, not a stiff outline.
+   Implemented as a large-radius gradient that's bright at the very edge and
+   fades quickly inward; the feathering is what makes it look liquid. */
+article.columns::before,
+.col-md-4::before,
+.columns.is-centered.has-text-centered > .column::before,
+.visitor-map::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  /* diagonal sheen across the surface — soft, low-contrast */
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.12) 30%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0.10) 88%,
+    rgba(255, 255, 255, 0.40) 100%
+  );
+  /* feathered bright edge: a blurred white outline that bleeds inward */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    inset 0 1px 8px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 10px rgba(255, 255, 255, 0.35);
+  -webkit-mask: radial-gradient(#000, #000);  /* clip to rounded corners */
+}
+
+/* Soft top glare — a broad, very gentle band of light over the upper portion,
+   fading out smoothly. Adds the rounded-surface highlight without a hard line. */
+article.columns::after,
+.col-md-4::after,
+.columns.is-centered.has-text-centered > .column::after,
+.visitor-map::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 60%;
+  z-index: -1;
+  border-radius: var(--glass-radius) var(--glass-radius) 50% 50% / var(--glass-radius) var(--glass-radius) 28px 28px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.10) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+/* Publication card layout (kept from before) */
 article.columns {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
   padding: 0.65rem 0.8rem;
   margin-bottom: 1.5rem !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -155,7 +375,7 @@ article.columns.work-card {
 
 article.columns:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
+  box-shadow: var(--glass-shadow-hover);
 }
 
 article.columns .column {
@@ -225,17 +445,13 @@ p {
 
 .col-md-4 {
   flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
   padding: 1rem;
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .col-md-4:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
+  box-shadow: var(--glass-shadow-hover);
 }
 
 /* Professional Service Section */
@@ -244,28 +460,25 @@ article.columns .column.is-2 picture img {
   border: 1px solid var(--line);
 }
 
-/* Interests Section */
-.columns.is-centered .column {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+/* Interests + Robot Systems tiles (direct children only — not nested
+   video-wrapper columns, which would otherwise become glass-on-glass) */
+.columns.is-centered.has-text-centered > .column {
   padding: 1rem;
   margin: 0 0.3rem;
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.columns.is-centered .column:first-child {
+.columns.is-centered.has-text-centered > .column:first-child {
   margin-left: 0;
 }
 
-.columns.is-centered .column:last-child {
+.columns.is-centered.has-text-centered > .column:last-child {
   margin-right: 0;
 }
 
-.columns.is-centered .column:hover {
+.columns.is-centered.has-text-centered > .column:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
+  box-shadow: var(--glass-shadow-hover);
 }
 
 /* Sidebar Menu Enhancement */
@@ -360,10 +573,6 @@ figure.image img {
 }
 
 .visitor-map {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
   padding: 0.75rem 0.9rem 0.6rem;
   display: inline-flex;
   flex-direction: column;
@@ -495,4 +704,134 @@ figure.image img {
   border-color: rgba(30, 41, 59, 0.18);
   transform: translateY(-1px);
   text-decoration: none;
+}
+
+/* =====================================================================
+   ACCESSIBILITY
+   Cards already pass WCAG AA in their base state (tint alpha >= 0.6 over
+   the mesh); the blocks below are progressive enhancements / safeguards.
+   ===================================================================== */
+
+/* Keyboard focus — visible ring that sits outside the blurred glass edge.
+   :focus-visible avoids showing the ring on mouse clicks. Never outline:none. */
+a:focus-visible,
+.button:focus-visible,
+.menu-list a:focus-visible,
+.quick-links a:focus-visible,
+.social a:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Fallback for browsers without :focus-visible */
+@supports not selector(:focus-visible) {
+  a:focus,
+  .button:focus,
+  .menu-list a:focus,
+  .quick-links a:focus,
+  .social a:focus {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+/* Reduced motion — stop the card lift and fadeInUp entrance animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: -1ms !important;
+    transition-duration: 1ms !important;
+    transition-delay: -1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .gradient-mesh-bg {
+    animation: none !important;
+    background-position: 0 0 !important;
+  }
+
+  article.columns,
+  .col-md-4,
+  .columns.is-centered.has-text-centered > .column,
+  .button,
+  .social a,
+  .quick-links a {
+    animation: none !important;
+  }
+
+  article.columns:hover,
+  .col-md-4:hover,
+  .columns.is-centered.has-text-centered > .column:hover,
+  video:hover,
+  img:hover {
+    transform: none !important;
+  }
+}
+
+/* Reduced transparency — drop the blur, raise the tint to near-solid so
+   text contrast is rock-solid (macOS "Reduce Transparency", etc.). */
+@media (prefers-reduced-transparency: reduce) {
+  article.columns,
+  .col-md-4,
+  .columns.is-centered.has-text-centered > .column,
+  .visitor-map {
+    background: rgba(255, 255, 255, 0.98) !important;
+    -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+    border-color: rgba(30, 41, 59, 0.18);
+  }
+  /* drop the decorative glass rim/glare — meaningless once solid */
+  article.columns::before, article.columns::after,
+  .col-md-4::before, .col-md-4::after,
+  .columns.is-centered.has-text-centered > .column::before,
+  .columns.is-centered.has-text-centered > .column::after,
+  .visitor-map::before, .visitor-map::after {
+    display: none !important;
+  }
+  .gradient-mesh-bg {
+    background-image: none;
+  }
+}
+
+/* Higher contrast — denser tint, stronger borders, crisper edges. */
+@media (prefers-contrast: more) {
+  article.columns,
+  .col-md-4,
+  .columns.is-centered.has-text-centered > .column,
+  .visitor-map {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 2px solid rgba(30, 41, 59, 0.55);
+    -webkit-backdrop-filter: blur(4px) !important;
+            backdrop-filter: blur(4px) !important;
+  }
+}
+
+/* Windows High Contrast / forced-colors — let the OS own the colors. */
+@media (forced-colors: active) {
+  article.columns,
+  .col-md-4,
+  .columns.is-centered.has-text-centered > .column,
+  .visitor-map {
+    background: Canvas !important;
+    border: 1px solid CanvasText;
+    -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+  }
+  article.columns::before, article.columns::after,
+  .col-md-4::before, .col-md-4::after,
+  .columns.is-centered.has-text-centered > .column::before,
+  .columns.is-centered.has-text-centered > .column::after,
+  .visitor-map::before, .visitor-map::after {
+    display: none !important;
+  }
+  .gradient-mesh-bg {
+    background: Canvas !important;
+  }
+  a:focus-visible {
+    outline: 3px solid Highlight;
+  }
 }
