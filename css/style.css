@@ -1,8 +1,7 @@
 /* Modern Visual Enhancements for Binghao Huang's Homepage */
 
 :root {
-  --bg-primary: #eef1f5;      /* very light grey — almost white, but enough tone
-                                 that the near-white glass panels read as brighter */
+  --bg-primary: #eef1f5;      /* super-light grey — almost white */
   --surface: #ffffff;
   --surface-soft: #fbfcfe;
   --text-primary: #1e293b;
@@ -18,12 +17,11 @@
   --max-width: 1280px;
 
   /* ===== Liquid Glass design tokens (light theme) =====
-     The page has faint cool-toned pools behind the glass; the card tint is
-     translucent enough (0.46) that the blurred, saturated backdrop shows
-     through as real frosted glass, while a readable content plate keeps text
-     crisp. The edge is a soft feathered halo of light (no hard ring) plus a
-     diagonal sheen — the look of light wrapping a rounded liquid surface. */
-  --glass-tint: rgba(255, 255, 255, 0.46);
+     Page is super-light grey (almost white). Card tint stays fairly opaque
+     (0.62) so text is crisp and the panel reads as a brighter frosted pane
+     over the grey; the glass cue comes from the feathered light edge + sheen
+     rather than colored refraction. */
+  --glass-tint: rgba(255, 255, 255, 0.62);
   --glass-tint-solid: rgba(255, 255, 255, 0.85); /* fallback when backdrop-filter unsupported */
   --glass-blur: 24px;
   --glass-saturate: 175%;
@@ -63,11 +61,10 @@ html {
     background: var(--bg-primary);
 }
 
-/* ===== Soft tonal backdrop =====
-   Fixed, behind everything. A near-white page with faint cool-toned pools —
-   subtle enough to still read as "almost white", but with just enough tone and
-   color that the frosted-glass cards have something to refract and show
-   through (otherwise white-on-white glass is invisible). */
+/* ===== Super-light-grey backdrop =====
+   Fixed, behind everything. A super-light grey base (almost white) with
+   barely-there lighter pools so the frosted-glass panels read as a touch
+   brighter than the page — no color, no motion. */
 .gradient-mesh-bg {
   position: fixed;
   inset: 0;
@@ -75,11 +72,9 @@ html {
   pointer-events: none;
   background-color: var(--bg-primary);
   background-image:
-    radial-gradient(at 14% 16%, rgba(99, 140, 255, 0.16) 0px, transparent 45%),
-    radial-gradient(at 86% 12%, rgba(168, 140, 255, 0.14) 0px, transparent 45%),
-    radial-gradient(at 80% 86%, rgba(110, 200, 255, 0.14) 0px, transparent 47%),
-    radial-gradient(at 18% 88%, rgba(255, 150, 200, 0.11) 0px, transparent 47%),
-    radial-gradient(at 50% 50%, rgba(130, 170, 255, 0.06) 0px, transparent 60%);
+    radial-gradient(at 20% 18%, rgba(255, 255, 255, 0.7) 0px, transparent 50%),
+    radial-gradient(at 82% 78%, rgba(255, 255, 255, 0.5) 0px, transparent 55%),
+    radial-gradient(at 70% 12%, rgba(203, 213, 225, 0.22) 0px, transparent 45%);
 }
 
 /* Transparent so the fixed backdrop shows through and the glass can sample it. */
@@ -99,7 +94,7 @@ html {
   transform: translateX(-50%);
   z-index: 1000;
   border-radius: 999px;
-  /* CSS-glass fallback look */
+  /* CSS frosted glass — live-blurs whatever scrolls behind it. */
   background: rgba(255, 255, 255, 0.55);
   border: 1px solid var(--glass-border);
   box-shadow:
@@ -147,11 +142,23 @@ html {
   font-weight: 500;
   color: var(--text-primary);
   text-decoration: none;
-  transition: color 0.15s ease;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 .liquidGL-nav-links a:hover {
   color: var(--blue-dark);
+  background: rgba(37, 99, 235, 0.08);
   text-decoration: none;
+}
+
+/* Active section — the link for whichever section is currently in view. */
+.liquidGL-nav-links a.is-active,
+.liquidGL-nav-links a.is-active:link,
+.liquidGL-nav-links a.is-active:visited {
+  color: var(--blue-dark);
+  background: rgba(37, 99, 235, 0.14);
+  font-weight: 600;
 }
 
 /* Push content down so the floating nav never overlaps the top of the page. */
@@ -159,9 +166,17 @@ body {
   padding-top: 64px;
 }
 
+/* When a nav link jumps to a section, leave room for the fixed nav so the
+   heading isn't hidden underneath it. */
+:target,
+#intro, #news, #publication, #robot_system,
+#work-experience, #professional-service, #interests {
+  scroll-margin-top: 84px;
+}
+
 @media (max-width: 768px) {
   .liquidGL-nav-brand { font-size: 0.85rem; }
-  .liquidGL-nav-links a { font-size: 0.8rem; }
+  .liquidGL-nav-links a { font-size: 0.8rem; padding: 0.25rem 0.5rem; }
 }
 
 .container {
@@ -215,17 +230,6 @@ a:link { color: var(--blue-dark); text-decoration: none; transition: color 0.2s 
 a:hover { color: #1e40af; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
 a:active { color: #b91c1c; }
 a:visited { color: var(--blue-dark); }
-
-/* Robust fallback for the floating nav: if liquidGL's WebGL snapshot never
-   reveals (e.g. the html2canvas capture fails on cross-origin content), the JS
-   adds this class to restore the CSS frosted glass that liquidGL had stripped.
-   !important beats liquidGL's inline background:transparent / backdrop-filter:none. */
-.liquidGL-nav.glass-css-fallback {
-  opacity: 1 !important;
-  background: rgba(255, 255, 255, 0.55) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
-          backdrop-filter: blur(16px) saturate(150%) !important;
-}
 
 /* ===== Liquid Glass cards =====
    Base = near-solid (fallback for no backdrop-filter, keeps text readable).

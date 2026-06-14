@@ -93,10 +93,6 @@
   <script defer src="https://use.fontawesome.com/releases/v5.9.0/js/solid.js"></script>
   <script defer src="font-awesome-5.9.0/js/fontawesome.min.js"></script>
   <script defer src="js/menuspy.js"></script>
-  <!-- Liquid Glass (WebGL refraction). Loaded but initialized only after the
-       page is fully loaded, so it never blocks content/videos. -->
-  <script defer src="js/html2canvas.min.js"></script>
-  <script defer src="js/liquidGL.js"></script>
 	<script type="text/javascript">
 		function toggle_vis(id, btnId) {
 	    var e = document.getElementsByClassName(id);
@@ -118,9 +114,8 @@
   <!-- Soft tonal backdrop (light grey) behind the glass. -->
   <div class="gradient-mesh-bg" aria-hidden="true"></div>
 
-  <!-- Floating Liquid Glass nav. Real WebGL refraction (liquidGL) is applied
-       to .liquidGL-nav at load; until then / as fallback it shows the CSS
-       glass below. Page content scrolls behind it and refracts through. -->
+  <!-- Floating glass nav. Pure CSS backdrop-filter glass (always visible,
+       never flickers); JS adds active-section highlighting as you scroll. -->
   <nav class="liquidGL-nav" aria-label="Primary">
     <div class="liquidGL-nav-inner">
       <a class="liquidGL-nav-brand" href="#intro">Binghao&nbsp;Huang</a>
@@ -226,7 +221,7 @@
               <div class="col-md-4">
                   <b>Learning with Flexible Tactile Skin</b><br>
                   [2025/10] <b>Invited Talk, <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><b>UPenn GRASP</b></a></b><br>
-                  <iframe loading="lazy" src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg"  width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-liquid-ignore></iframe>
+                  <iframe loading="lazy" src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg"  width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                   </div>
             </div>
             • [2026/05] Awarded the <font color="firebrick"><b>Qualcomm Innovation Fellowship 2026</b></font>. <a href="https://www.qualcomm.com/research/university-relations/innovation-fellowship/2026-north-america" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br />
@@ -1408,7 +1403,7 @@
                   <div style="position: relative; padding: 27% 48%;">
                     <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
                       src="https://player.bilibili.com/player.html?aid=888825628&bvid=BV1MK4y1g7QA&cid=360832865&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true" title="Motor Augmentation Bilibili video" data-liquid-ignore></iframe>
+                      frameborder="no" scrolling="no" allowfullscreen="true" title="Motor Augmentation Bilibili video"></iframe>
                   </div>
                 </div>
                 <h2 class="title is-5">Motor Augmentation</h2>
@@ -1420,7 +1415,7 @@
                   <div style="position: relative; padding: 27% 48%;">
                     <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
                       src="https://player.bilibili.com/player.html?aid=805185475&bvid=BV1ey4y1G7ms&cid=397966445&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true" title="Atlas and MPC Bilibili video" data-liquid-ignore></iframe>
+                      frameborder="no" scrolling="no" allowfullscreen="true" title="Atlas and MPC Bilibili video"></iframe>
                   </div>
                 </div>
                 <h2 class="title is-5">Atlas &amp; MPC</h2>
@@ -1432,7 +1427,7 @@
                   <div style="position: relative; padding: 27% 48%;">
                     <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
                       src="https://player.bilibili.com/player.html?aid=890903934&bvid=BV1tP4y187AA&cid=419365745&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true" title="Soft Robot Bilibili video" data-liquid-ignore></iframe>
+                      frameborder="no" scrolling="no" allowfullscreen="true" title="Soft Robot Bilibili video"></iframe>
                   </div>
                 </div>
                 <h2 class="title is-5">Soft Robot</h2>
@@ -1510,87 +1505,55 @@
       vids.forEach(function (v) { io.observe(v); });
     })();
 
-    // ===== Liquid Glass (WebGL refraction) =====
-    // Progressive enhancement: only runs where WebGL + liquidGL + html2canvas
-    // are available and the user hasn't asked to reduce motion/transparency.
-    // Otherwise the CSS frosted-glass look (already applied) stays as-is.
+    // ===== Floating nav: active-section highlighting (scroll spy) =====
+    // Highlights the nav link for whichever section is currently in view, and
+    // makes clicks land at the right spot (CSS scroll-margin-top handles the
+    // fixed-nav offset). Pure CSS backdrop-filter gives the glass look — no
+    // WebGL — so the nav is always visible and never flickers.
     (function () {
-      function hasWebGL() {
-        try {
-          var c = document.createElement('canvas');
-          return !!(window.WebGLRenderingContext &&
-            (c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl')));
-        } catch (e) { return false; }
-      }
+      var links = Array.prototype.slice.call(
+        document.querySelectorAll('.liquidGL-nav-links a[href^="#"], .liquidGL-nav-brand[href^="#"]')
+      );
+      if (!links.length) return;
 
-      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var reduceTransp = window.matchMedia && window.matchMedia('(prefers-reduced-transparency: reduce)').matches;
+      // Map each "#section-id" to its nav link and its target section element.
+      var map = links.map(function (a) {
+        var id = a.getAttribute('href').slice(1);
+        return { link: a, id: id, target: document.getElementById(id) };
+      }).filter(function (m) { return m.target; });
 
-      // Liquid Glass WebGL refraction is applied ONLY to the floating nav.
-      // (Applying it to the in-flow cards stacked full-viewport lenses and
-      // stripped their backgrounds, which broke text legibility — and over a
-      // light-grey page there was almost nothing to refract anyway. The cards
-      // keep their polished CSS glass.)
-      //
-      // Safety net: liquidGL sets the nav transparent + opacity:0 immediately,
-      // expecting WebGL to take over after the html2canvas snapshot succeeds.
-      // If that snapshot is slow/fails (e.g. cross-origin content), the nav
-      // would be left glass-less — so if the WebGL canvas never reveals, we
-      // restore the full CSS frosted glass via .glass-css-fallback.
-      function webglRevealed() {
-        var c = document.querySelector('canvas[data-liquid-ignore]');
-        return c && window.getComputedStyle(c).visibility !== 'hidden' &&
-               parseFloat(window.getComputedStyle(c).opacity) > 0.01;
-      }
-      function ensureNavVisible() {
-        if (!webglRevealed()) {
-          var nav = document.querySelector('.liquidGL-nav');
-          if (nav) nav.classList.add('glass-css-fallback');
-        }
-      }
-
-      function initLiquidGL() {
-        if (typeof window.liquidGL !== 'function' || typeof window.html2canvas === 'undefined') return;
-        if (!hasWebGL() || reduceMotion || reduceTransp) return; // keep CSS glass
-
-        // If the WebGL reveal hasn't happened in 6s, restore the nav's CSS glass.
-        var safety = setTimeout(ensureNavVisible, 6000);
-
-        try {
-          // Floating nav — the showcase element: dramatic refraction + magnify.
-          window.liquidGL({
-            target: '.liquidGL-nav',
-            snapshot: 'body',
-            resolution: 1.0,
-            refraction: 0.02,
-            bevelDepth: 0.10,
-            bevelWidth: 0.18,
-            frost: 2,
-            shadow: true,
-            specular: true,
-            magnify: 1.06,
-            reveal: 'fade',
-            on: {
-              init: function () {
-                // snapshot succeeded & first render done — cancel the fallback
-                clearTimeout(safety);
-              }
-            }
-          });
-        } catch (e) {
-          if (window.console) console.warn('liquidGL init skipped:', e);
-        }
-      }
-
-      // Defer until everything (incl. fonts/first videos) has loaded.
-      if (document.readyState === 'complete') {
-        initLiquidGL();
-      } else {
-        window.addEventListener('load', function () {
-          // small delay so first-paint + layout settle before the snapshot
-          setTimeout(initLiquidGL, 300);
+      function setActive(id) {
+        map.forEach(function (m) {
+          if (m.id === id) m.link.classList.add('is-active');
+          else m.link.classList.remove('is-active');
         });
       }
+
+      if ('IntersectionObserver' in window) {
+        // Track which sections are on screen; activate the topmost visible one.
+        var visible = {};
+        var spy = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            visible[e.target.id] = e.isIntersecting;
+          });
+          // pick the first section (in document order) currently visible
+          for (var i = 0; i < map.length; i++) {
+            if (visible[map[i].id]) { setActive(map[i].id); return; }
+          }
+        }, {
+          // account for the fixed nav: a band just below it
+          rootMargin: '-80px 0px -65% 0px',
+          threshold: 0
+        });
+        map.forEach(function (m) { spy.observe(m.target); });
+      }
+
+      // Also reflect the section clicked immediately.
+      links.forEach(function (a) {
+        a.addEventListener('click', function () {
+          setActive(a.getAttribute('href').slice(1));
+        });
+      });
     })();
   </script>
 </body>
