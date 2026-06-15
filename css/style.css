@@ -83,7 +83,7 @@ html {
 .gradient-mesh-bg {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: -1;            /* behind all content */
   pointer-events: none;
   background-color: var(--bg-primary);
   /* Matte academic backdrop: soft cool-grey mesh blobs (like a blurred
@@ -292,8 +292,8 @@ body {
     padding: 1.4rem 1.2rem;
     border-radius: var(--glass-radius);
     background: rgba(255, 255, 255, 0.40);
-    -webkit-backdrop-filter: blur(22px) saturate(180%);
-            backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+            backdrop-filter: blur(16px) saturate(180%);
     box-shadow:
       0 12px 36px rgba(30, 41, 59, 0.14),
       0 1px 2px rgba(30, 41, 59, 0.06),
@@ -378,16 +378,21 @@ a:visited { color: var(--blue-dark); }
 /* ===== Liquid Glass cards (all sections) =====
    Every card block is real frosted glass: backdrop-filter blurs whatever
    scrolls behind it; the card's own video/image/text stays sharp on top.
-   PERFORMANCE NOTE: this is ~46 live backdrop-filters across the page, which
-   is GPU-heavy. The blur radius is kept modest (16px) to limit cost. If
-   scrolling janks, lower the radius or drop backdrop-filter on the densest
-   group (the robot/interest tiles) back to the flat --glass-tint-solid look. */
+   PERFORMANCE: backdrop-filter is GPU-heavy and there are ~46 cards, so:
+   - content-visibility:auto lets the browser SKIP rendering+blurring any card
+     that's off-screen (the biggest win for scroll smoothness);
+   - contain:layout paint limits how far a change re-renders;
+   - contain-intrinsic-size reserves a placeholder height so the scrollbar
+     doesn't jump as off-screen cards are skipped. */
 article.columns,
 .col-md-4,
 .columns.is-centered.has-text-centered > .column,
 .visitor-map {
   position: relative;
   isolation: isolate;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
+  contain: layout paint style;
   /* liquidGL demo-2 "Bank Card" config, translated to CSS:
      frost:2 -> light blur · bevelDepth 0.1 / bevelWidth 0.17 -> deep bright
      rim (the inset highlights below) · specular -> ::before sheen ·
