@@ -21,9 +21,9 @@
      (0.62) so text is crisp and the panel reads as a brighter frosted pane
      over the grey; the glass cue comes from the feathered light edge + sheen
      rather than colored refraction. */
-  --glass-tint: rgba(255, 255, 255, 0.62);
-  --glass-tint-solid: rgba(255, 255, 255, 0.85); /* fallback when backdrop-filter unsupported */
-  --glass-blur: 24px;
+  --glass-tint: rgba(255, 255, 255, 0.6);
+  --glass-tint-solid: rgba(255, 255, 255, 0.6); /* fallback when backdrop-filter unsupported */
+  --glass-blur: 22px;
   --glass-saturate: 175%;
   --glass-border: rgba(255, 255, 255, 0.7);
   --glass-radius: 22px;
@@ -42,6 +42,21 @@
     inset -2px -3px 9px rgba(148, 163, 184, 0.22),
     inset 0 0 0 1px rgba(255, 255, 255, 0.4);
   --focus-ring: #2563eb;
+}
+
+/* One font everywhere. The bare `body` rule covers inherited text (main +
+   sidebar), and the extra selectors override Bulma's reset of form/button
+   elements (Bulma sets those to BlinkMacSystemFont), so the whole page —
+   including the sidebar — uses Inter consistently. */
+body,
+button,
+input,
+select,
+textarea,
+.menu-label,
+.title,
+.subtitle {
+    font-family: 'Inter', 'Open Sans', 'Noto Sans', sans-serif;
 }
 
 body {
@@ -71,10 +86,31 @@ html {
   z-index: -1;
   pointer-events: none;
   background-color: var(--bg-primary);
+  /* Matte academic backdrop: soft cool-grey mesh blobs (like a blurred
+     gradient mesh, but in slate greys — no color) over a light base. The
+     organic light/dark grey pools give the glass cards real tone to refract,
+     while the ::after grain adds a fine matte film that makes glass pop. */
   background-image:
-    radial-gradient(at 20% 18%, rgba(255, 255, 255, 0.7) 0px, transparent 50%),
-    radial-gradient(at 82% 78%, rgba(255, 255, 255, 0.5) 0px, transparent 55%),
-    radial-gradient(at 70% 12%, rgba(203, 213, 225, 0.22) 0px, transparent 45%);
+    radial-gradient(60% 55% at 18% 22%, #f4f6f9 0%, transparent 60%),
+    radial-gradient(55% 50% at 82% 18%, #dfe4ea 0%, transparent 58%),
+    radial-gradient(65% 60% at 75% 80%, #dde2e8 0%, transparent 60%),
+    radial-gradient(50% 55% at 25% 85%, #e6eaef 0%, transparent 58%),
+    radial-gradient(70% 70% at 50% 50%, #edf0f4 0%, transparent 70%),
+    linear-gradient(135deg, #e8ebf0 0%, #dfe4ea 50%, #f1f3f6 100%);
+}
+
+/* Soft matte grain — tiled SVG noise mapped to LIGHT-GREY speckle with a
+   larger grain (lower frequency, bigger tile). Gentle "mini matte points"
+   film that makes the frosted-glass cards stand out as smooth glass on a
+   textured surface, without the harsh dark dots. */
+.gradient-mesh-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='2' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 0.55 0 0 0 0 0.55 0 0 0 0 0.55 0 0 0 -1 0.78'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 150px 150px;
 }
 
 /* Transparent so the fixed backdrop shows through and the glass can sample it. */
@@ -227,12 +263,71 @@ body {
 }
 
 .sticky {
+    position: -webkit-sticky;
     position: sticky;
-    top: 78px; /* clears the fixed floating glass nav */
+    top: 90px; /* clears the fixed floating glass nav */
+}
+
+/* The inner Quick Links menu also carries the .sticky class, but it lives
+   INSIDE the outer sticky glass panel (which has overflow:hidden). A nested
+   sticky there can clip its own bottom items (Interests/Blog), so reset it
+   to normal flow — the outer wrapper already provides the sticky behavior. */
+.column.is-2 > .sticky #sidebar.sticky {
+    position: static;
+    top: auto;
+}
+
+/* Sidebar wrapper = frosted glass panel — same look as the nav (frost +
+   transparency + bevel rim + specular sheen + lift shadow). No hover-tilt:
+   it's a tall panel of clickable links, so tilting would fight reading.
+   Scoped to the OUTER sidebar wrapper (direct child of .column.is-2) so the
+   inner "Quick Links" menu (#sidebar, also .sticky) doesn't get glass-on-glass. */
+.column.is-2 > .sticky {
+    isolation: isolate;
+    /* cap to viewport and scroll internally if the panel is taller, so the
+       bottom links (Interests/Blog) are always reachable */
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1.4rem 1.2rem;
+    border-radius: var(--glass-radius);
+    background: rgba(255, 255, 255, 0.40);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+            backdrop-filter: blur(22px) saturate(180%);
+    box-shadow:
+      0 12px 36px rgba(30, 41, 59, 0.14),
+      0 1px 2px rgba(30, 41, 59, 0.06),
+      inset 2px 2px 3px rgba(255, 255, 255, 0.95),
+      inset -2px -3px 8px rgba(148, 163, 184, 0.20),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.40);
+}
+
+/* Diagonal specular sheen across the sidebar glass (matches the nav). */
+.column.is-2 > .sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.12) 24%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.08) 82%,
+    rgba(255, 255, 255, 0.30) 100%
+  );
+}
+
+/* Keep the avatar/name/menu content above the sheen layer. */
+.column.is-2 > .sticky > * {
+  position: relative;
+  z-index: 1;
 }
 
 .social{
-    padding-bottom: 2rem;
+    padding-bottom: 0.6rem;   /* tighter gap before Quick Links */
     padding-top: 1rem;
     font-size: 1rem;
     display: flex;
@@ -293,12 +388,23 @@ article.columns,
 .visitor-map {
   position: relative;
   isolation: isolate;
-  background: rgba(255, 255, 255, 0.60);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-          backdrop-filter: blur(16px) saturate(160%);
+  /* liquidGL demo-2 "Bank Card" config, translated to CSS:
+     frost:2 -> light blur · bevelDepth 0.1 / bevelWidth 0.17 -> deep bright
+     rim (the inset highlights below) · specular -> ::before sheen ·
+     shadow -> the outer lift. (No tilt on cards — only the nav tilts.) */
+  background: rgba(255, 255, 255, 0.40);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+          backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid var(--glass-border);
   border-radius: var(--glass-radius);
-  box-shadow: var(--glass-shadow);
+  /* deeper demo-2 bevel: thicker bright top-left lip + stronger bottom-right
+     edge + faint full rim, over the soft outer lift shadow */
+  box-shadow:
+    0 12px 32px rgba(30, 41, 59, 0.16),
+    0 1px 2px rgba(30, 41, 59, 0.06),
+    inset 2.5px 2.5px 2px rgba(255, 255, 255, 1),
+    inset -2.5px -2.5px 3px rgba(148, 163, 184, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45);
 }
 
 /* Fallback where backdrop-filter is unsupported: keep the near-solid tint so
@@ -568,25 +674,28 @@ article.columns .column.is-2 picture img {
 }
 
 /* Sidebar Menu Enhancement */
+/* Quick Links styled like the nav bar's links: rounded pills with a blue
+   hover/active highlight (matching .liquidGL-nav-links). */
 .menu-list a {
-  color: #1e3a8a !important;
-  border-radius: var(--radius);
-  transition: background 0.2s ease, transform 0.2s ease;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 0.25rem;
+  color: var(--text-primary) !important;
+  border-radius: 999px;
+  transition: color 0.15s ease, background 0.15s ease;
+  padding: 0.4rem 0.85rem;
+  margin-bottom: 0.2rem;
+  font-weight: 500;
 }
 
 .menu-list a:hover {
-  color: #475569 !important;
-  background: #f1f5f9;
-  transform: translateX(4px);
+  color: #1e3a8a !important;   /* deeper navy: stays AA on the tinted pill over glass */
+  background: rgba(37, 99, 235, 0.08);
 }
 
 #sidebar .menu-list a.is-active,
 #sidebar .menu-list a.is-active:hover,
 #sidebar .menu-list a.is-active:focus {
-  background: #eef2f7 !important;
-  color: #475569 !important;
+  background: rgba(37, 99, 235, 0.14) !important;
+  color: #1e3a8a !important;
+  font-weight: 600;
 }
 
 /* Responsive Design */
@@ -688,6 +797,13 @@ figure.image img {
   height: auto;
 }
 
+/* Interests section: round the Bilibili video embeds to match the curved
+   corners of the other media (their inline styles set no border-radius). */
+iframe[src*="bilibili.com"] {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .site-footer-meta {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -700,8 +816,57 @@ figure.image img {
 }
 
 /* Sidebar: tighten avatar / name / tagline spacing */
-.sticky figure.image.is-128x128 {
-  margin: 0 auto 0.75rem;
+/* Profile photo as a CIRCULAR liquid-glass medallion: full text-width, round,
+   with the card's bevel rim + lift shadow + a glassy sheen over the photo. */
+.profile-photo {
+  width: 90%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 0.9rem;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+  /* 3D hover tilt (driven by JS, same as the nav) */
+  --tiltX: 0deg;
+  --tiltY: 0deg;
+  transform: perspective(600px) rotateX(var(--tiltX)) rotateY(var(--tiltY));
+  transition: transform 0.18s cubic-bezier(0.33, 1, 0.68, 1);
+  box-shadow:
+    0 12px 32px rgba(30, 41, 59, 0.20),
+    0 1px 2px rgba(30, 41, 59, 0.08),
+    inset 3px 3px 3px rgba(255, 255, 255, 0.75),
+    inset -3px -3px 4px rgba(148, 163, 184, 0.30),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.profile-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50% !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Glassy sheen + thin glass rim over the circular photo — a curved highlight
+   sweeping the top-left, fading toward the centre, like light on a glass dome. */
+.profile-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 50%;
+  background:
+    radial-gradient(120% 120% at 28% 22%,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.14) 18%,
+      rgba(255, 255, 255, 0) 42%),
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.30) 0%,
+      rgba(255, 255, 255, 0) 35%);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.6);
 }
 
 .sidebar-name {
@@ -730,26 +895,71 @@ figure.image img {
 /* Hero teaser at top of main content column */
 .hero-teaser {
   width: 100%;
-  margin-bottom: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Hero teaser = glass panel, STRAIGHT rounded edge (no warping). Like the
+   bank-card demo: a wide beveled glass LIP around all edges that bends/brightens
+   light, plus a broad specular sheen covering much of the surface. */
+.hero-teaser {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--glass-radius);
+  overflow: hidden;
+  box-shadow:
+    0 12px 32px rgba(30, 41, 59, 0.16),
+    0 1px 2px rgba(30, 41, 59, 0.06);
 }
 
 .hero-teaser-img {
   display: block;
   width: 100%;
-  max-height: 320px;
+  max-height: 300px;
   object-fit: cover;
   object-position: center;
-  opacity: 0.85;
   border: none !important;
+  border-radius: var(--glass-radius) !important;
   box-shadow: none !important;
-  border-radius: 0 !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
-          mask-image: linear-gradient(to right, transparent 0%, black 25%);
 }
 
-.hero-teaser-img:hover {
-  transform: none;
-  box-shadow: none !important;
+/* Wide beveled glass LIP — a thick inset rim of bright-then-dim light around
+   all four edges, like the refractive bevel of the bank card. The big inset
+   spreads pull the glass band well inward from the edge. */
+.hero-teaser::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: var(--glass-radius);
+  /* Narrower but DEEPER bevel = thicker-glass look: the lip hugs the edge
+     (small width / tight blur) but is brighter & more intense (high depth). */
+  box-shadow:
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.85),     /* crisp bright glass rim */
+    inset 3px 3px 5px rgba(255, 255, 255, 0.85),      /* deep bright top-left bevel */
+    inset -3px -3px 5px rgba(255, 255, 255, 0.6),     /* deep bright bottom-right bevel */
+    inset 5px 5px 8px rgba(255, 255, 255, 0.35),      /* short reinforcing glow */
+    inset -5px -5px 8px rgba(148, 163, 184, 0.22);    /* short cool inner shade */
+}
+
+/* Broad specular sheen — a large diagonal glass highlight sweeping most of the
+   surface (covers more area than the card sheen, per the bank-card look). */
+.hero-teaser::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: var(--glass-radius);
+  background: linear-gradient(
+    122deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.07) 24%,
+    rgba(255, 255, 255, 0.01) 44%,
+    rgba(255, 255, 255, 0) 62%,
+    rgba(255, 255, 255, 0.05) 88%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
 }
 
 @media (max-width: 768px) {

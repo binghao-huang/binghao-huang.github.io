@@ -110,6 +110,7 @@
   <!-- Soft tonal backdrop (light grey) behind the glass. -->
   <div class="gradient-mesh-bg" aria-hidden="true"></div>
 
+
   <!-- Floating glass nav. Real WebGL liquid glass (liquidGL, demo-1 "Default"
        preset) upgrades it where supported; falls back to CSS glass otherwise.
        JS also adds active-section highlighting as you scroll. -->
@@ -131,8 +132,8 @@
       <div class="columns">
         <div class="column is-2">
           <div class="sticky">
-            <figure class="image is-128x128">
-              <img decoding="async" class="is-rounded" src="images/IMG_0205_256.jpg" width="128" height="128" alt="Portrait of Binghao Huang">
+            <figure class="image profile-photo">
+              <img decoding="async" src="images/IMG_0205_256.jpg" width="256" height="256" alt="Portrait of Binghao Huang">
             </figure>
             <div class="content">
               <h3 class="sidebar-name">Binghao Huang</h3>
@@ -212,13 +213,10 @@
 
 
             <h3 id="news">News</h3>
-            <div class="row">
-              <div class="col-md-4">
-                  <b>Learning with Flexible Tactile Skin</b><br>
-                  [2025/10] <b>Invited Talk, <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><b>UPenn GRASP</b></a></b><br>
-                  <iframe loading="lazy" src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg"  width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                  </div>
-            </div>
+            <b>Learning with Flexible Tactile Skin</b><br>
+            [2025/10] <b>Invited Talk, <a href="https://www.grasp.upenn.edu/events/fall-2025-grasp-sfi-binghao-huang/" target="_blank" rel="noopener noreferrer"><b>UPenn GRASP</b></a></b><br>
+            <iframe loading="lazy" src="https://www.youtube.com/embed/ol9fWgILFz4?si=XPmBJqtej85_A8Fg" width="360" height="200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <br /><br />
             • [2026/05] Awarded the <font color="firebrick"><b>Qualcomm Innovation Fellowship 2026</b></font>. <a href="https://www.qualcomm.com/research/university-relations/innovation-fellowship/2026-north-america" target="_blank" rel="noopener noreferrer"><small>[Link]</small></a><br />
             • [2026/05] Started my internship at <a href="https://www.amazon.science/research-areas/robotics" target="_blank" rel="noopener noreferrer"><b>Amazon, Frontier AI & Robotics</b></a>. <br />
             • [2026/03] Released <a href="https://flexitac.github.io/" target="_blank" rel="noopener noreferrer"><b>FlexiTac</b></a>, an open-source, scalable tactile solution for robotic systems. <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener noreferrer"><b>[Hardware Code]</b></a> <a href="https://github.com/binghao-huang/FlexiTac-IsaacSim-Simulation" target="_blank" rel="noopener noreferrer"><b>[Simulation]</b></a><br />
@@ -1358,42 +1356,44 @@
                 million views</b> in total. <a href="https://www.bilibili.com/video/BV1MK4y1g7QA" target="_blank" rel="noopener noreferrer">My Most Popular Video</a>, which discusses robots combined
               with brain-computer interfaces, has garnered over <b>1.84 million</b> views and is widely recognized within the field.
               <br /><br />
-            <div class="columns is-centered has-text-centered">
-              <div class="column">
-
-                <div class="columns is-centered">
-
-                  <div style="position: relative; padding: 27% 48%;">
-                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-                      src="https://player.bilibili.com/player.html?aid=888825628&bvid=BV1MK4y1g7QA&cid=360832865&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true" title="Motor Augmentation Bilibili video"></iframe>
+            <div class="columns is-centered has-text-centered" style="align-items: stretch;">
+              <div class="column" style="display:flex;">
+                <div style="width:100%; display:flex; flex-direction:column;">
+                  <div class="columns is-centered" style="margin:0;">
+                    <div style="position: relative; width:100%; aspect-ratio:16 / 9;">
+                      <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; border-radius:10px;"
+                        src="https://player.bilibili.com/player.html?aid=888825628&bvid=BV1MK4y1g7QA&cid=360832865&page=1&quality=1&autoplay=false&muted=1"
+                        frameborder="no" scrolling="no" allowfullscreen="true" title="Motor Augmentation Bilibili video"></iframe>
+                    </div>
                   </div>
+                  <h2 class="title is-5" style="margin-top:1rem;">Motor Augmentation</h2>
                 </div>
-                <h2 class="title is-5">Motor Augmentation</h2>
               </div>
 
-              <div class="column">
-
-                <div class="columns is-centered">
-                  <div style="position: relative; padding: 27% 48%;">
-                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-                      src="https://player.bilibili.com/player.html?aid=805185475&bvid=BV1ey4y1G7ms&cid=397966445&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true" title="Atlas and MPC Bilibili video"></iframe>
+              <div class="column" style="display:flex;">
+                <div style="width:100%; display:flex; flex-direction:column;">
+                  <div class="columns is-centered" style="margin:0;">
+                    <div style="position: relative; width:100%; aspect-ratio:16 / 9;">
+                      <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; border-radius:10px;"
+                        src="https://player.bilibili.com/player.html?aid=805185475&bvid=BV1ey4y1G7ms&cid=397966445&page=1&quality=1&autoplay=false&muted=1"
+                        frameborder="no" scrolling="no" allowfullscreen="true" title="Atlas and MPC Bilibili video"></iframe>
+                    </div>
                   </div>
+                  <h2 class="title is-5" style="margin-top:1rem;">Atlas &amp; MPC</h2>
                 </div>
-                <h2 class="title is-5">Atlas &amp; MPC</h2>
               </div>
 
-              <div class="column">
-
-                <div class="columns is-centered">
-                  <div style="position: relative; padding: 27% 48%;">
-                    <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;"
-                      src="https://player.bilibili.com/player.html?aid=890903934&bvid=BV1tP4y187AA&cid=419365745&page=1&quality=1&autoplay=false&muted=1"
-                      frameborder="no" scrolling="no" allowfullscreen="true" title="Soft Robot Bilibili video"></iframe>
+              <div class="column" style="display:flex;">
+                <div style="width:100%; display:flex; flex-direction:column;">
+                  <div class="columns is-centered" style="margin:0;">
+                    <div style="position: relative; width:100%; aspect-ratio:16 / 9;">
+                      <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; border-radius:10px;"
+                        src="https://player.bilibili.com/player.html?aid=890903934&bvid=BV1tP4y187AA&cid=419365745&page=1&quality=1&autoplay=false&muted=1"
+                        frameborder="no" scrolling="no" allowfullscreen="true" title="Soft Robot Bilibili video"></iframe>
+                    </div>
                   </div>
+                  <h2 class="title is-5" style="margin-top:1rem;">Soft Robot</h2>
                 </div>
-                <h2 class="title is-5">Soft Robot</h2>
               </div>
 
             </div>
@@ -1491,26 +1491,29 @@
     // when the html2canvas snapshot stalls on cross-origin embeds (the nav
     // "disappears"). The demo's look uses refraction:0, so CSS reproduces it.
 
-    // ===== Nav 3D tilt on hover (matches liquidGL demo-2: tilt, tiltFactor 25) =====
+    // ===== 3D tilt on hover (matches liquidGL demo-2: tiltFactor 25) =====
+    // Applied to the floating nav AND the profile photo.
     (function () {
       var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduceMotion) return;
-      var nav = document.querySelector('.liquidGL-nav');
-      if (!nav) return;
-      var MAX = 25; // degrees (tiltFactor)
 
-      nav.addEventListener('pointermove', function (e) {
-        var r = nav.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width  - 0.5;  // -0.5..0.5
-        var py = (e.clientY - r.top)  / r.height - 0.5;
-        // rotateX follows vertical cursor (inverted), rotateY follows horizontal
-        nav.style.setProperty('--tiltX', (-py * MAX).toFixed(2) + 'deg');
-        nav.style.setProperty('--tiltY', ( px * MAX).toFixed(2) + 'deg');
-      });
-      nav.addEventListener('pointerleave', function () {
-        nav.style.setProperty('--tiltX', '0deg');
-        nav.style.setProperty('--tiltY', '0deg');
-      });
+      function addTilt(el, max, baseTransform) {
+        if (!el) return;
+        el.addEventListener('pointermove', function (e) {
+          var r = el.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width  - 0.5;  // -0.5..0.5
+          var py = (e.clientY - r.top)  / r.height - 0.5;
+          el.style.setProperty('--tiltX', (-py * max).toFixed(2) + 'deg');
+          el.style.setProperty('--tiltY', ( px * max).toFixed(2) + 'deg');
+        });
+        el.addEventListener('pointerleave', function () {
+          el.style.setProperty('--tiltX', '0deg');
+          el.style.setProperty('--tiltY', '0deg');
+        });
+      }
+
+      addTilt(document.querySelector('.liquidGL-nav'), 25);
+      addTilt(document.querySelector('.profile-photo'), 18);
     })();
   </script>
 </body>
