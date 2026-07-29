@@ -86,17 +86,8 @@ html {
   z-index: -1;            /* behind all content */
   pointer-events: none;
   background-color: var(--bg-primary);
-  /* Matte academic backdrop: soft cool-grey mesh blobs (like a blurred
-     gradient mesh, but in slate greys — no color) over a light base. The
-     organic light/dark grey pools give the glass cards real tone to refract,
-     while the ::after grain adds a fine matte film that makes glass pop. */
-  background-image:
-    radial-gradient(60% 55% at 18% 22%, #f4f6f9 0%, transparent 60%),
-    radial-gradient(55% 50% at 82% 18%, #dfe4ea 0%, transparent 58%),
-    radial-gradient(65% 60% at 75% 80%, #dde2e8 0%, transparent 60%),
-    radial-gradient(50% 55% at 25% 85%, #e6eaef 0%, transparent 58%),
-    radial-gradient(70% 70% at 50% 50%, #edf0f4 0%, transparent 70%),
-    linear-gradient(135deg, #e8ebf0 0%, #dfe4ea 50%, #f1f3f6 100%);
+  /* Plain white backdrop. */
+  background-image: none;
 }
 
 /* Soft matte grain — tiled SVG noise mapped to LIGHT-GREY speckle with a
@@ -108,9 +99,8 @@ html {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.7;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='2' stitchTiles='stitch' result='t'/%3E%3CfeColorMatrix in='t' type='matrix' values='0 0 0 0 0.55 0 0 0 0 0.55 0 0 0 0 0.55 0 0 0 -1 0.78'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 150px 150px;
+  opacity: 0;
+  background-image: none;
 }
 
 /* Transparent so the fixed backdrop shows through and the glass can sample it. */
