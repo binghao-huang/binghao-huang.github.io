@@ -1,0 +1,1937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Making Touch Cheap: How One Open Tactile Sensor Grew a Research Tree · Binghao Huang</title>
+<meta name="description" content="A guided map of Awesome FlexiTac: how flexible, low-cost tactile sensing entered robot learning through 3D-ViTac, scaled in the real world and in simulation, and branched into 29 works across 25+ institutions.">
+<meta property="og:title" content="Making Touch Cheap: How One Open Tactile Sensor Grew a Research Tree">
+<meta property="og:description" content="A guided map of Awesome FlexiTac — the research tree growing on open, flexible, low-cost tactile sensing.">
+<meta property="og:type" content="article">
+
+<link rel="icon" type="image/png" href="../../images/IMG_1827.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   Design tokens — shared with /blog/tactile-survey.html so the two posts
+   read as one system.
+   ========================================================================== */
+:root {
+  --bg: #fdfcf8;
+  --bg-elevated: #fff;
+  --text: #1a1a1a;
+  --text-muted: #666;
+  --text-subtle: #999;
+  --border: #e8e4d8;
+  --accent: #7F77DD;
+  --accent-2: #D85A30;
+  --teal: #1D9E75;
+  --green: #3B6D11;
+  --amber: #BA7517;
+  --pink: #D4537E;
+  --purple: #7F77DD;
+  --coral: #D85A30;
+  --blue: #378ADD;
+  --gray: #888780;
+  --code-bg: #f4f1e8;
+  --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.06), 0 16px 32px rgba(0,0,0,0.05);
+  --serif: 'Crimson Pro', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f10;
+  --bg-elevated: #18181b;
+  --text: #ededed;
+  --text-muted: #a8a8a8;
+  --text-subtle: #6e6e6e;
+  --border: #28282c;
+  --code-bg: #1e1e22;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.5), 0 16px 32px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---- Top nav ---- */
+.topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(253, 252, 248, 0.85);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--sans); font-size: 14px;
+}
+[data-theme="dark"] .topnav { background: rgba(15, 15, 16, 0.85); }
+.topnav-left { font-weight: 600; letter-spacing: -0.01em; }
+.topnav-left a { color: var(--text); text-decoration: none; }
+.topnav-right { display: flex; gap: 12px; align-items: center; }
+.theme-toggle, .topnav-right a {
+  background: none; border: 1px solid var(--border); color: var(--text-muted);
+  cursor: pointer; padding: 6px 12px; border-radius: 6px;
+  font-family: var(--sans); font-size: 13px; text-decoration: none;
+  transition: all 0.2s;
+}
+.theme-toggle:hover, .topnav-right a:hover { color: var(--text); border-color: var(--accent); }
+
+/* ---- Reading progress ---- */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+  background: var(--accent); z-index: 200; transition: width 0.1s linear;
+}
+
+/* ---- Layout ---- */
+.wrap { max-width: 780px; margin: 0 auto; padding: 56px 32px 120px; }
+.wrap.wide { max-width: 1180px; }
+
+.title-block { margin-bottom: 40px; }
+.eyebrow {
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+h1 {
+  font-family: var(--sans); font-size: 42px; font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 18px;
+}
+.subtitle {
+  font-size: 21px; color: var(--text-muted); line-height: 1.5;
+  margin-bottom: 24px;
+}
+.meta {
+  font-family: var(--sans); font-size: 13px; color: var(--text-subtle);
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+  padding-bottom: 24px; border-bottom: 1px solid var(--border);
+}
+
+h2 {
+  font-family: var(--sans); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 64px 0 8px; padding-top: 20px; border-top: 1px solid var(--border);
+}
+h3 {
+  font-family: var(--sans); font-size: 27px; font-weight: 650;
+  letter-spacing: -0.02em; line-height: 1.25; margin: 12px 0 20px;
+}
+h4 {
+  font-family: var(--sans); font-size: 18px; font-weight: 650;
+  margin: 36px 0 12px; letter-spacing: -0.01em;
+}
+p { margin-bottom: 20px; }
+p.lead { font-size: 21px; color: var(--text-muted); }
+
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(127,119,221,0.3); }
+a:hover { border-bottom-color: var(--accent); }
+
+strong { font-weight: 600; }
+em { font-style: italic; }
+
+ul, ol { margin: 0 0 22px 24px; }
+li { margin-bottom: 9px; }
+
+code {
+  font-family: var(--mono); font-size: 0.86em;
+  background: var(--code-bg); padding: 2px 6px; border-radius: 4px;
+}
+
+.num {
+  font-family: var(--sans); font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+/* ---- Callout ---- */
+.callout {
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px; margin: 28px 0;
+  background: var(--bg-elevated); border-radius: 0 8px 8px 0;
+  font-size: 17px; font-style: italic; color: var(--text-muted);
+}
+.callout strong { font-style: normal; color: var(--text); }
+.callout.warn { border-left-color: var(--accent-2); }
+
+/* ---- Stat strip ---- */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; margin: 32px 0;
+}
+.stat { background: var(--bg-elevated); padding: 18px 16px; text-align: center; }
+.stat-n {
+  font-family: var(--sans); font-size: 27px; font-weight: 700;
+  letter-spacing: -0.02em; color: var(--text);
+  font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.stat-l {
+  font-family: var(--sans); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--text-subtle); margin-top: 6px;
+}
+@media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---- Figures ---- */
+figure {
+  margin: 40px 0; padding: 24px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: var(--shadow);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+figure.visible { opacity: 1; transform: translateY(0); }
+figcaption {
+  font-family: var(--sans); font-size: 13px; color: var(--text-muted);
+  margin-top: 16px; line-height: 1.55;
+}
+.fig-num { font-weight: 650; color: var(--text); }
+
+.diagram { width: 100%; height: auto; font-family: var(--sans); display: block; }
+.diagram .node-bg-blue   { fill: #E6F1FB; stroke: #0C447C; }
+.diagram .node-bg-teal   { fill: #E1F5EE; stroke: #085041; }
+.diagram .node-bg-purple { fill: #EEEDFE; stroke: #3C3489; }
+.diagram .node-bg-coral  { fill: #FAECE7; stroke: #712B13; }
+.diagram .node-bg-amber  { fill: #FAEEDA; stroke: #633806; }
+.diagram .node-bg-green  { fill: #EAF3DE; stroke: #27500A; }
+.diagram .node-bg-pink   { fill: #FBEAF0; stroke: #72243E; }
+.diagram .node-bg-gray   { fill: #F1EFE8; stroke: #2C2C2A; }
+[data-theme="dark"] .diagram .node-bg-blue   { fill: rgba(55,138,221,0.15);  stroke: #5BA8E8; }
+[data-theme="dark"] .diagram .node-bg-teal   { fill: rgba(29,158,117,0.15);  stroke: #4ECCA0; }
+[data-theme="dark"] .diagram .node-bg-purple { fill: rgba(127,119,221,0.15); stroke: #A39EF0; }
+[data-theme="dark"] .diagram .node-bg-coral  { fill: rgba(216,90,48,0.15);   stroke: #F08560; }
+[data-theme="dark"] .diagram .node-bg-amber  { fill: rgba(186,117,23,0.15);  stroke: #DEA052; }
+[data-theme="dark"] .diagram .node-bg-green  { fill: rgba(59,109,17,0.18);   stroke: #7DAB44; }
+[data-theme="dark"] .diagram .node-bg-pink   { fill: rgba(212,83,126,0.18);  stroke: #E883A8; }
+[data-theme="dark"] .diagram .node-bg-gray   { fill: rgba(136,135,128,0.15); stroke: #B8B8B0; }
+.diagram .node-title { font-weight: 600; font-size: 13px; fill: var(--text); }
+.diagram .node-sub   { font-size: 11px; fill: var(--text-muted); }
+.diagram .axis-lbl   { font-size: 11px; fill: var(--text-subtle); font-weight: 500; }
+.diagram .val-lbl    { font-size: 12px; fill: var(--text); font-weight: 650; }
+.diagram .arrow { stroke: var(--text-subtle); fill: none; stroke-width: 1.4; }
+
+.diagram .anim-node { opacity: 0; animation: nodeFadeIn 0.5s ease forwards; animation-play-state: paused; }
+figure.visible .diagram .anim-node { animation-play-state: running; }
+@keyframes nodeFadeIn { to { opacity: 1; } }
+.diagram .anim-arrow { opacity: 0; stroke-dasharray: 240; stroke-dashoffset: 240; }
+figure.visible .diagram .anim-arrow { animation: arrowDraw 0.9s ease forwards; }
+@keyframes arrowDraw { to { opacity: 0.75; stroke-dashoffset: 0; } }
+.diagram .grow-bar { transform: scaleX(0); transform-origin: left center; }
+figure.visible .diagram .grow-bar { animation: growX 1s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes growX { to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  figure { opacity: 1 !important; transform: none !important; }
+  .diagram .anim-node { opacity: 1 !important; animation: none !important; }
+  .diagram .anim-arrow { opacity: 0.75 !important; stroke-dashoffset: 0 !important; animation: none !important; }
+  .diagram .grow-bar { transform: scaleX(1) !important; animation: none !important; }
+}
+
+/* ---- Video grid (PI-style task strip) ---- */
+.vgrid { display: grid; gap: 12px; }
+.vgrid.c2 { grid-template-columns: repeat(2, 1fr); }
+.vgrid.c3 { grid-template-columns: repeat(3, 1fr); }
+.vgrid.c4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 700px) { .vgrid.c3, .vgrid.c4 { grid-template-columns: repeat(2, 1fr); } }
+.vcell { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg); }
+.vcell video, .vcell img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; background: #111; }
+.vcap {
+  font-family: var(--sans); font-size: 11.5px; line-height: 1.4;
+  padding: 8px 10px; color: var(--text-muted);
+}
+.vcap b { color: var(--text); font-weight: 600; display: block; font-size: 12px; }
+
+/* ---- Toggle / step controls ---- */
+.fig-controls {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  margin-bottom: 18px; font-family: var(--sans);
+}
+.ctl {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+  font-family: var(--sans); font-size: 12.5px; font-weight: 550;
+  padding: 7px 14px; border-radius: 999px; cursor: pointer; transition: all 0.18s;
+}
+.ctl:hover { color: var(--text); border-color: var(--accent); }
+.ctl.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.ctl-note {
+  font-family: var(--sans); font-size: 12px; color: var(--text-subtle);
+  margin-left: auto;
+}
+.step-cap {
+  font-family: var(--sans); font-size: 13.5px; line-height: 1.5;
+  color: var(--text); background: var(--bg);
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px;
+  min-height: 62px;
+}
+.step-cap b { font-weight: 650; }
+.step-cap .sc-k {
+  font-family: var(--sans); font-size: 11px; font-weight: 650;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent);
+  display: block; margin-bottom: 3px;
+}
+
+/* ==========================================================================
+   Interactive lineage tree
+   ========================================================================== */
+#tree-fig { padding: 24px 20px; }
+.tree-shell { position: relative; }
+.tree-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: visible; z-index: 0;
+}
+.tree-edge {
+  fill: none; stroke: var(--text-subtle); stroke-width: 1.5;
+  opacity: 0; transition: opacity 0.4s ease, stroke 0.3s ease;
+}
+.tree-edge.show { opacity: 0.42; }
+.tree-edge.hi { opacity: 0.95; stroke: var(--accent); stroke-width: 2.2; }
+.tree-edge.dashed { stroke-dasharray: 4 4; }
+
+.tree-row { position: relative; z-index: 1; margin-bottom: 26px; }
+.tree-row-lbl {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 650;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--text-subtle); margin-bottom: 10px; text-align: center;
+}
+.tree-band { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.tree-cols {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px; position: relative; z-index: 1;
+}
+@media (max-width: 900px) { .tree-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .tree-cols { grid-template-columns: 1fr; } }
+
+.branch-head {
+  font-family: var(--sans); border-radius: 8px 8px 0 0;
+  padding: 9px 10px; text-align: center;
+  border: 1px solid var(--border); border-bottom: none;
+  background: var(--bg);
+}
+.branch-head .bh-t {
+  font-size: 12px; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--text); line-height: 1.25;
+}
+.branch-head .bh-s { font-size: 10.5px; color: var(--text-subtle); margin-top: 2px; }
+.branch-col { display: flex; flex-direction: column; }
+.branch-body {
+  display: flex; flex-direction: column; gap: 7px;
+  border: 1px solid var(--border); border-radius: 0 0 8px 8px;
+  padding: 8px; background: var(--bg); flex: 1;
+}
+
+/* node cards */
+.tnode {
+  position: relative; text-align: left; width: 100%;
+  font-family: var(--sans); cursor: pointer;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: 7px; padding: 8px 9px;
+  transition: opacity 0.3s ease, transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.tnode:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: var(--shadow); }
+.tnode.sel { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(127,119,221,0.22); }
+.tnode.dim { opacity: 0.2; pointer-events: none; }
+.tnode.hidden-step { opacity: 0.08; pointer-events: none; }
+.tn-t { font-size: 12px; font-weight: 650; color: var(--text); line-height: 1.3; }
+.tn-m {
+  font-size: 10.5px; color: var(--text-subtle); margin-top: 3px;
+  display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+}
+.ft-dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+.tn-venue { font-weight: 550; }
+
+/* emphasis tiers */
+.tnode.sensor {
+  background: linear-gradient(135deg, rgba(216,90,48,0.10), rgba(186,117,23,0.07));
+  border-color: var(--accent-2); padding: 12px 14px;
+}
+.tnode.sensor .tn-t { font-size: 15px; }
+.tnode.pillar { border-color: var(--accent); background: rgba(127,119,221,0.06); padding: 10px 12px; }
+.tnode.pillar .tn-t { font-size: 13px; }
+.tnode.root, .tnode.neighbor { background: transparent; border-style: dashed; }
+.tnode.root .tn-t, .tnode.neighbor .tn-t { font-size: 11px; font-weight: 550; color: var(--text-muted); }
+
+.band-sensor { max-width: 380px; margin: 0 auto; }
+.band-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 700px) { .band-pillars { grid-template-columns: 1fr; } }
+.band-roots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 700px) { .band-roots { grid-template-columns: repeat(2, 1fr); } }
+
+/* detail panel */
+.tdetail {
+  margin-top: 20px; border: 1px solid var(--border); border-radius: 10px;
+  background: var(--bg); overflow: hidden;
+  display: grid; grid-template-columns: 220px 1fr;
+}
+@media (max-width: 640px) { .tdetail { grid-template-columns: 1fr; } }
+.td-media { background: #111; min-height: 132px; }
+.td-media video, .td-media img { width: 100%; height: 100%; display: block; object-fit: cover; aspect-ratio: 16/10; }
+.td-body { padding: 14px 16px; font-family: var(--sans); }
+.td-cat {
+  font-size: 10.5px; font-weight: 650; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 5px;
+}
+.td-t { font-size: 15.5px; font-weight: 650; line-height: 1.3; color: var(--text); margin-bottom: 4px; }
+.td-a { font-size: 12px; color: var(--text-subtle); margin-bottom: 9px; }
+.td-q { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 11px; }
+.td-q b { color: var(--text); font-weight: 600; }
+.td-links { display: flex; gap: 7px; flex-wrap: wrap; }
+.td-links a {
+  font-size: 11.5px; font-weight: 550; padding: 4px 11px;
+  border: 1px solid var(--border); border-radius: 999px;
+  color: var(--text-muted); background: var(--bg-elevated);
+  text-decoration: none; transition: all 0.18s;
+}
+.td-links a:hover { color: var(--accent); border-color: var(--accent); }
+.td-empty {
+  padding: 22px 16px; font-family: var(--sans); font-size: 13px;
+  color: var(--text-subtle); text-align: center; grid-column: 1 / -1;
+}
+
+/* ---- Tables ---- */
+.table-wrap {
+  margin: 32px 0; overflow-x: auto;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--bg-elevated); box-shadow: var(--shadow);
+}
+table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+th {
+  text-align: left; padding: 12px 16px; font-weight: 650; font-size: 11.5px;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-subtle);
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); }
+tr:last-child td { border-bottom: none; }
+td strong { color: var(--text); }
+
+/* ---- Numbered open problems ---- */
+.problems { counter-reset: prob; margin: 28px 0; }
+.problem {
+  position: relative; padding: 14px 18px 14px 56px; margin-bottom: 10px;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--bg-elevated);
+}
+.problem::before {
+  counter-increment: prob; content: "P" counter(prob);
+  position: absolute; left: 14px; top: 14px;
+  font-family: var(--sans); font-size: 12px; font-weight: 700;
+  color: var(--accent); background: rgba(127,119,221,0.1);
+  border-radius: 6px; padding: 3px 7px;
+}
+.problem h5 {
+  font-family: var(--sans); font-size: 15px; font-weight: 650;
+  margin-bottom: 4px; color: var(--text);
+}
+.problem p { font-size: 16px; margin: 0; color: var(--text-muted); }
+
+/* ---- Embedded Awesome FlexiTac window ---- */
+.embed-card {
+  margin: 36px 0; border: 1px solid var(--border); border-radius: 14px;
+  overflow: hidden; background: var(--bg-elevated); box-shadow: var(--shadow-lg);
+}
+.embed-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border);
+  font-family: var(--sans); background: var(--bg);
+}
+.embed-title { font-size: 13.5px; font-weight: 650; color: var(--text); }
+.embed-title span { font-weight: 400; color: var(--text-subtle); margin-left: 8px; font-size: 12px; }
+.embed-cta {
+  font-size: 12px; font-weight: 600; color: var(--accent);
+  text-decoration: none; border: 1px solid var(--border);
+  padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+}
+.embed-cta:hover { border-color: var(--accent); }
+.embed-frame { height: 660px; background: var(--bg); }
+.embed-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+@media (max-width: 700px) { .embed-frame { height: 520px; } }
+.embed-foot {
+  padding: 10px 16px; border-top: 1px solid var(--border);
+  font-family: var(--sans); font-size: 12px; color: var(--text-subtle);
+  text-align: center; background: var(--bg);
+}
+
+/* ---- Start-here steps ---- */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 28px 0; }
+@media (max-width: 760px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+.step {
+  border: 1px solid var(--border); border-radius: 10px; padding: 14px;
+  background: var(--bg-elevated); font-family: var(--sans);
+}
+.step-n {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+}
+.step-t { font-size: 13.5px; font-weight: 650; color: var(--text); margin-bottom: 4px; }
+.step-d { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
+.step-d a { font-size: 12.5px; }
+
+/* ---- BibTeX ---- */
+pre.bib {
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.6;
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px 18px; overflow-x: auto;
+  margin: 20px 0; color: var(--text-muted);
+}
+
+/* ---- TOC ---- */
+.toc {
+  font-family: var(--sans); font-size: 13.5px;
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px 22px; margin: 36px 0; background: var(--bg-elevated);
+}
+.toc-h {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-subtle); margin-bottom: 10px;
+}
+.toc ol { margin: 0 0 0 18px; }
+.toc li { margin-bottom: 5px; }
+.toc a { color: var(--text-muted); border-bottom: none; }
+.toc a:hover { color: var(--accent); }
+
+.footnav {
+  margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--border);
+  font-family: var(--sans); font-size: 14px;
+}
+.refs { font-family: var(--sans); font-size: 13.5px; color: var(--text-muted); }
+.refs li { margin-bottom: 8px; }
+
+.ref {
+  font-family: var(--sans); font-size: 0.62em; font-weight: 600;
+  vertical-align: super; line-height: 0;
+  color: var(--accent); margin-left: 1px;
+}
+</style>
+</head>
+
+<body>
+<div id="progress-bar"></div>
+
+<nav class="topnav">
+  <div class="topnav-left"><a href="../../index.html">Binghao Huang</a></div>
+  <div class="topnav-right">
+    <a href="../index.html">Blog</a>
+    <a href="https://binghao-huang.github.io/Awesome-FlexiTac/" target="_blank" rel="noopener">Awesome FlexiTac</a>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">Dark</button>
+  </div>
+</nav>
+
+<div class="wrap wide">
+
+<div class="title-block">
+  <div class="eyebrow">Tactile Sensing · Research Map</div>
+  <h1>Making Touch Cheap: How One Open Tactile Sensor Grew a Research Tree</h1>
+  <p class="subtitle">
+    A guided tour of <a href="https://binghao-huang.github.io/Awesome-FlexiTac/" target="_blank" rel="noopener">Awesome FlexiTac</a> —
+    what happens to a research field when a dense tactile sensor stops costing six hours and a thousand dollars,
+    and starts costing three minutes and a few dollars.
+  </p>
+  <div class="meta">
+    <span>Binghao Huang</span><span>·</span>
+    <span>August 12, 2026</span><span>·</span>
+    <span>~15 min read</span><span>·</span>
+    <a href="#browse">Jump to the ecosystem browser ↓</a>
+  </div>
+</div>
+
+<p class="lead">
+  Most tactile-sensing papers end with a working demo and a sensor nobody else ever builds. That was the
+  problem I ran into in 2023, and the reason this post exists: the bottleneck in tactile robot learning was
+  never really the algorithm — it was <em>access</em>.
+</p>
+
+<p>
+  Three years later there is a small ecosystem of work built on the same open, flexible,
+  low-cost tactile sensor. <a href="https://binghao-huang.github.io/Awesome-FlexiTac/" target="_blank" rel="noopener">Awesome FlexiTac</a>
+  is the list. This post is the <em>map</em>: how the line started, which questions split off from it,
+  who is working on what, and which branches are still wide open.
+</p>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n">29</div><div class="stat-l">works tracked</div></div>
+  <div class="stat"><div class="stat-n">19</div><div class="stat-l">built on FlexiTac</div></div>
+  <div class="stat"><div class="stat-n">25+</div><div class="stat-l">institutions</div></div>
+  <div class="stat"><div class="stat-n">$1.36</div><div class="stat-l">per sensor, at 1k units</div></div>
+</div>
+
+<div class="toc">
+  <div class="toc-h">Contents</div>
+  <ol>
+    <li><a href="#access">The access problem, not the algorithm problem</a></li>
+    <li><a href="#sensor">Building from principle: V1 → V2</a></li>
+    <li><a href="#vitac">Question 1 — can a policy actually use dense touch?</a></li>
+    <li><a href="#fusion">The fusion question, and why naive concatenation fails</a></li>
+    <li><a href="#real">Question 2 — where does tactile data come from?</a></li>
+    <li><a href="#sim">Question 3 — can simulation supply the rest?</a></li>
+    <li><a href="#tree">The research tree</a></li>
+    <li><a href="#limits">What this sensor is <em>not</em> good for</a></li>
+    <li><a href="#open">Seven open problems</a></li>
+    <li><a href="#start">Start in an afternoon</a></li>
+    <li><a href="#browse">Browse the ecosystem</a></li>
+  </ol>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="access">1 · The access problem</h2>
+<h3>In 2023 you could buy a dense tactile array. You could not buy the fifth revision of one.</h3>
+
+<p>
+  The science already existed. MIT's scalable tactile glove — 548 sensors on a knitted glove,
+  <em>Nature</em> 2019 — identified objects from recorded human grasps, offline.<a class="ref" href="#r1">[1]</a>
+  Whether a policy could close a control loop on that signal is a different question, and in 2023 answering it
+  began with a purchase order rather than an experiment.
+</p>
+
+<p>
+  There were three channels. Commercial research systems sold a calibrated array for roughly
+  <span class="num">$1,000</span>, but not its geometry. Factories were cheap in stock shapes and quoted me
+  about <span class="num">$6,000</span> of non-recurring engineering per custom design. Academic prototypes
+  moved by request — sometimes unavailable, sometimes licensed — leaving a hand rebuild of the 2019 glove at
+  about <span class="num">6&nbsp;hours</span> per sensor. Each is optimised, correctly, for a customer who is
+  not an iterating robot-learning lab. Iteration was nobody's product.
+</p>
+
+<p>
+  So I went back to the physics: a resistive sandwich — polyimide film, adhesive, a force-sensitive resistive
+  layer, and conductive traces crossing in a grid, with each crossing acting as one
+  <span class="num">3&nbsp;mm²</span> pressure unit. No cleanroom, no exotic materials. What was missing was
+  iteration on manufacturability, which is not a publishable result. The gap was supply, not science.
+</p>
+
+<figure id="fig1">
+  <svg class="diagram" viewBox="0 0 700 304" xmlns="http://www.w3.org/2000/svg" role="img"
+       aria-label="Two bar charts showing fabrication time falling from 6 hours to 3 minutes and unit cost falling from about 1000 dollars to 1.36 dollars">
+    <text class="node-title" x="0" y="14">Fabrication time per sensor</text>
+    <text class="axis-lbl" x="0" y="44">hand-built v0</text>
+    <rect class="node-bg-coral grow-bar" x="120" y="32" width="440" height="17" rx="3" stroke-width="0.5" style="animation-delay:0s"/>
+    <text class="val-lbl" x="568" y="45">6 h</text>
+    <text class="axis-lbl" x="0" y="70">FlexiTac V1</text>
+    <rect class="node-bg-teal grow-bar" x="120" y="58" width="37" height="17" rx="3" stroke-width="0.5" style="animation-delay:0.12s"/>
+    <text class="val-lbl" x="165" y="71">30 min</text>
+    <text class="axis-lbl" x="0" y="96">FlexiTac V2</text>
+    <rect class="node-bg-purple grow-bar" x="120" y="84" width="8" height="17" rx="3" stroke-width="0.5" style="animation-delay:0.24s"/>
+    <text class="val-lbl" x="136" y="97">3 min</text>
+    <text class="node-sub" x="120" y="120">120× faster · V2 arrives from a PCB factory, so assembly is the only manual step</text>
+
+    <line class="arrow" x1="0" y1="144" x2="700" y2="144" stroke-dasharray="3 4" opacity="0.35"/>
+
+    <text class="node-title" x="0" y="172">Cost per sensing pad</text>
+    <text class="axis-lbl" x="0" y="202">commercial</text>
+    <rect class="node-bg-coral grow-bar" x="120" y="190" width="440" height="17" rx="3" stroke-width="0.5" style="animation-delay:0.1s"/>
+    <text class="val-lbl" x="568" y="203">~$1,000</text>
+    <text class="axis-lbl" x="0" y="228">V1 (in-lab)</text>
+    <rect class="node-bg-teal grow-bar" x="120" y="216" width="9" height="17" rx="3" stroke-width="0.5" style="animation-delay:0.22s"/>
+    <text class="val-lbl" x="137" y="229">~$5</text>
+    <text class="axis-lbl" x="0" y="254">V2 (20 units)</text>
+    <rect class="node-bg-purple grow-bar" x="120" y="242" width="8" height="17" rx="3" stroke-width="0.5" style="animation-delay:0.34s"/>
+    <text class="val-lbl" x="136" y="255">$4.19</text>
+    <text class="axis-lbl" x="0" y="280">V2 (1k units)</text>
+    <rect class="node-bg-purple grow-bar" x="120" y="268" width="4" height="17" rx="3" stroke-width="0.5" style="animation-delay:0.46s"/>
+    <text class="val-lbl" x="132" y="281">$1.36</text>
+  </svg>
+  <figcaption>
+    <span class="fig-num">Figure 1.</span> The access collapse. Bars are on a linear scale, which is the point —
+    the drop is large enough that a log axis would flatter it. A three-order-of-magnitude change in cost and a
+    120× change in build time are not incremental improvements to a sensor; they change who is allowed to
+    do the research at all.
+  </figcaption>
+</figure>
+
+<!-- ====================================================================== -->
+<h2 id="sensor">2 · Building from principle</h2>
+<h3>V1 was made by hand. V2 is made by a PCB factory.</h3>
+
+<p>
+  Two versions matter for reading the rest of this map, because papers in the tree below build on one or the other.
+</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>FlexiTac V1</th><th>FlexiTac V2</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Fabrication</strong></td><td>~30 min, hand-made in lab</td><td>~3 min assembly</td></tr>
+    <tr><td><strong>Cost</strong></td><td>~$5 / piece</td><td>$4.19 / piece (20 units)<br>$1.36 / piece (1,000 units)</td></tr>
+    <tr><td><strong>Customization</strong></td><td>Cut and layer by hand</td><td>Change the PCB file, reorder</td></tr>
+    <tr><td><strong>Lead time</strong></td><td>~30 min, in-lab</td><td>&lt; 1 week, manufacture + ship</td></tr>
+    <tr><td><strong>Used by</strong></td><td>3D-ViTac, Intelligent-Carpet-era work</td><td>Touch in the Wild, VT-Refine, and most 2026 works</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+  The honest chronology matters here, so let me state it plainly: the sensor existed as a lab artifact for
+  roughly two years before it existed as a release. 3D-ViTac (CoRL 2024) ran on hand-built V1 pads. The
+  FlexiTac hardware paper and open-source release came later, once V2 made the thing reproducible by
+  someone who is not me.<a class="ref" href="#r2">[2]</a> The research came first and the product came second, which
+  is the opposite of how these stories are usually told.
+</p>
+
+<figure>
+  <div class="vgrid c2">
+    <div class="vcell">
+      <video src="../../videos/sensor_flex_sm.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>Thin, flexible, sensitive</b>Bends around a curved surface without losing per-taxel response.</div>
+    </div>
+    <div class="vcell">
+      <video src="../../videos/flexitac_sm.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>Full readout stack</b>32 × 16 reading board, flat flex cable, Arduino-class MCU.</div>
+    </div>
+  </div>
+  <figcaption>
+    <span class="fig-num">Figure 2.</span> The hardware the rest of this map stands on. Everything here is
+    open: <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener">fabrication repo</a>,
+    <a href="https://flexitac.github.io/" target="_blank" rel="noopener">project page</a>,
+    <a href="https://arxiv.org/abs/2604.28156" target="_blank" rel="noopener">paper</a>.
+  </figcaption>
+</figure>
+
+<!-- ====================================================================== -->
+<h2 id="vitac">3 · Question 1</h2>
+<h3>Can a policy actually use dense touch?</h3>
+
+<p>
+  This is where the research line starts, and it is why this map begins at
+  <a href="https://binghao-huang.github.io/3D-ViTac/" target="_blank" rel="noopener">3D-ViTac</a> (CoRL 2024)
+  rather than at the earlier glove and carpet work.<a class="ref" href="#r3">[3]</a> Prior dense-tactile papers asked
+  <em>what can we infer from touch?</em> 3D-ViTac asked the harder question: <em>does adding touch make a
+  manipulation policy better?</em>
+</p>
+
+<p>
+  The uncomfortable early finding — one worth stating because it is easy to hide — is that naively adding
+  tactile input often makes policies <strong>worse</strong>. The two signals are structurally mismatched.
+  Vision is high-dimensional and global; touch is low-dimensional and local. Concatenate a 16×16 pressure
+  array onto a visual embedding and the network learns to ignore it, or worse, overfits to it.
+</p>
+
+<p>
+  3D-ViTac's answer was to stop treating touch as a separate modality and put it in the same geometric space
+  as vision: project each active taxel into 3D as a colored point, and hand the policy a single unified
+  visuo-tactile point cloud. Tactile readings become part of the scene rather than a side-channel.
+  A PointNet++ encoder and a diffusion policy consume the merged cloud.
+</p>
+
+<figure>
+  <div class="vgrid c4">
+    <div class="vcell">
+      <img src="../../images/research/3d-vitac.jpg" alt="3D-ViTac bimanual setup with tactile pads and a unified visuo-tactile point cloud">
+      <div class="vcap"><b>Unified 3D representation</b>3D-ViTac · CoRL 2024 — taxels projected into the same cloud as the RGBD scene.</div>
+    </div>
+    <div class="vcell">
+      <video src="../../videos/npj25.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>Force control on fragile items</b>Tactile-Reactive Gripper · npj Robotics 2026 — an active palm regulating grasp force.</div>
+    </div>
+    <div class="vcell">
+      <video src="../../videos/policyconsensus_sm.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>Recovery under perturbation</b>Policy Consensus · ICRA 2026 — a human disturbs the object mid-task.</div>
+    </div>
+    <div class="vcell">
+      <video src="../../videos/VTAC.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>In-hand state when occluded</b>VTAP Gripper · IROS 2026 — fingertip plus palm sensing during re-orientation.</div>
+    </div>
+  </div>
+  <figcaption>
+    <span class="fig-num">Figure 3.</span> Four capabilities dense touch unlocks — one drawn from each corner of
+    the tree in §7, so the clips are attributed to their own papers rather than to 3D-ViTac. The common thread
+    is what matters: every one is a case where <em>vision is structurally unable to observe the quantity the
+    policy needs</em> — contact force, contact location under occlusion, or the moment a grasp starts to fail.
+    3D-ViTac's own four task suites (occluded fragile grasping, in-hand state, recovery, bimanual coordination)
+    are in its <a href="https://www.youtube.com/watch?v=ZN3mHMNZC7Q" target="_blank" rel="noopener">project video</a>.
+  </figcaption>
+</figure>
+
+<!-- ====================================================================== -->
+<h2 id="fusion">4 · The fusion question</h2>
+<h3>Two answers, and the field has not picked one</h3>
+
+<p>
+  If touch has to be fused rather than appended, <em>where</em> in the stack should fusion happen? Two
+  families have emerged from this line, and they make genuinely different bets.
+</p>
+
+<figure id="fig-fusion">
+  <div class="fig-controls" role="tablist" aria-label="Fusion approach">
+    <button class="ctl on" data-fusion="a" role="tab" aria-selected="true">A · Fuse before the policy</button>
+    <button class="ctl" data-fusion="b" role="tab" aria-selected="false">B · Fuse inside the encoder</button>
+    <span class="ctl-note">Click to compare</span>
+  </div>
+
+  <svg class="diagram" viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- Panel A: 3D fusion before policy -->
+    <g id="fusion-a">
+      <g class="anim-node"><rect class="node-bg-blue" x="10" y="26" width="128" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="74" y="46" text-anchor="middle">Multi-view RGBD</text>
+        <text class="node-sub" x="74" y="62" text-anchor="middle">point cloud</text></g>
+      <g class="anim-node"><rect class="node-bg-pink" x="10" y="102" width="128" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="74" y="122" text-anchor="middle">Tactile array</text>
+        <text class="node-sub" x="74" y="138" text-anchor="middle">16 × 16 per finger</text></g>
+      <g class="anim-node"><rect class="node-bg-amber" x="10" y="178" width="128" height="40" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="74" y="203" text-anchor="middle">Proprioception</text></g>
+
+      <g class="anim-node" style="animation-delay:.15s"><rect class="node-bg-purple" x="210" y="78" width="150" height="92" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="285" y="112" text-anchor="middle">Unified 3D</text>
+        <text class="node-title" x="285" y="130" text-anchor="middle">visuo-tactile cloud</text>
+        <text class="node-sub" x="285" y="150" text-anchor="middle">one geometric space</text></g>
+      <g class="anim-node" style="animation-delay:.3s"><rect class="node-bg-teal" x="418" y="78" width="112" height="92" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="474" y="118" text-anchor="middle">PointNet++</text>
+        <text class="node-sub" x="474" y="136" text-anchor="middle">shared encoder</text></g>
+      <g class="anim-node" style="animation-delay:.45s"><rect class="node-bg-gray" x="586" y="78" width="104" height="92" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="638" y="112" text-anchor="middle">Diffusion</text>
+        <text class="node-title" x="638" y="130" text-anchor="middle">policy</text>
+        <text class="node-sub" x="638" y="150" text-anchor="middle">action chunk</text></g>
+
+      <path class="arrow anim-arrow" style="animation-delay:.2s" d="M138 49 C 175 49 178 108 208 118" marker-end="url(#ar)"/>
+      <path class="arrow anim-arrow" style="animation-delay:.28s" d="M138 125 L 208 124" marker-end="url(#ar)"/>
+      <path class="arrow anim-arrow" style="animation-delay:.36s" d="M138 198 C 175 198 178 140 208 130" marker-end="url(#ar)"/>
+      <line class="arrow anim-arrow" style="animation-delay:.5s" x1="360" y1="124" x2="414" y2="124" marker-end="url(#ar)"/>
+      <line class="arrow anim-arrow" style="animation-delay:.6s" x1="530" y1="124" x2="582" y2="124" marker-end="url(#ar)"/>
+      <text class="node-sub" x="285" y="196" text-anchor="middle">3D-ViTac · CoRL 2024 — geometry does the aligning</text>
+      <text class="node-sub" x="285" y="212" text-anchor="middle">needs calibrated cameras + known sensor pose</text>
+    </g>
+
+    <!-- Panel B: cross-attention encoder -->
+    <g id="fusion-b" style="display:none">
+      <g class="anim-node"><rect class="node-bg-blue" x="10" y="40" width="118" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="69" y="60" text-anchor="middle">RGB image</text>
+        <text class="node-sub" x="69" y="76" text-anchor="middle">fish-eye, in the wild</text></g>
+      <g class="anim-node"><rect class="node-bg-pink" x="10" y="130" width="118" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="69" y="150" text-anchor="middle">Masked tactile</text>
+        <text class="node-sub" x="69" y="166" text-anchor="middle">reconstruct held-out</text></g>
+
+      <g class="anim-node" style="animation-delay:.12s"><rect class="node-bg-teal" x="168" y="40" width="96" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="216" y="68" text-anchor="middle">CLIP ViT</text></g>
+      <g class="anim-node" style="animation-delay:.12s"><rect class="node-bg-amber" x="168" y="130" width="96" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="216" y="152" text-anchor="middle">3-layer CNN</text>
+        <text class="node-sub" x="216" y="168" text-anchor="middle">tactile tokens</text></g>
+
+      <g class="anim-node" style="animation-delay:.28s"><rect class="node-bg-purple" x="308" y="40" width="150" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="383" y="60" text-anchor="middle">CrossAttn</text>
+        <text class="node-sub" x="383" y="76" text-anchor="middle">tactile → RGB</text></g>
+      <g class="anim-node" style="animation-delay:.28s"><rect class="node-bg-purple" x="308" y="130" width="150" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="383" y="150" text-anchor="middle">CrossAttn</text>
+        <text class="node-sub" x="383" y="166" text-anchor="middle">RGB → tactile</text></g>
+
+      <g class="anim-node" style="animation-delay:.44s"><rect class="node-bg-gray" x="502" y="85" width="112" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="558" y="105" text-anchor="middle">Fused encoder</text>
+        <text class="node-sub" x="558" y="121" text-anchor="middle">pre-trained</text></g>
+      <g class="anim-node" style="animation-delay:.56s"><rect class="node-bg-green" x="640" y="85" width="52" height="46" rx="7" stroke-width="0.5"/>
+        <text class="node-title" x="666" y="105" text-anchor="middle">DP</text>
+        <text class="node-sub" x="666" y="121" text-anchor="middle">policy</text></g>
+
+      <line class="arrow anim-arrow" style="animation-delay:.2s" x1="128" y1="63" x2="164" y2="63" marker-end="url(#ar)"/>
+      <line class="arrow anim-arrow" style="animation-delay:.2s" x1="128" y1="153" x2="164" y2="153" marker-end="url(#ar)"/>
+      <line class="arrow anim-arrow" style="animation-delay:.34s" x1="264" y1="63" x2="304" y2="63" marker-end="url(#ar)"/>
+      <line class="arrow anim-arrow" style="animation-delay:.34s" x1="264" y1="153" x2="304" y2="153" marker-end="url(#ar)"/>
+      <path class="arrow anim-arrow" style="animation-delay:.42s" d="M264 78 C 288 96 288 118 304 140" marker-end="url(#ar)" opacity="0.5"/>
+      <path class="arrow anim-arrow" style="animation-delay:.42s" d="M264 138 C 288 120 288 96 304 76" marker-end="url(#ar)" opacity="0.5"/>
+      <path class="arrow anim-arrow" style="animation-delay:.52s" d="M458 63 C 482 63 484 96 498 104" marker-end="url(#ar)"/>
+      <path class="arrow anim-arrow" style="animation-delay:.52s" d="M458 153 C 482 153 484 120 498 112" marker-end="url(#ar)"/>
+      <line class="arrow anim-arrow" style="animation-delay:.64s" x1="614" y1="108" x2="636" y2="108" marker-end="url(#ar)"/>
+      <text class="node-sub" x="350" y="212" text-anchor="middle">Touch in the Wild · NeurIPS 2025 — attention does the aligning</text>
+      <text class="node-sub" x="350" y="228" text-anchor="middle">no calibration needed; works on hand-held in-the-wild data</text>
+    </g>
+  </svg>
+
+  <figcaption>
+    <span class="fig-num">Figure 4.</span> Two fusion strategies. <strong>A</strong> aligns modalities
+    <em>geometrically</em>, before the policy sees them — precise, but it requires calibrated cameras and a known
+    sensor pose, which you only have on a fixed rig. <strong>B</strong> aligns them <em>statistically</em>, inside a
+    pre-trained encoder with bidirectional cross-attention — looser, but it survives hand-held data collection
+    where nothing is calibrated. Downstream works in the tree split roughly along this line, and I do not
+    think the question is settled.
+  </figcaption>
+</figure>
+
+<div class="callout">
+  <strong>A useful test when you read a visuo-tactile paper:</strong> ask where fusion happens and what it
+  assumes. If the answer is "concatenated at the policy input," be suspicious of the ablation — that is the
+  setting where touch most often fails to help, and where a tactile-free baseline is hardest to beat honestly.
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="real">5 · Question 2</h2>
+<h3>Where does tactile data come from?</h3>
+
+<p>
+  Vision-language-action models ride on internet-scale image and text data. There is no internet of touch.
+  Every tactile frame that exists was collected by someone with a sensor on a robot — which, before the cost
+  collapse in Figure 1, meant almost no frames existed at all.
+</p>
+
+<p>
+  <a href="https://binghao-huang.github.io/touch_in_the_wild/" target="_blank" rel="noopener">Touch in the Wild</a>
+  (NeurIPS 2025) attacks this on the hardware side: take the robot out of the loop entirely.<a class="ref" href="#r4">[4]</a>
+  A hand-held gripper with a fish-eye camera, two FlexiTac pads, and a 23 Hz reading board, carried around
+  by a person. No robot, no lab, no calibration rig. That produced
+  <strong>2,700+ videos across 43 manipulation tasks</strong> — hardware stores, kitchens, student lounges, a
+  Chipotle, campus outdoors — which then pre-trains the cross-attention encoder from Figure 4B before
+  fine-tuning on a small number of robot demos.
+</p>
+
+<figure>
+  <div class="vgrid c3">
+    <div class="vcell">
+      <video src="../../videos/touchinthewild_sm.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>In-the-wild capture</b>Hand-held, un-calibrated, 43 tasks in real environments.</div>
+    </div>
+    <div class="vcell">
+      <video src="../../videos/wtumi_beam.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>WT-UMI</b>Tactile UMI extending the idea to force-supervised humanoid data.</div>
+    </div>
+    <div class="vcell">
+      <video src="../../videos/leflexitac_sm.mp4" muted loop playsinline preload="none" data-lazyvid></video>
+      <div class="vcap"><b>LeFlexiTac</b>The sensor wired into the LeRobot stack, so the data path is standard.</div>
+    </div>
+  </div>
+  <figcaption>
+    <span class="fig-num">Figure 5.</span> Scaling touch in the real world means decoupling data collection
+    from robot time. The portable-device pattern is now the dominant strategy in this branch of the tree.
+  </figcaption>
+</figure>
+
+<!-- ====================================================================== -->
+<h2 id="sim">6 · Question 3</h2>
+<h3>Can simulation supply what the real world cannot?</h3>
+
+<p>
+  Portable capture scales <em>coverage</em> — many tasks, many scenes. It does not scale <em>precision</em>. For
+  tight-tolerance contact-rich tasks, like inserting a peg into a hole with sub-millimetre clearance, human
+  demonstrations give you one narrow band of trajectories and no exploration around failure. Thirty real
+  demos is simply not enough: the pre-trained policy stalls, misaligns, and cannot recover.
+</p>
+
+<p>
+  <a href="https://binghao-huang.github.io/vt_refine/" target="_blank" rel="noopener">VT-Refine</a>
+  (CoRL 2025, with NVIDIA Robotics) closes that gap by going real → sim → real.<a class="ref" href="#r5">[5]</a>
+  The trick that makes it work is that this sensor is unusually easy to simulate. A piezoresistive array
+  measures normal force at known grid positions, so a Kelvin–Voigt contact model —
+  <code>f_n = −(k_n·d + k_d·ḋ)·n</code>, a spring-damper on penetration depth and velocity — reproduces the
+  signal well enough to train on, and it runs GPU-parallel across thousands of environments.
+  Compare that to rendering a gel deformation image per frame.
+</p>
+
+<figure id="fig-loop">
+  <div class="fig-controls">
+    <button class="ctl" id="loop-prev">‹ Back</button>
+    <button class="ctl on" id="loop-next">Step through ›</button>
+    <span class="ctl-note" id="loop-count">Step 1 / 4</span>
+  </div>
+  <div class="step-cap" id="loop-cap">
+    <span class="sc-k">Step 1 — Real</span>
+    <b>30 demos, collected in 30 minutes.</b> Vision + touch, teleoperated. Enough to pre-train a diffusion
+    policy that knows roughly what the task looks like — and not enough to do it reliably.
+  </div>
+  <svg class="diagram" viewBox="0 0 700 210" xmlns="http://www.w3.org/2000/svg">
+    <g class="loop-stage" data-stage="1">
+      <rect class="node-bg-coral" x="14" y="46" width="150" height="76" rx="8" stroke-width="0.5"/>
+      <text class="node-title" x="89" y="76" text-anchor="middle">Real demos</text>
+      <text class="node-sub" x="89" y="94" text-anchor="middle">30 episodes · 30 min</text>
+      <text class="node-sub" x="89" y="110" text-anchor="middle">vision + touch</text>
+    </g>
+    <g class="loop-stage" data-stage="2">
+      <rect class="node-bg-purple" x="212" y="46" width="150" height="76" rx="8" stroke-width="0.5"/>
+      <text class="node-title" x="287" y="70" text-anchor="middle">Pre-train</text>
+      <text class="node-title" x="287" y="88" text-anchor="middle">diffusion policy</text>
+      <text class="node-sub" x="287" y="108" text-anchor="middle">imitation only</text>
+      <path class="arrow" d="M166 84 L 208 84" marker-end="url(#ar2)"/>
+    </g>
+    <g class="loop-stage" data-stage="3">
+      <rect class="node-bg-teal" x="410" y="20" width="150" height="76" rx="8" stroke-width="0.5"/>
+      <text class="node-title" x="485" y="44" text-anchor="middle">GPU-parallel</text>
+      <text class="node-title" x="485" y="62" text-anchor="middle">tactile simulation</text>
+      <text class="node-sub" x="485" y="82" text-anchor="middle">Kelvin–Voigt contact</text>
+      <rect class="node-bg-green" x="410" y="112" width="150" height="70" rx="8" stroke-width="0.5"/>
+      <text class="node-title" x="485" y="138" text-anchor="middle">Large-scale RL</text>
+      <text class="node-title" x="485" y="156" text-anchor="middle">fine-tuning</text>
+      <text class="node-sub" x="485" y="174" text-anchor="middle">sparse reward</text>
+      <path class="arrow" d="M364 78 C 388 70 390 58 406 58" marker-end="url(#ar2)"/>
+      <path class="arrow" d="M485 96 L 485 108" marker-end="url(#ar2)"/>
+    </g>
+    <g class="loop-stage" data-stage="4">
+      <rect class="node-bg-amber" x="600" y="46" width="90" height="76" rx="8" stroke-width="0.5"/>
+      <text class="node-title" x="645" y="76" text-anchor="middle">Deploy</text>
+      <text class="node-sub" x="645" y="94" text-anchor="middle">zero-shot</text>
+      <text class="node-sub" x="645" y="110" text-anchor="middle">to real</text>
+      <path class="arrow" d="M560 147 C 590 147 596 128 645 126" marker-end="url(#ar2)"/>
+    </g>
+    <defs>
+      <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+  </svg>
+  <figcaption>
+    <span class="fig-num">Figure 6.</span> The real → sim → real loop. Real data supplies the prior; simulation
+    supplies the local exploration that human demonstrations structurally cannot. Adding a new task means
+    writing a sparse reward, not collecting hundreds more episodes.
+  </figcaption>
+</figure>
+
+<p>
+  The result is the strongest quantitative argument in this whole line of work, and it is worth reading
+  carefully, because it says two things at once.
+</p>
+
+<figure>
+  <svg class="diagram" viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" role="img"
+       aria-label="Slope chart: visuo-tactile policy improves from 40 to 95 percent success while vision-only improves from 22 to 65 percent">
+    <line class="arrow" x1="150" y1="30" x2="150" y2="196" stroke-dasharray="3 4" opacity="0.3"/>
+    <line class="arrow" x1="520" y1="30" x2="520" y2="196" stroke-dasharray="3 4" opacity="0.3"/>
+    <text class="axis-lbl" x="150" y="216" text-anchor="middle">before RL fine-tuning</text>
+    <text class="axis-lbl" x="520" y="216" text-anchor="middle">after RL fine-tuning</text>
+
+    <g class="anim-node" style="animation-delay:.1s">
+      <path class="arrow" d="M150 160 L 520 39" stroke="#7F77DD" stroke-width="2.6" opacity="0.95"/>
+      <circle cx="150" cy="160" r="5.5" fill="#7F77DD"/>
+      <circle cx="520" cy="39" r="5.5" fill="#7F77DD"/>
+      <text class="val-lbl" x="138" y="164" text-anchor="end">40%</text>
+      <text class="val-lbl" x="532" y="43">95%</text>
+      <text class="node-title" x="532" y="61" fill="#7F77DD">Visuo-Tactile</text>
+    </g>
+    <g class="anim-node" style="animation-delay:.3s">
+      <path class="arrow" d="M150 199 L 520 105" stroke="#D85A30" stroke-width="2.6" opacity="0.9"/>
+      <circle cx="150" cy="199" r="5.5" fill="#D85A30"/>
+      <circle cx="520" cy="105" r="5.5" fill="#D85A30"/>
+      <text class="val-lbl" x="138" y="203" text-anchor="end">22%</text>
+      <text class="val-lbl" x="532" y="109">65%</text>
+      <text class="node-title" x="532" y="127" fill="#D85A30">Vision-Only</text>
+    </g>
+    <text class="node-sub" x="335" y="24" text-anchor="middle">Task success rate · bimanual assembly, asset 00186</text>
+  </svg>
+  <figcaption>
+    <span class="fig-num">Figure 7.</span> Two readings, both true. <strong>(1)</strong> Simulation fine-tuning lifts
+    both policies substantially — the sim-to-real gap is real but not disqualifying. <strong>(2)</strong> Touch
+    changes the ceiling, not just the starting point: the visuo-tactile policy ends 30 points above the
+    vision-only policy after identical fine-tuning. The gap <em>widens</em> with more training rather than
+    washing out, which is the pattern you want to see if you believe the modality carries irreplaceable
+    information.
+  </figcaption>
+</figure>
+
+<!-- ====================================================================== -->
+<h2 id="tree">7 · The research tree</h2>
+<h3>Three questions, five branches, twenty-nine works</h3>
+
+<p>
+  Here is the whole map in one figure. The organizing principle is <em>not</em> the category taxonomy on the
+  Awesome FlexiTac site — it is the story above. Three pillars are the questions asked in sequence;
+  five branches are the directions the community took them; the roots are the prior work the sensor
+  descends from; neighbors are independent groups building comparable sensors.
+</p>
+
+<p>
+  Hit <strong>Play the story</strong> to watch it assemble in narrative order, or click any node for what it
+  contributed and what it inherited.
+</p>
+
+<figure id="tree-fig">
+  <div class="fig-controls" id="tree-filters" role="toolbar" aria-label="Filter the tree">
+    <button class="ctl on" data-cat="all">All 29</button>
+    <button class="ctl" data-cat="fusion">Fusion</button>
+    <button class="ctl" data-cat="real">Real data</button>
+    <button class="ctl" data-cat="sim">Simulation</button>
+    <button class="ctl" data-cat="bodies">New bodies</button>
+    <button class="ctl" data-cat="industry">Industry</button>
+    <button class="ctl" data-cat="context">Roots &amp; neighbors</button>
+  </div>
+  <div class="fig-controls">
+    <button class="ctl" id="story-play">▶ Play the story</button>
+    <button class="ctl" id="story-prev">‹</button>
+    <button class="ctl" id="story-next">›</button>
+    <span class="ctl-note" id="story-count"></span>
+  </div>
+  <div class="step-cap" id="story-cap">
+    <span class="sc-k">The map</span>
+    <b>Every node is one entry in Awesome FlexiTac.</b> Nodes with a dot were built on FlexiTac V1 or V2.
+    Dashed nodes are context: lineage roots below, independent neighbours to the side.
+  </div>
+
+  <div class="tree-shell" id="tree-shell">
+    <svg class="tree-svg" id="tree-svg" aria-hidden="true"></svg>
+
+    <div class="tree-row">
+      <div class="tree-row-lbl">Roots · dense tactile sensing before robot learning</div>
+      <div class="band-roots" id="row-roots"></div>
+    </div>
+
+    <div class="tree-row">
+      <div class="tree-row-lbl">The sensor</div>
+      <div class="band-sensor" id="row-sensor"></div>
+    </div>
+
+    <div class="tree-row">
+      <div class="tree-row-lbl">Three questions · first-author pillars</div>
+      <div class="band-pillars" id="row-pillars"></div>
+    </div>
+
+    <div class="tree-row">
+      <div class="tree-row-lbl">Five branches · where the community took it</div>
+      <div class="tree-cols" id="row-branches"></div>
+    </div>
+
+    <div class="tree-row">
+      <div class="tree-row-lbl">Neighbours · independent, same sensing family</div>
+      <div class="tree-band" id="row-neighbors"></div>
+    </div>
+  </div>
+
+  <div class="tdetail" id="tree-detail">
+    <div class="td-empty">Click any node above for its contribution, venue, and links.</div>
+  </div>
+
+  <figcaption>
+    <span class="fig-num">Figure 8.</span> The FlexiTac research tree. Edges mean <em>inheritance of an open
+    problem</em>, not citation. Two things the shape makes visible: the <strong>New bodies</strong> branch hangs
+    directly off the sensor rather than off any of my papers — form-factor work only needs the hardware to be
+    cheap and customizable — while <strong>Simulation</strong> is the thinnest branch, with one follower.
+    If you are looking for an under-served direction, that is where I would look.
+  </figcaption>
+</figure>
+
+<h4>Reading the branches</h4>
+
+<p>
+  <strong>Fusion &amp; representation</strong> is the most crowded branch, and it has moved from "does touch help"
+  to "how do you route it." Policy Consensus composes separate per-modality diffusion policies rather than
+  fusing features; ViTaS keeps one encoder but replaces alignment-then-concatenation with a soft-fusion
+  contrastive objective; TacVLA pushes contact-aware tactile tokens into a VLA; FELT goes the other way and
+  <em>generates</em> tactile signals from vision, which is an interesting attack on the data problem —
+  if it works, you do not need the sensor at inference time. Object Pose treats touch as the observation for
+  state estimation rather than control. Deform360 turns the whole thing into a dataset for deformable
+  world models. TactX is the outlier: it attacks the representation itself, training resistive, magnetic and
+  vision-based touch into one shared latent so a policy can cross sensors.
+</p>
+
+<p>
+  <strong>New bodies</strong> is the branch I did not predict. Once a tactile pad is a PCB file, people put it
+  where they need it: an active palm that participates in dexterous manipulation (npj Robotics 2026), a
+  force-controlled low-cost gripper, a fingertip-plus-palm in-hand system, and — least obviously — the feet
+  and shins of quadrupeds for loco-manipulation. Two independent groups converged on tactile quadrupeds
+  within a year.
+</p>
+
+<p>
+  <strong>Out of the lab</strong> is the two Analog Devices pieces. I include them not as papers but as market
+  signal: a semiconductor company now ships a tactile part built on standard fab processes, claiming
+  roughly 5× human-fingertip resolution. That is the strongest available evidence that this sensing family
+  is not a research curiosity — and also a warning that the academic version has a limited window to
+  matter.
+</p>
+
+<!-- ====================================================================== -->
+<h2 id="limits">8 · What this sensor is not good for</h2>
+<h3>The honest limits</h3>
+
+<p>
+  A frame that only lists strengths is a sales pitch. Piezoresistive arrays have real, structural limitations,
+  and being precise about them is how you tell which of the branches above will hold up.
+</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Limitation</th><th>What it costs you</th><th>Use instead</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Normal force only</strong></td>
+      <td>No shear measurement, so no direct incipient-slip detection. You infer slip from pressure-pattern change over time, which is late.</td>
+      <td>Optical (GelSight-class) or magnetic (ReSkin-class) skins</td>
+    </tr>
+    <tr>
+      <td><strong>Drift and hysteresis</strong></td>
+      <td>Force-sensitive film is not a load cell. Absolute-force claims need per-pad calibration and re-zeroing; relative contact patterns are far more trustworthy.</td>
+      <td>Load cells / F-T sensors for absolute force</td>
+    </tr>
+    <tr>
+      <td><strong>Coarse spatial resolution</strong></td>
+      <td>~3 mm² per taxel. Fine texture and surface geometry are below the sampling limit.</td>
+      <td>Optical tactile for texture and fine geometry</td>
+    </tr>
+    <tr>
+      <td><strong>Row–column crosstalk</strong></td>
+      <td>Multi-contact scenes on a shared grid can ghost. Matters more as arrays get larger.</td>
+      <td>Per-taxel addressed arrays</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout">
+  <strong>So the honest positioning is:</strong> this sensor family wins on <em>area, flexibility, cost, and
+  simulation fidelity</em> — which is exactly the combination you need for whole-hand, whole-body, and
+  large-batch RL work. It loses on <em>shear, absolute force, and fine texture</em>. If your task hinges on
+  detecting slip before it happens, use a different sensor. If it hinges on covering a lot of a robot in
+  touch and training at scale, this is the right family.
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="open">9 · Seven open problems</h2>
+<h3>Where I would work next</h3>
+
+<p>
+  These are the gaps I see from inside the tree. They are numbered so they can be pointed at.
+</p>
+
+<div class="problems">
+  <div class="problem">
+    <h5>Fusion is unresolved</h5>
+    <p>Geometric fusion needs calibration; attention-based fusion needs data. Nobody has shown one method
+      that dominates across fixed-rig precision tasks <em>and</em> un-calibrated in-the-wild capture. A fair
+      head-to-head on a shared benchmark does not exist.</p>
+  </div>
+  <div class="problem">
+    <h5>Shear without a shear sensor</h5>
+    <p>Can incipient slip be recovered from dense normal-pressure sequences alone, quickly enough to act on?
+      If yes, most of the limitation table above softens.</p>
+  </div>
+  <div class="problem">
+    <h5>Cross-sensor transfer — now contested</h5>
+    <p>This was the flattest "nobody has tried" on the list, and TactX has since gone at it directly: paired
+      contacts train resistive, magnetic and vision-based encoders into one shared latent, and a policy learned
+      on one sensor runs zero-shot on physically different ones. That is the first real counter-example to
+      "tactile has no equivalent of <em>just resize the image</em>." What remains open is whether it holds
+      across <em>geometries</em> rather than modalities — a shared latent for two different pad layouts on two
+      different fingers — and whether it survives a hardware revision, which is the case that decides if
+      tactile data outlives the sensor that produced it.</p>
+  </div>
+  <div class="problem">
+    <h5>The simulation branch is one paper deep</h5>
+    <p>Kelvin–Voigt is a good first model, but no one has systematically characterised where it breaks —
+      soft objects, rolling contact, adhesion, high-speed impact — or calibrated <code>k_n</code>, <code>k_d</code>
+      from real data at scale.</p>
+  </div>
+  <div class="problem">
+    <h5>Whole-body touch is barely started</h5>
+    <p>The quadruped work is the leading edge and it is two papers. Large-area, many-thousand-taxel skins
+      raise scaling questions — bandwidth, crosstalk, representation — that fingertip work never has to answer.</p>
+  </div>
+  <div class="problem">
+    <h5>No tactile pre-training that people reuse</h5>
+    <p>2,700 in-the-wild videos is a real dataset; it is not ImageNet. There is no released tactile encoder
+      that other groups load by default the way they load CLIP. Until there is, every project pays the
+      representation cost again.</p>
+  </div>
+  <div class="problem">
+    <h5>Evaluation is not standardised</h5>
+    <p>Success rate on a bespoke assembly task is not comparable across papers. The field needs shared
+      contact-rich benchmarks with a mandated vision-only baseline — otherwise "touch helps" is unfalsifiable.</p>
+  </div>
+</div>
+
+<!-- ====================================================================== -->
+<h2 id="start">10 · Start in an afternoon</h2>
+<h3>The actual on-ramp</h3>
+
+<p>
+  The thesis of this whole post is that access changes what gets researched. So here is the shortest path
+  from reading this to having tactile data on your own robot.
+</p>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-n">Step 1 · order</div>
+    <div class="step-t">Send the PCB file out</div>
+    <div class="step-d">Grab the flex-PCB design from the
+      <a href="https://github.com/FlexiTac/FlexiTac_Hardware_Repo" target="_blank" rel="noopener">hardware repo</a>
+      and order it. &lt; 1 week, ~$4/pad at small volume.</div>
+  </div>
+  <div class="step">
+    <div class="step-n">Step 2 · build</div>
+    <div class="step-t">Assemble in ~3 minutes</div>
+    <div class="step-d">Two flex layers, force-sensitive film, flat flex cable to the reading board. The
+      <a href="https://flexitac.github.io/" target="_blank" rel="noopener">fabrication guide</a> is step-by-step.</div>
+  </div>
+  <div class="step">
+    <div class="step-n">Step 3 · read</div>
+    <div class="step-t">Stream the array</div>
+    <div class="step-d">32 × 16 reading board over an Arduino-class MCU. First heat-map on screen in the
+      same sitting.</div>
+  </div>
+  <div class="step">
+    <div class="step-n">Step 4 · learn</div>
+    <div class="step-t">Plug into LeRobot</div>
+    <div class="step-d"><a href="https://tna001-ai.github.io/LeFlexiTac/index.html" target="_blank" rel="noopener">LeFlexiTac</a>
+      wires the sensor into the LeRobot data and training stack, so you inherit the standard pipeline.</div>
+  </div>
+</div>
+
+<p>
+  If you get stuck, the fabrication guide lists a contact address and the project has a Discord. The point of
+  open-sourcing this was never the paper — it was to stop sourcing a sensor from being the part of the project
+  that costs a semester.
+</p>
+
+<!-- ====================================================================== -->
+<h2 id="browse">11 · Browse the ecosystem</h2>
+<h3>All 29 works, filterable</h3>
+
+<p>
+  Below is the live Awesome FlexiTac gallery, embedded. Filter by category, click through to per-paper
+  pages with abstracts and links. If you have a relevant work — whether or not it uses FlexiTac — open a PR
+  and it goes on the list.
+</p>
+
+<div class="embed-card">
+  <div class="embed-top">
+    <div class="embed-title">Awesome FlexiTac <span>live gallery · 29 works</span></div>
+    <a class="embed-cta" href="https://binghao-huang.github.io/Awesome-FlexiTac/" target="_blank" rel="noopener">Open full site ↗</a>
+  </div>
+  <div class="embed-frame">
+    <iframe src="https://binghao-huang.github.io/Awesome-FlexiTac/?embed=1&amp;cols=4&amp;filters=1"
+            title="Awesome FlexiTac gallery" loading="lazy" scrolling="yes"></iframe>
+  </div>
+  <div class="embed-foot">
+    Scroll inside the window · <a href="https://github.com/binghao-huang/Awesome-FlexiTac/issues" target="_blank" rel="noopener">Add your work</a>
+  </div>
+</div>
+
+<h4>Cite this</h4>
+<pre class="bib">@misc{huang2026flexitacmap,
+  title  = {Making Touch Cheap: How One Open Tactile Sensor Grew a Research Tree},
+  author = {Huang, Binghao},
+  year   = {2026},
+  note   = {Blog post},
+  url    = {https://binghao-huang.github.io/blog/posts/2026-08-12-awesome-flexitac.html}
+}
+
+@article{huang2026flexitac,
+  title   = {FlexiTac: An Open-Source, Scalable Tactile Solution for Robotic Systems},
+  author  = {Huang, Binghao and Li, Yunzhu},
+  journal = {arXiv preprint arXiv:2604.28156},
+  year    = {2026}
+}</pre>
+
+<h2>References</h2>
+<ol class="refs">
+  <li id="r1">Sundaram, S., Kellnhofer, P., Li, Y., Zhu, J.-Y., Torralba, A., Matusik, W. “Learning the Signatures of the Human Grasp Using a Scalable Tactile Glove.” <em>Nature</em>, 2019.</li>
+  <li id="r2">Huang, B., Li, Y. “FlexiTac: An Open-Source, Scalable Tactile Solution for Robotic Systems.” <a href="https://arxiv.org/abs/2604.28156" target="_blank" rel="noopener">arXiv:2604.28156</a>, 2026.</li>
+  <li id="r3">Huang, B., Wang, Y., Yang, X., Luo, Y., Li, Y. “3D-ViTac: Learning Fine-Grained Manipulation with Visuo-Tactile Sensing.” <em>CoRL</em>, 2024.</li>
+  <li id="r4">Zhu, X., Huang, B., Li, Y. “Touch in the Wild: Learning Fine-Grained Manipulation with a Portable Visuo-Tactile Gripper.” <em>NeurIPS</em>, 2025. <a href="https://arxiv.org/abs/2507.15062v1" target="_blank" rel="noopener">arXiv</a>. Best Demo Award, RSS 2025 Workshop on Robot Hardware-Aware Intelligence.</li>
+  <li id="r5">Huang, B., Xu, J., Akinola, I., Yang, W., Sundaralingam, B., O'Flaherty, R., Fox, D., Wang, X., Mousavian, A., Chao, Y.-W., Li, Y. “VT-Refine: Learning Bimanual Assembly with Visuo-Tactile Feedback via Simulation Fine-Tuning.” <em>CoRL</em>, 2025. Best Paper Award, IROS 2025 AHFR Workshop.</li>
+  <li>Full reference list with links for all 29 works: <a href="https://binghao-huang.github.io/Awesome-FlexiTac/" target="_blank" rel="noopener">Awesome FlexiTac</a>.</li>
+</ol>
+
+<div class="footnav">
+  <p><a href="../index.html">← All posts</a> · <a href="../tactile-survey.html">Related: a full survey of tactile sensing, 2020–2026</a> · <a href="../../index.html">Home</a></p>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ======================================================================
+   Theme, progress, figure reveal, lazy video
+   ====================================================================== */
+(function () {
+  var root = document.documentElement, btn = document.getElementById('theme-toggle');
+  var saved = null;
+  try { saved = localStorage.getItem('bh-theme'); } catch (e) {}
+  if (saved === 'dark' || (!saved && window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    root.setAttribute('data-theme', 'dark');
+  }
+  function sync() { btn.textContent = root.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark'; }
+  sync();
+  btn.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    if (dark) { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', 'dark'); }
+    try { localStorage.setItem('bh-theme', dark ? 'light' : 'dark'); } catch (e) {}
+    sync();
+  });
+})();
+
+(function () {
+  var bar = document.getElementById('progress-bar');
+  function upd() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', upd, { passive: true });
+  window.addEventListener('resize', upd);
+  upd();
+})();
+
+(function () {
+  var figs = document.querySelectorAll('figure');
+  if (!('IntersectionObserver' in window)) {
+    /* NodeList.forEach is missing on the same engines that lack IntersectionObserver,
+       so call through Array — otherwise this throws and every figure stays at opacity 0. */
+    Array.prototype.forEach.call(figs, function (f) { f.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  figs.forEach(function (f) { io.observe(f); });
+})();
+
+/* Videos: load + play only while on screen. Keeps a video-heavy post cheap. */
+(function () {
+  var vids = document.querySelectorAll('video[data-lazyvid]');
+  if (!vids.length) return;
+  if (!('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(vids, function (v) { v.setAttribute('preload', 'metadata'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting) {
+        /* preload must be raised before load(), or load() is entitled to fetch nothing and
+           the cell stays a flat #111 box. 'metadata' is enough to decode a first frame. */
+        if (!v.dataset.loaded) { v.dataset.loaded = '1'; v.preload = 'metadata'; v.load(); }
+        var p = v.play();
+        if (p && p.catch) {
+          p.catch(function (err) {
+            /* AbortError just means a fast scroll paused it mid-play — self-healing. */
+            if (err && err.name === 'AbortError') { return; }
+            /* Autoplay blocked (low-power mode, battery saver, per-site setting):
+               give the reader a way to start it instead of leaving a black rectangle. */
+            v.controls = true;
+            try { if (!v.currentTime) { v.currentTime = 0.04; } } catch (e2) {}
+          });
+        }
+      } else if (!v.paused) { v.pause(); }
+    });
+  }, { threshold: 0.25 });
+  vids.forEach(function (v) { io.observe(v); });
+})();
+
+/* ======================================================================
+   Figure 4 — fusion approach toggle
+   ====================================================================== */
+(function () {
+  var fig = document.getElementById('fig-fusion');
+  if (!fig) return;
+  var a = document.getElementById('fusion-a'), b = document.getElementById('fusion-b');
+  fig.querySelectorAll('[data-fusion]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var which = btn.dataset.fusion;
+      fig.querySelectorAll('[data-fusion]').forEach(function (x) {
+        var on = x === btn;
+        x.classList.toggle('on', on);
+        x.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      a.style.display = which === 'a' ? '' : 'none';
+      b.style.display = which === 'b' ? '' : 'none';
+      /* replay the entrance animation for the panel being shown */
+      fig.classList.remove('visible');
+      void fig.offsetWidth;
+      fig.classList.add('visible');
+    });
+  });
+})();
+
+/* ======================================================================
+   Figure 6 — real -> sim -> real step-through
+   ====================================================================== */
+(function () {
+  var fig = document.getElementById('fig-loop');
+  if (!fig) return;
+  var STEPS = [
+    { k: 'Step 1 — Real', t: '<b>30 demos, collected in 30 minutes.</b> Vision + touch, teleoperated. Enough to pre-train a diffusion policy that knows roughly what the task looks like — and not enough to do it reliably.' },
+    { k: 'Step 2 — Pre-train', t: '<b>Imitation learning on the real demos.</b> The policy reaches for the right place with the right rough motion, then stalls on the millimetre-scale alignment. This is the failure mode more data alone does not fix.' },
+    { k: 'Step 3 — Simulate + RL', t: '<b>GPU-parallel tactile simulation with a Kelvin–Voigt contact model.</b> Thousands of environments explore around the demonstrated trajectory under a sparse reward — the local exploration humans never demonstrate, because humans do not demonstrate failure.' },
+    { k: 'Step 4 — Back to real', t: '<b>Deploy the fine-tuned policy.</b> A sim-to-real gap remains — sim scores below real in every phase — but fine-tuning lifts real-world performance anyway, and lifts the visuo-tactile policy most.' }
+  ];
+  var i = 0;
+  var cap = document.getElementById('loop-cap'), cnt = document.getElementById('loop-count');
+  var stages = fig.querySelectorAll('.loop-stage');
+  function render() {
+    cap.innerHTML = '<span class="sc-k">' + STEPS[i].k + '</span>' + STEPS[i].t;
+    cnt.textContent = 'Step ' + (i + 1) + ' / ' + STEPS.length;
+    stages.forEach(function (g) {
+      var s = +g.dataset.stage;
+      g.style.transition = 'opacity .45s ease';
+      g.style.opacity = s <= i + 1 ? '1' : '0.12';
+    });
+    document.getElementById('loop-next').textContent = i === STEPS.length - 1 ? 'Restart ↺' : 'Step through ›';
+  }
+  document.getElementById('loop-next').addEventListener('click', function () {
+    i = (i + 1) % STEPS.length; render();
+  });
+  document.getElementById('loop-prev').addEventListener('click', function () {
+    i = (i - 1 + STEPS.length) % STEPS.length; render();
+  });
+  render();
+})();
+
+/* ======================================================================
+   Figure 8 — the interactive research tree
+   ====================================================================== */
+(function () {
+  var AF = 'https://binghao-huang.github.io/Awesome-FlexiTac/';
+
+  /* role: root | sensor | pillar | node | neighbor
+     cat:  context | fusion | real | sim | bodies | industry
+     ft:   built on FlexiTac V1/V2
+     q:    the open problem this work inherited / attacked          */
+  var NODES = [
+    /* --- roots --- */
+    { id: 'stag', role: 'root', cat: 'context', title: 'Scalable Tactile Glove', venue: 'Nature 2019',
+      authors: 'Subramanian Sundaram, Petr Kellnhofer, Yunzhu Li, Jun-Yan Zhu, Antonio Torralba, Wojciech Matusik',
+      q: 'Proved a 548-taxel flexible array can identify objects from grasp alone — but stayed <b>offline</b>. Left open: can a policy act on this signal? ~6 h/sensor to build.',
+      links: { paper: AF + 'papers/stag.html', code: 'https://github.com/Erkil1452/touch' },
+      media: { type: 'img', src: '../../images/research/stag_glove.png' } },
+    { id: 'carpet', role: 'root', cat: 'context', title: 'Intelligent Carpet', venue: 'CVPR 2021',
+      authors: 'Yiyue Luo, Yunzhu Li, Michael Foshey, Wan Shou, Pratyusha Sharma et al.',
+      q: 'Showed large-area tactile arrays recover 3D human pose. Established that <b>area beats resolution</b> for some tasks — the argument the whole-body branch later reuses.',
+      links: { paper: AF + 'papers/intcarpet.html', code: 'https://github.com/yiyueluo/IntelligentCarpet' } },
+    { id: 'phys', role: 'root', cat: 'context', title: 'Dynamic Modeling of Hand–Object Interaction', venue: 'IROS 2021',
+      authors: 'Qiang Zhang*, Yunzhu Li*, Yiyue Luo, Wan Shou, Michael Foshey et al.',
+      q: 'Tactile as input to a <b>physics/dynamics model</b> rather than a classifier — the ancestor of today’s tactile world models.',
+      links: { paper: 'https://arxiv.org/abs/2109.04378' } },
+    { id: 'asense', role: 'root', cat: 'context', title: 'ActionSense', venue: 'NeurIPS 2022',
+      authors: 'Joseph DelPreto*, Chao Liu*, Yiyue Luo, Michael Foshey, Yunzhu Li et al.',
+      q: 'Multimodal wearable dataset including tactile gloves. Framed touch as one stream in a <b>multimodal recording</b> problem.',
+      links: { paper: AF + 'papers/actionsense.html' } },
+
+    /* --- the sensor --- */
+    { id: 'flexitac', role: 'sensor', cat: 'context',
+      title: 'FlexiTac — open, scalable tactile hardware', venue: 'V1 hand-built → V2 from PCB factory',
+      authors: 'Binghao Huang, Yunzhu Li',
+      q: 'The access answer: <b>3 min to assemble, $1.36/pad at 1k units, &lt;1 week lead time, customizable by editing a PCB file.</b> Everything above this line is prior art; everything below is what became possible once the sensor was free.',
+      links: { page: 'https://flexitac.github.io/', paper: 'https://arxiv.org/abs/2604.28156',
+               code: 'https://github.com/FlexiTac/FlexiTac_Hardware_Repo', video: 'https://www.youtube.com/watch?v=HYmMbsrwWFA' },
+      media: { type: 'video', src: '../../videos/flexitac_sm.mp4' } },
+
+    /* --- pillars --- */
+    { id: 'vitac', role: 'pillar', cat: 'fusion', ft: true,
+      title: '3D-ViTac', venue: 'CoRL 2024', sub: 'Q1 · can a policy use touch?',
+      authors: 'Binghao Huang, Yixuan Wang, Xinyi Yang, Yiyue Luo, Yunzhu Li',
+      q: 'Naive concatenation makes policies <b>worse</b>. Fix: project taxels into 3D so touch and vision share one geometric space, then feed a single cloud to the policy. <b>Left open:</b> fusion needs calibration, and 3D fusion cannot handle un-calibrated data.',
+      links: { page: 'https://binghao-huang.github.io/3D-ViTac/', paper: AF + 'papers/3d-vitac.html',
+               video: 'https://www.youtube.com/watch?v=ZN3mHMNZC7Q' },
+      media: { type: 'img', src: '../../images/research/3d-vitac.jpg' } },
+    { id: 'titw', role: 'pillar', cat: 'real', ft: true,
+      title: 'Touch in the Wild', venue: 'NeurIPS 2025', sub: 'Q2 · where does data come from?',
+      authors: 'Xinyue Zhu*, Binghao Huang*, Yunzhu Li',
+      q: 'Take the robot out of data collection: a hand-held visuo-tactile gripper, <b>2,700+ videos over 43 tasks</b>, fused by bidirectional cross-attention instead of geometry. <b>Left open:</b> coverage scales, precision does not.',
+      links: { page: 'https://binghao-huang.github.io/touch_in_the_wild/', paper: 'https://arxiv.org/abs/2507.15062v1',
+               video: 'https://www.youtube.com/watch?v=gMoedqqJ0Rg' },
+      media: { type: 'video', src: '../../videos/touchinthewild_sm.mp4' } },
+    { id: 'vtr', role: 'pillar', cat: 'sim', ft: true,
+      title: 'VT-Refine', venue: 'CoRL 2025', sub: 'Q3 · can sim supply the rest?',
+      authors: 'Binghao Huang, Jie Xu, Iretiayo Akinola, Wei Yang, Balakumar Sundaralingam et al. (NVIDIA Robotics)',
+      q: 'Piezoresistive arrays are cheap to simulate: a Kelvin–Voigt spring-damper on penetration depth, GPU-parallel. 30 real demos + large-scale RL fine-tuning → <b>40%→95%</b> visuo-tactile vs <b>22%→65%</b> vision-only. <b>Left open:</b> where the contact model breaks.',
+      links: { page: 'https://binghao-huang.github.io/vt_refine/', paper: AF + 'papers/vt-refine.html',
+               video: 'https://www.youtube.com/watch?v=AEt30ttJ9A8' },
+      media: { type: 'video', src: '../../videos/vtrefine.mp4' } },
+
+    /* --- fusion branch --- */
+    { id: 'pc', role: 'node', cat: 'fusion', ft: true, title: 'Multi-Modal Policy Consensus', venue: 'ICRA 2026',
+      authors: 'Haonan Chen, Jiaming Xu*, Hongyu Chen*, Kaiwen Hong, Binghao Huang et al. (UIUC)',
+      q: 'Do not fuse features at all — train a diffusion policy per modality and <b>compose them at inference</b>, so each modality can be trusted or ignored per timestep.',
+      links: { page: 'https://policyconsensus.github.io/', paper: AF + 'papers/policy-consensus.html' },
+      media: { type: 'video', src: '../../videos/policyconsensus_sm.mp4' } },
+    { id: 'tacvla', role: 'node', cat: 'fusion', ft: true, title: 'TacVLA', venue: 'IROS 2026',
+      authors: 'Kaidi Zhang*, Heng Zhang*, Zhengtong Xu, Zhiyuan Zhang et al. (Purdue / IIT)',
+      q: 'Push contact-aware tactile tokens into a <b>vision-language-action</b> backbone — the question of how touch enters a pre-trained generalist rather than a task policy.',
+      links: { paper: 'https://arxiv.org/abs/2603.12665' },
+      media: { type: 'video', src: '../../videos/tacvla.mp4' } },
+    { id: 'felt', role: 'node', cat: 'fusion', ft: true, title: 'FELT', venue: 'Preprint',
+      authors: 'Zinan Li, Yiyang Ling, Yuming Gu, Binghao Huang et al. (USC)',
+      q: '<b>Generate</b> tactile signals from vision. If synthesis is good enough, the sensor becomes a training-time requirement rather than a deployment-time one — a direct attack on the data problem.',
+      links: { page: 'https://felt-tactile.github.io/', paper: AF + 'papers/felt.html' },
+      media: { type: 'video', src: '../../videos/felt.mp4' } },
+    { id: 'opose', role: 'node', cat: 'fusion', ft: true, title: 'Object Pose through Dexterous Touch', venue: 'Preprint',
+      authors: 'Amir-Hossein Shahidzadeh*, Jiyue Zhu*, Kezhou Chen, Sha Yi, Cornelia Fermüller, Yiannis Aloimonos, Xiaolong Wang',
+      q: 'Touch as the observation for <b>state estimation</b>, not control: recover 6-DoF pose bimanually from contact alone, where vision is fully occluded.',
+      links: { page: 'https://amirshahid.github.io/BimanualTactilePose/', paper: 'https://arxiv.org/abs/2509.13591' },
+      media: { type: 'img', src: '../../images/research/object_pose.jpg' } },
+    { id: 'vitas', role: 'node', cat: 'fusion', ft: true, title: 'ViTaS', venue: 'ICRA 2026',
+      authors: 'Yufeng Tian*, Shuiqi Cheng*, Tianming Wei, Tianxing Zhou, Yuanhang Zhang et al. · Huazhe Xu (Shanghai Qi Zhi / Tsinghua)',
+      q: 'A third answer to the fusion question, after geometry and cross-attention: a <b>soft-fusion contrastive objective</b> plus a CVAE, so the two streams exploit alignment and complementarity at once instead of being aligned then concatenated. No extrinsic calibration between camera and pad.',
+      links: { page: 'https://skyrainwind.github.io/ViTaS/index.html', paper: AF + 'papers/vitas.html',
+               code: 'https://github.com/SkyRainWind/ViTaS' },
+      media: { type: 'img', src: '../../images/research/vitas.jpg' } },
+    { id: 'tactx', role: 'node', cat: 'fusion', ft: true, title: 'TactX', venue: 'Under review',
+      authors: 'Junsung Park*, Sachin Bhadang*, Carmelo Sferrazza, Sha Yi, Xiaolong Wang (UCSD / SNU)',
+      q: 'Tactile representations stay welded to the sensor that produced them. Train per-modality encoders on paired contacts so resistive, magnetic and vision-based touch land in <b>one shared latent space</b> — a policy trained on one sensor then runs zero-shot on physically different ones. The first direct attack on cross-sensor transfer.',
+      links: { page: 'https://tactx-project.github.io/', paper: 'https://arxiv.org/abs/2606.31236' },
+      media: { type: 'video', src: '../../videos/tactx.mp4' } },
+    { id: 'd360', role: 'node', cat: 'fusion', ft: true, title: 'Deform360', venue: 'ECCV 2026',
+      authors: 'Hongyu Li*, Wanjia Fu*, Xiaoyan Cong, Zekun Li, Binghao Huang et al. (Brown)',
+      q: 'A massive multi-view visuotactile dataset for <b>deformable world models</b> — turning the sensor into a data-generation instrument for prediction rather than policy.',
+      links: { paper: AF + 'papers/deform360.html' },
+      media: { type: 'img', src: '../../images/research/deform360.gif' } },
+
+    /* --- real-data branch --- */
+    { id: 'wtumi', role: 'node', cat: 'real', ft: true, title: 'WT-UMI', venue: 'Under review',
+      authors: 'Jaehwi Jang*, Zhaoyuan Gu*, Alfred Cueva, Zimeng Chai et al. · Ye Zhao (Georgia Tech)',
+      q: 'A tactile UMI handheld rig for <b>force-supervised humanoid</b> manipulation — extends portable capture from grippers to humanoid-scale data with force labels.',
+      links: { page: 'https://wt-umi.github.io/WTUMI/', paper: 'https://arxiv.org/abs/2606.13232',
+               video: 'https://www.youtube.com/watch?v=odjvhlfLg8Q' },
+      media: { type: 'video', src: '../../videos/wtumi_beam.mp4' } },
+    { id: 'hapticdc', role: 'node', cat: 'real', ft: true, title: 'Visuo-Tactile Capture with Haptic Feedback', venue: 'Preprint',
+      authors: 'Yeseung Kim*, Nayoung Oh*, Jun Park*, Teetat Thamronglak*, Daehyung Park (KAIST)',
+      q: 'Puts the demonstrator back <b>inside the force loop</b>: a hand-held direct-drive gripper squeezed by the fingers, so subtle force modulation survives into the recording instead of being filtered out by the teleoperation interface, with a handle button marking coarse vs. fine segments in situ. Attacks the half of portable capture that scaling left behind — precision.',
+      links: { paper: 'https://arxiv.org/abs/2605.08757' },
+      media: { type: 'img', src: '../../images/research/haptic-data-collection.jpg' } },
+    { id: 'lft', role: 'node', cat: 'real', ft: true, title: 'LeFlexiTac', venue: 'RoboPIL blog 2026',
+      authors: 'Naian Tao, Yifan He*, Wesley Maa*, Binghao Huang, Yunzhu Li',
+      q: 'Integrate the sensor into <b>LeRobot</b>, so tactile data collection and training use the community-standard pipeline instead of bespoke lab code. Infrastructure, and the reason adoption compounds.',
+      links: { page: 'https://tna001-ai.github.io/LeFlexiTac/index.html', paper: 'https://tna001-ai.github.io/LeFlexiTac/docs.html' },
+      media: { type: 'video', src: '../../videos/leflexitac_sm.mp4' } },
+
+    /* --- sim branch --- */
+    { id: 'taccorl', role: 'node', cat: 'sim', ft: true, title: 'TacCoRL', venue: 'Under review',
+      authors: 'Siyu Ma*, Yuqi Liang*, Chang Yu*, Yunuo Chen, Hao Su, Yixin Zhu, Yin Yang, Chenfanfu Jiang',
+      q: 'Bring tactile feedback into a <b>VLA via simulation</b> — the sim-scaling recipe applied to generalist policies rather than single-task diffusion policies.',
+      links: { page: 'https://tac-corl.github.io/', paper: 'https://arxiv.org/abs/2606.11743' },
+      media: { type: 'video', src: '../../videos/taccorl.mp4' } },
+
+    /* --- new bodies branch --- */
+    { id: 'react', role: 'node', cat: 'bodies', ft: true, title: 'Tactile-Reactive Gripper with Active Palm', venue: 'npj Robotics 2026',
+      authors: 'Yuhao Zhou, Won Suk Lee, Yan Gu, Yu She (Purdue)',
+      q: 'Make the <b>palm</b> an active participant, not a passive backstop. Only feasible when tactile area is cheap enough to cover more than fingertips.',
+      links: { paper: 'https://www.nature.com/articles/s44182-026-00079-y', video: 'https://www.youtube.com/watch?v=C6EQ-J-9wrs' },
+      media: { type: 'video', src: '../../videos/npj25.mp4' } },
+    { id: 'vtap', role: 'node', cat: 'bodies', ft: true, title: 'VTAP Gripper', venue: 'IROS 2026',
+      authors: 'Yuhao Zhou, Sheeraz Athar*, Zhixian Hu*, Binghao Huang, Yunzhu Li, Juan Wachs, Yu She',
+      q: 'Combine fingertip sensing with a visuo-tactile active palm for <b>in-hand manipulation</b> — sensing placement as a design variable.',
+      links: { paper: 'https://arxiv.org/abs/2607.15448' },
+      media: { type: 'video', src: '../../videos/VTAC.mp4' } },
+    { id: 'fgrip', role: 'node', cat: 'bodies', ft: true, title: 'Force-Regulated Manipulation Gripper', venue: 'Under review',
+      authors: 'Xuhui Kang*, Tongxuan Tian*, Sung-Wook Lee, Binghao Huang, Yunzhu Li, Yen-Ling Kuo',
+      q: 'Close the loop on <b>force</b>, not just contact: a low-cost tactile-force-controlled gripper for tasks specified in newtons rather than positions.',
+      links: { page: 'https://force-gripper.github.io/', paper: 'https://arxiv.org/abs/2602.10013',
+               code: 'https://github.com/Shua-Kang/force_gripper_hardware' },
+      media: { type: 'video', src: '../../videos/force_gripper.mp4' } },
+    { id: 'quad', role: 'node', cat: 'bodies', ft: true, title: 'Tactile-Aware Quadrupedal Loco-Manipulation', venue: 'IROS 2026',
+      authors: 'Pokuang Zhou, Yuhao Zhou, Quan Luu, Seungho Han, Heng Zhang, Binghao Huang et al.',
+      q: 'Put the array on a <b>legged robot</b>. Contact becomes locomotion state and manipulation signal at once — a regime fingertip sensors never address.',
+      links: { paper: 'https://arxiv.org/abs/2604.27224' },
+      media: { type: 'img', src: '../../images/research/go2umitac.jpg' } },
+    { id: 'tacloco', role: 'node', cat: 'bodies', ft: true, title: 'TAC-LOCO', venue: 'Under review',
+      authors: 'Muqun Hu*, Yuhao Zhou*, Kabir Ray Malik, Chi Lin, Won Suk Lee, Yu She, Yan Gu',
+      q: 'Unified <b>whole-body control</b> for tactile-informed quadrupedal loco-manipulation — independent convergence on the same embodiment within a year.',
+      links: { paper: 'https://arxiv.org/abs/2607.10132' },
+      media: { type: 'img', src: '../../images/research/tacloco.jpg' } },
+
+    /* --- industry --- */
+    { id: 'adi1', role: 'node', cat: 'industry', title: 'The Future of Tactile Sensing', venue: 'Analog Devices',
+      authors: 'Yuval Zukerman, Tao Yu, Wenjie Lu — Analog Devices',
+      q: 'A semiconductor company positioning tactile as a <b>product line</b> built on standard fab processes — claimed ~5× human-fingertip resolution.',
+      links: { page: 'https://www.analog.com/en/ai/the-future-of-tactile-sensing.html' },
+      media: { type: 'img', src: '../../images/research/analog_tactile.jpg' } },
+    { id: 'adi2', role: 'node', cat: 'industry', title: 'The Touch that will Transform Robotics', venue: 'Analog Devices',
+      authors: 'Analog Devices, Inc. — Signals+',
+      q: 'Industry framing of why touch is the missing sense. Useful as external validation — and as a clock on how long the academic version stays relevant.',
+      links: { page: 'https://www.analog.com/en/signals/articles/the-touch-that-will-transform-robotics.html' },
+      media: { type: 'img', src: '../../images/research/adi_gripper_demo.gif' } },
+
+    /* --- neighbours --- */
+    { id: 'hipi', role: 'neighbor', cat: 'context', title: 'HiPi', venue: 'Under review',
+      authors: 'Changyi Lin, Raihan Haque, Hui-Ping Wang, Ding Zhao (CMU)',
+      q: 'Independent work on <b>reproducible high-fidelity</b> piezoresistive sensors. Same diagnosis of the field — reproducibility is the bottleneck — different hardware answer.',
+      links: { paper: 'https://arxiv.org/abs/2606.11372' },
+      media: { type: 'img', src: '../../images/research/hipi_fig4.jpg' } },
+    { id: 'artg', role: 'neighbor', cat: 'context', title: 'ART-Glove', venue: 'Under review',
+      authors: 'Changyi Lin, Ding Zhao (CMU)',
+      q: 'Articulated tactile glove for <b>contact-grounded interaction capture</b> — 22 joints, 2,048 taxels. The glove lineage, restarted with modern hardware.',
+      links: { page: 'https://linchangyi1.github.io/ART-Glove/', paper: 'https://arxiv.org/abs/2606.16370',
+               video: 'https://www.youtube.com/watch?v=OfozWBeXwwI' },
+      media: { type: 'video', src: '../../videos/artglove.mp4' } },
+    { id: 'tag', role: 'neighbor', cat: 'context', title: 'TAG-Glove', venue: 'Preprint',
+      authors: 'Feiyu Jia*, Xiaojie Niu*, Sizhe Yang*, Qingwei Ben, Tao Huang et al. (Shanghai AI Lab / USTC)',
+      q: 'Puts the human back inside the tactile loop — 21-DoF hand capture plus a 32-actuator display per finger, so the teleoperator <b>feels contact instead of watching it</b>. Independent hardware built on the same piezoresistive principle.',
+      links: { page: 'https://trap-1.github.io/TAG.github.io/', paper: 'https://arxiv.org/abs/2603.28542',
+               code: 'https://github.com/InternRobotics/TAG' },
+      media: { type: 'video', src: '../../videos/tag-glove.mp4' } }
+  ];
+
+  var BRANCHES = [
+    { cat: 'fusion',   title: 'Fusion &amp; Representation', sub: 'how a policy reads touch', from: 'vitac' },
+    { cat: 'real',     title: 'Scaling in the Real World',   sub: 'portable capture',         from: 'titw' },
+    { cat: 'sim',      title: 'Scaling in Simulation',       sub: 'tactile sim + RL',         from: 'vtr' },
+    { cat: 'bodies',   title: 'New Bodies',                  sub: 'grippers, palms, legs',    from: 'flexitac' },
+    { cat: 'industry', title: 'Out of the Lab',              sub: 'industry adoption',        from: 'flexitac' }
+  ];
+
+  var byId = {};
+  NODES.forEach(function (n) { byId[n.id] = n; });
+
+  var shell = document.getElementById('tree-shell');
+  var svg = document.getElementById('tree-svg');
+  var detail = document.getElementById('tree-detail');
+  if (!shell) return;
+
+  /* ---- build node cards ---- */
+  function card(n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tnode ' + n.role;
+    b.dataset.id = n.id;
+    b.dataset.cat = n.cat;
+    b.dataset.role = n.role;
+    var meta = (n.ft ? '<span class="ft-dot" title="Built on FlexiTac"></span>' : '') +
+               '<span class="tn-venue">' + n.venue + '</span>';
+    b.innerHTML = '<div class="tn-t">' + n.title + '</div>' +
+                  (n.sub ? '<div class="tn-m">' + n.sub + '</div>' : '') +
+                  '<div class="tn-m">' + meta + '</div>';
+    b.addEventListener('click', function () { select(n.id); });
+    return b;
+  }
+
+  NODES.filter(function (n) { return n.role === 'root'; })
+    .forEach(function (n) { document.getElementById('row-roots').appendChild(card(n)); });
+  NODES.filter(function (n) { return n.role === 'sensor'; })
+    .forEach(function (n) { document.getElementById('row-sensor').appendChild(card(n)); });
+  NODES.filter(function (n) { return n.role === 'pillar'; })
+    .forEach(function (n) { document.getElementById('row-pillars').appendChild(card(n)); });
+  NODES.filter(function (n) { return n.role === 'neighbor'; })
+    .forEach(function (n) { document.getElementById('row-neighbors').appendChild(card(n)); });
+
+  var branchWrap = document.getElementById('row-branches');
+  BRANCHES.forEach(function (br) {
+    var col = document.createElement('div');
+    col.className = 'branch-col';
+    col.dataset.cat = br.cat;
+    var head = document.createElement('div');
+    head.className = 'branch-head';
+    head.id = 'bh-' + br.cat;
+    head.innerHTML = '<div class="bh-t">' + br.title + '</div><div class="bh-s">' + br.sub + '</div>';
+    var body = document.createElement('div');
+    body.className = 'branch-body';
+    NODES.filter(function (n) { return n.role === 'node' && n.cat === br.cat; })
+      .forEach(function (n) { body.appendChild(card(n)); });
+    col.appendChild(head); col.appendChild(body);
+    branchWrap.appendChild(col);
+  });
+
+  /* ---- edges ---- */
+  var EDGES = [];
+  NODES.filter(function (n) { return n.role === 'root'; })
+    .forEach(function (n) { EDGES.push({ from: n.id, to: 'flexitac', dashed: true, cat: 'context' }); });
+  ['vitac', 'titw', 'vtr'].forEach(function (id) {
+    EDGES.push({ from: 'flexitac', to: id, cat: byId[id].cat });
+  });
+  BRANCHES.forEach(function (br) {
+    EDGES.push({ from: br.from, to: 'bh-' + br.cat, head: true, cat: br.cat });
+  });
+  /* Deliberately no edges to neighbours: HiPi and ART-Glove are independent work,
+     not descendants. Drawing inheritance there would misattribute them. */
+
+  function el(ref) {
+    return ref.indexOf('bh-') === 0
+      ? document.getElementById(ref)
+      : shell.querySelector('.tnode[data-id="' + ref + '"]');
+  }
+
+  function drawEdges() {
+    var box = shell.getBoundingClientRect();
+    svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+    svg.innerHTML = '';
+    if (box.width < 620) return; /* stacked layout: connectors would be noise */
+    EDGES.forEach(function (e) {
+      var a = el(e.from), b = el(e.to);
+      if (!a || !b) return;
+      var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+      var x1 = ra.left - box.left + ra.width / 2, y1 = ra.bottom - box.top;
+      var x2 = rb.left - box.left + rb.width / 2, y2 = rb.top - box.top;
+      if (y2 < y1) { return; }
+      var dy = Math.max(18, (y2 - y1) * 0.55);
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 + dy) + ', ' + x2 + ' ' + (y2 - dy) + ', ' + x2 + ' ' + y2);
+      p.setAttribute('class', 'tree-edge' + (e.dashed ? ' dashed' : ''));
+      p.dataset.from = e.from; p.dataset.to = e.to; p.dataset.cat = e.cat;
+      svg.appendChild(p);
+      requestAnimationFrame(function () { p.classList.add('show'); });
+    });
+    applyFilter(curCat, true);
+    applyStory(true);
+  }
+
+  /* ---- detail panel ---- */
+  var LBL = { fusion: 'Fusion & Representation', real: 'Scaling in the Real World',
+              sim: 'Scaling in Simulation', bodies: 'New Bodies',
+              industry: 'Out of the Lab', context: 'Context' };
+  var LINK_LBL = { page: 'Project page', paper: 'Paper', code: 'Code / hardware', video: 'Video' };
+
+  function select(id) {
+    var n = byId[id];
+    shell.querySelectorAll('.tnode').forEach(function (x) { x.classList.toggle('sel', x.dataset.id === id); });
+    svg.querySelectorAll('.tree-edge').forEach(function (p) {
+      p.classList.toggle('hi', p.dataset.from === id || p.dataset.to === id);
+    });
+    var media = '';
+    if (n.media) {
+      media = n.media.type === 'video'
+        ? '<div class="td-media"><video src="' + n.media.src + '" muted loop autoplay playsinline preload="metadata"></video></div>'
+        : '<div class="td-media"><img src="' + n.media.src + '" alt=""></div>';
+    }
+    var links = Object.keys(n.links || {}).map(function (k) {
+      return '<a href="' + n.links[k] + '" target="_blank" rel="noopener">' + (LINK_LBL[k] || k) + ' ↗</a>';
+    }).join('');
+    var tier = n.role === 'root' ? 'Lineage root' : n.role === 'neighbor' ? 'Independent neighbour'
+             : n.role === 'sensor' ? 'The sensor' : n.role === 'pillar' ? 'Pillar' : LBL[n.cat];
+    detail.style.gridTemplateColumns = media ? '220px 1fr' : '1fr';
+    detail.innerHTML = media +
+      '<div class="td-body">' +
+        '<div class="td-cat">' + tier + (n.ft ? ' · built on FlexiTac' : '') + '</div>' +
+        '<div class="td-t">' + n.title + '</div>' +
+        '<div class="td-a">' + n.authors + ' · ' + n.venue + '</div>' +
+        '<div class="td-q">' + n.q + '</div>' +
+        '<div class="td-links">' + links + '</div>' +
+      '</div>';
+    /* This panel is a second video path the lazy loader never sees, and it owns the only
+       appearance of several clips. Surface controls if the autoplay attribute is ignored. */
+    var dv = detail.querySelector('video');
+    if (dv) {
+      var dp = dv.play();
+      if (dp && dp.catch) { dp.catch(function () { dv.controls = true; }); }
+    }
+  }
+
+  /* ---- category filter ---- */
+  var curCat = 'all';
+  function applyFilter(cat, silent) {
+    curCat = cat;
+    shell.querySelectorAll('.tnode').forEach(function (x) {
+      var keep = cat === 'all' || x.dataset.cat === cat ||
+                 (cat === 'context' && (x.dataset.role === 'root' || x.dataset.role === 'neighbor')) ||
+                 x.dataset.role === 'sensor';
+      x.classList.toggle('dim', !keep);
+    });
+    shell.querySelectorAll('.branch-col').forEach(function (c) {
+      c.style.opacity = (cat === 'all' || cat === c.dataset.cat) ? '1' : '0.28';
+    });
+    svg.querySelectorAll('.tree-edge').forEach(function (p) {
+      p.style.opacity = (cat === 'all' || p.dataset.cat === cat) ? '' : '0.08';
+    });
+    if (!silent) {
+      document.getElementById('tree-filters').querySelectorAll('.ctl').forEach(function (b) {
+        b.classList.toggle('on', b.dataset.cat === cat);
+      });
+    }
+  }
+  document.getElementById('tree-filters').querySelectorAll('.ctl').forEach(function (b) {
+    b.addEventListener('click', function () {
+      resetStory();
+      applyFilter(b.dataset.cat);
+      document.getElementById('tree-filters').querySelectorAll('.ctl').forEach(function (x) {
+        x.classList.toggle('on', x === b);
+      });
+    });
+  });
+
+  /* ---- story mode ---- */
+  var STORY = [
+    { k: 'Before', show: ['root'], ids: [],
+      t: '<b>Five years of dense tactile sensing, offline.</b> Gloves and carpets proved the signal is rich — object identity, human pose, contact dynamics. None of it closed a control loop, and the best sensor took six hours to build.' },
+    { k: 'The unlock', show: ['root', 'sensor'], ids: [],
+      t: '<b>The sensor stops being the hard part.</b> Rebuilt from the resistive-sandwich principle: V1 hand-made in 30 min, V2 from a PCB factory in 3 min at $1.36/pad. Custom geometry is now a file edit.' },
+    { k: 'Question 1', show: ['root', 'sensor'], ids: ['vitac'],
+      t: '<b>Can a policy actually use dense touch?</b> 3D-ViTac finds that naive concatenation hurts, and that projecting taxels into a shared 3D space with vision fixes it. Touch becomes part of the scene.' },
+    { k: 'Branch 1', show: ['root', 'sensor'], ids: ['vitac'], cats: ['fusion'],
+      t: '<b>Fusion becomes its own research question.</b> Compose separate policies (Policy Consensus), fuse contrastively instead of by concatenation (ViTaS), tokenise into a VLA (TacVLA), synthesise touch from vision (FELT), estimate pose from contact (Object Pose), build world-model datasets (Deform360) — or drop the per-sensor representation entirely (TactX).' },
+    { k: 'Question 2', show: ['root', 'sensor'], ids: ['vitac', 'titw'], cats: ['fusion', 'real'],
+      t: '<b>Where does tactile data come from?</b> There is no internet of touch. Touch in the Wild takes the robot out of the loop — a hand-held gripper, 2,700+ videos, 43 tasks — and attention replaces calibration. WT-UMI, LeFlexiTac and a haptic-feedback capture rig from KAIST extend the pattern.' },
+    { k: 'Question 3', show: ['root', 'sensor'], ids: ['vitac', 'titw', 'vtr'], cats: ['fusion', 'real', 'sim'],
+      t: '<b>Can simulation supply the precision?</b> Piezoresistive arrays simulate cheaply, so 30 real demos plus GPU-parallel RL fine-tuning gets 40%→95%. TacCoRL carries it to VLAs. This branch is still one paper deep.' },
+    { k: 'Branch 4', show: ['root', 'sensor'], ids: ['vitac', 'titw', 'vtr'], cats: ['fusion', 'real', 'sim', 'bodies'],
+      t: '<b>The sensor moves to new bodies.</b> Note this branch hangs off the hardware, not off my papers — active palms, force-controlled grippers, in-hand systems, and tactile quadrupeds only need the pad to be cheap and reshapeable.' },
+    { k: 'Now', show: ['root', 'sensor', 'neighbor'], ids: ['vitac', 'titw', 'vtr'],
+      cats: ['fusion', 'real', 'sim', 'bodies', 'industry'],
+      t: '<b>Out of the lab, and not alone.</b> Analog Devices ships a tactile part on standard fab processes; CMU builds an independent reproducible piezoresistive sensor and glove, and a third group ships a feedback glove on the same principle. 29 works, 19 on FlexiTac, 25+ institutions.' }
+  ];
+  var si = -1;
+  var cap = document.getElementById('story-cap'), cnt = document.getElementById('story-count');
+  var DEFAULT_CAP = cap.innerHTML;
+
+  function applyStory(silent) {
+    if (si < 0) return;
+    var s = STORY[si];
+    var cats = s.cats || [];
+    shell.querySelectorAll('.tnode').forEach(function (x) {
+      var on = s.show.indexOf(x.dataset.role) !== -1 ||
+               (s.ids || []).indexOf(x.dataset.id) !== -1 ||
+               (x.dataset.role === 'node' && cats.indexOf(x.dataset.cat) !== -1);
+      x.classList.toggle('hidden-step', !on);
+    });
+    shell.querySelectorAll('.branch-col').forEach(function (c) {
+      c.style.opacity = cats.indexOf(c.dataset.cat) !== -1 ? '1' : '0.12';
+    });
+    svg.querySelectorAll('.tree-edge').forEach(function (p) {
+      /* an edge only shows once both of its endpoints are revealed */
+      var vis = (p.dataset.to === 'flexitac' && s.show.indexOf('sensor') !== -1) ||
+                (s.ids || []).indexOf(p.dataset.to) !== -1 ||
+                (p.dataset.to.indexOf('bh-') === 0 && cats.indexOf(p.dataset.cat) !== -1);
+      p.style.opacity = vis ? '' : '0.05';
+    });
+    if (!silent) {
+      cap.innerHTML = '<span class="sc-k">' + s.k + ' — ' + (si + 1) + ' of ' + STORY.length + '</span>' + s.t;
+      cnt.textContent = 'Step ' + (si + 1) + ' / ' + STORY.length;
+    }
+  }
+
+  function resetStory() {
+    si = -1;
+    cap.innerHTML = DEFAULT_CAP;
+    cnt.textContent = '';
+    document.getElementById('story-play').textContent = '▶ Play the story';
+    shell.querySelectorAll('.tnode').forEach(function (x) { x.classList.remove('hidden-step'); });
+    shell.querySelectorAll('.branch-col').forEach(function (c) { c.style.opacity = '1'; });
+    svg.querySelectorAll('.tree-edge').forEach(function (p) { p.style.opacity = ''; });
+  }
+
+  function step(d) {
+    if (si < 0 && d < 0) return;
+    si = Math.max(0, Math.min(STORY.length - 1, si + d));
+    applyFilter('all', true);
+    document.getElementById('tree-filters').querySelectorAll('.ctl').forEach(function (x) {
+      x.classList.toggle('on', x.dataset.cat === 'all');
+    });
+    document.getElementById('story-play').textContent = si >= STORY.length - 1 ? '↺ Replay' : '▶ Continue';
+    applyStory();
+  }
+
+  document.getElementById('story-play').addEventListener('click', function () {
+    if (si >= STORY.length - 1) { resetStory(); }
+    step(1);
+  });
+  document.getElementById('story-next').addEventListener('click', function () { step(1); });
+  document.getElementById('story-prev').addEventListener('click', function () {
+    if (si <= 0) { resetStory(); return; }
+    step(-1);
+  });
+
+  /* ---- layout lifecycle ---- */
+  var raf;
+  function schedule() { cancelAnimationFrame(raf); raf = requestAnimationFrame(drawEdges); }
+  if ('ResizeObserver' in window) { new ResizeObserver(schedule).observe(shell); }
+  window.addEventListener('resize', schedule);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(schedule); }
+  window.addEventListener('load', schedule);
+  schedule();
+})();
+</script>
+</body>
+</html>
